@@ -2,9 +2,11 @@ package pkg
 
 //go:generate sh -c "rm -rf n2n; git clone https://github.com/ntop/n2n.git; cd n2n; ./autogen.sh; ./configure; make"
 
-//#cgo CFLAGS: -g3 -Wall
-//#cgo LDFLAGS: -lcrypto -ln2n -L${SRCDIR}/n2n
-//#include "n2n/n2n.h"
+/*
+#cgo CFLAGS: -g3 -Wall
+#cgo LDFLAGS: -lcrypto -ln2n -L${SRCDIR}/n2n
+#include "edge.h"
+*/
 import "C"
 
 type Edge struct {
@@ -30,5 +32,5 @@ func (e *Edge) Start() {
 		keepOnRunning = C.int(1)
 	}
 
-	C.quick_edge_init(deviceName, networkName, secretKey, myMacAddress, myIPv4Addr, supernode, &keepOnRunning)
+	C.edge_start(deviceName, networkName, secretKey, myMacAddress, myIPv4Addr, supernode, &keepOnRunning)
 }
