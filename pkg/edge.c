@@ -1,7 +1,21 @@
 #include "n2n/n2n.h"
 
 // See https://github.com/pojntfx/n2n/blob/dev/example_edge_embed.c
-int edge_start()
+int edge_start(
+    int allow_p2p,
+    int allow_routing,
+    char *community_name,
+    int disable_pmtu_discovery,
+    int drop_multicast,
+    int dyn_ip_mode,
+    char *encrypt_key,
+    int local_port,
+    int mgmt_port,
+    int register_interval,
+    int register_ttl,
+    char *supernode,
+    int tos,
+    int transop_id)
 {
     int keep_running;
     n2n_edge_conf_t conf;
@@ -10,20 +24,20 @@ int edge_start()
     int rc;
 
     edge_init_conf_defaults(&conf);
-    conf.allow_p2p = 1;                                                                      // Whether to allow peer-to-peer communication
-    conf.allow_routing = 1;                                                                  // Whether to allow the edge to route packets to other edges
-    snprintf((char *)conf.community_name, sizeof(conf.community_name), "%s", "mycommunity"); // Community to connect to
-    conf.disable_pmtu_discovery = 1;                                                         // Whether to disable the path MTU discovery
-    conf.drop_multicast = 0;                                                                 // Whether to disable multicast
-    conf.dyn_ip_mode = 0;                                                                    // Whether the IP address is set dynamically (see IP mode; 0 if static, 1 if dynamic)
-    conf.encrypt_key = "mysecret";                                                           // Secret to decrypt & encrypt with
-    conf.local_port = 0;                                                                     // What port to use (0 = any port)
-    conf.mgmt_port = N2N_EDGE_MGMT_PORT;                                                     // Edge management port (5644 by default)
-    conf.register_interval = 1;                                                              // Interval for both UDP NAT hole punching and supernode registration
-    conf.register_ttl = 1;                                                                   // Interval for UDP NAT hole punching through supernode
-    edge_conf_add_supernode(&conf, "localhost:1234");                                        // Supernode to connect to
-    conf.tos = 16;                                                                           // Type of service for sent packets
-    conf.transop_id = N2N_TRANSFORM_ID_TWOFISH;                                              // Use the twofish encryption
+    conf.allow_p2p = allow_p2p;
+    conf.allow_routing = allow_routing;
+    snprintf((char *)conf.community_name, sizeof(conf.community_name), "%s", community_name);
+    conf.disable_pmtu_discovery = disable_pmtu_discovery;
+    conf.drop_multicast = drop_multicast;
+    conf.dyn_ip_mode = dyn_ip_mode;
+    conf.encrypt_key = encrypt_key;
+    conf.local_port = local_port;
+    conf.mgmt_port = mgmt_port;
+    conf.register_interval = register_interval;
+    conf.register_ttl = register_ttl;
+    edge_conf_add_supernode(&conf, supernode);
+    conf.tos = tos;
+    conf.transop_id = transop_id;
 
     if (edge_verify_conf(&conf) != 0)
     {
