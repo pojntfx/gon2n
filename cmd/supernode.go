@@ -9,7 +9,10 @@ var SupernodeCmd = &cobra.Command{
 	Use:   "supernode",
 	Short: "Start a n2n supernode",
 	Run: func(cmd *cobra.Command, args []string) {
-		supernode := pkg.Supernode{}
+		supernode := pkg.Supernode{
+			ListenPort:     1234,
+			ManagementPort: 5645,
+		}
 
 		supernode.Start()
 	},

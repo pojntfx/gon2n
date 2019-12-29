@@ -1,1 +1,1 @@
-int supernode_start();
+int supernode_start(int listenPort, int managementPort);
