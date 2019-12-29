@@ -1,6 +1,6 @@
 package pkg
 
-//go:generate sh -c "rm -rf n2n; git clone https://github.com/ntop/n2n.git; cd n2n; ./autogen.sh; ./configure; make"
+//go:generate sh -c "rm -rf n2n; git clone https://github.com/pojntfx/n2n.git; cd n2n; ./autogen.sh; ./configure; make"
 
 /*
 #cgo CFLAGS: -g3 -Wall
