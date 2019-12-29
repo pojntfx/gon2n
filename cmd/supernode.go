@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// SupernodeCmd starts a supernode.
 var SupernodeCmd = &cobra.Command{
 	Use:   "supernode",
 	Short: "Start a supernode",
@@ -24,8 +25,8 @@ var (
 )
 
 func init() {
-	SupernodeCmd.PersistentFlags().IntVarP(&listenPort, "port-listen", "l", 1234, "Main UDP listen port")
-	SupernodeCmd.PersistentFlags().IntVarP(&managementPort, "port-management", "m", 5645, "Main UDP management port")
+	SupernodeCmd.PersistentFlags().IntVarP(&listenPort, "port-listen", "l", 1234, "UDP listen port")
+	SupernodeCmd.PersistentFlags().IntVarP(&managementPort, "port-management", "m", 5645, "UDP management port")
 
 	RootCmd.AddCommand(SupernodeCmd)
 }

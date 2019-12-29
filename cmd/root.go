@@ -6,11 +6,13 @@ import (
 	"gitlab.com/z0mbie42/rz-go/v2/log"
 )
 
+// RootCmd is the main entry point.
 var RootCmd = &cobra.Command{
 	Use:   "gon2n",
 	Short: "Go bindings and CLI for n2n",
 }
 
+// Execute starts the root command.
 func Execute() {
 	if err := RootCmd.Execute(); err != nil {
 		log.Fatal("Could not start root command", rz.Err(err))

@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// EdgeCmd starts an edge.
 var EdgeCmd = &cobra.Command{
 	Use:   "edge",
 	Short: "Start an edge",
@@ -14,7 +15,7 @@ var EdgeCmd = &cobra.Command{
 			AllowRouting:         true,
 			CommunityName:        "mynetwork",
 			DisablePMTUDiscovery: false,
-			DropMulticast:        false,
+			DisableMulticast:     false,
 			DynamicIPMode:        false,
 			EncryptionKey:        "mysecret",
 			LocalPort:            0,
