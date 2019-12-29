@@ -1,0 +1,1 @@
+int edge_start();
