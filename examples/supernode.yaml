@@ -1,0 +1,3 @@
+supernode:
+  listenPort: 1234
+  managementPort: 5645

@@ -2,6 +2,7 @@ package cmd
 
 const (
 	supernodeKeyPrefix         = "supernode."
+	supernodeConfigFileKey     = supernodeKeyPrefix + "configFile"
 	supernodeListenPortKey     = supernodeKeyPrefix + "listenPort"
 	supernodeManagementPortKey = supernodeKeyPrefix + "managementPort"
 
