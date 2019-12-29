@@ -8,9 +8,14 @@ A Go package [is available](https://godoc.org/github.com/pojntfx/gon2n). In orde
 
 ## Usage
 
+You may also set the flags by setting env variables in the format `GON2N_[COMMAND]_[FLAG]`, i.e. `GON2N_EDGE_DEVICEIP=10.0.0.2`.
+
 ```bash
 % gon2n
-Go bindings and CLI for n2n
+Go bindings and CLI for n2n.
+
+Find more information at:
+https://pojntfx.github.io/gon2n/
 
 Usage:
   gon2n [command]
