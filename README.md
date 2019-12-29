@@ -1,6 +1,6 @@
 # gon2n
 
-Go bindings for n2n.
+Go bindings and CLI for n2n.
 
 ## Installation
 
@@ -10,7 +10,7 @@ A Go package [is available](https://godoc.org/github.com/pojntfx/gon2n). In orde
 
 ```bash
 % gon2n
-Go bindings for n2n
+Go bindings and CLI for n2n
 
 Usage:
   gon2n [command]
@@ -18,6 +18,7 @@ Usage:
 Available Commands:
   edge        Start a n2n edge
   help        Help about any command
+  supernode   Start a n2n supernode
 
 Flags:
   -h, --help   help for gon2n
