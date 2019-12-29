@@ -11,8 +11,8 @@ var SupernodeCmd = &cobra.Command{
 	Short: "Start a supernode",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		supernode := pkg.Supernode{
-			ListenPort:     listenPort,
-			ManagementPort: managementPort,
+			ListenPort:     supernodeListenPort,
+			ManagementPort: supernodeManagementPort,
 		}
 
 		return supernode.Start()
@@ -20,13 +20,13 @@ var SupernodeCmd = &cobra.Command{
 }
 
 var (
-	listenPort     int
-	managementPort int
+	supernodeListenPort     int
+	supernodeManagementPort int
 )
 
 func init() {
-	SupernodeCmd.PersistentFlags().IntVarP(&listenPort, "port-listen", "l", 1234, "UDP listen port")
-	SupernodeCmd.PersistentFlags().IntVarP(&managementPort, "port-management", "m", 5645, "UDP management port")
+	SupernodeCmd.PersistentFlags().IntVarP(&supernodeListenPort, "listen-port", "l", 1234, "UDP listen port")
+	SupernodeCmd.PersistentFlags().IntVarP(&supernodeManagementPort, "management-port", "m", 5645, "UDP management port")
 
 	RootCmd.AddCommand(SupernodeCmd)
 }
