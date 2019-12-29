@@ -11,6 +11,10 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "gon2n",
 	Short: "Go bindings and CLI for n2n",
+	Long: `Go bindings and CLI for n2n.
+
+Find more information at:
+https://pojntfx.github.io/gon2n/`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		viper.SetEnvPrefix("gon2n")
 		viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_", ".", "_"))
