@@ -16,6 +16,7 @@ Usage:
   gon2n [command]
 
 Available Commands:
+  edge        Start an edge
   help        Help about any command
   supernode   Start a supernode
 
