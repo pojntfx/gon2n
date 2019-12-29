@@ -3,30 +3,38 @@ package cmd
 import (
 	"github.com/pojntfx/gon2n/pkg"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"gitlab.com/z0mbie42/rz-go/v2"
+	"gitlab.com/z0mbie42/rz-go/v2/log"
 )
 
-// SupernodeCmd starts a supernode.
-var SupernodeCmd = &cobra.Command{
+var supernodeCmd = &cobra.Command{
 	Use:   "supernode",
 	Short: "Start a supernode",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		supernode := pkg.Supernode{
-			ListenPort:     supernodeListenPort,
-			ManagementPort: supernodeManagementPort,
+			ListenPort:     viper.GetInt(supernodeListenPortKey),
+			ManagementPort: viper.GetInt(supernodeManagementPortKey),
 		}
 
 		return supernode.Start()
 	},
 }
 
-var (
-	supernodeListenPort     int
-	supernodeManagementPort int
-)
-
 func init() {
-	SupernodeCmd.PersistentFlags().IntVarP(&supernodeListenPort, "listen-port", "l", 1234, "UDP listen port")
-	SupernodeCmd.PersistentFlags().IntVarP(&supernodeManagementPort, "management-port", "m", 5645, "UDP management port")
+	var (
+		supernodeListenPortFlag     int
+		supernodeManagementPortFlag int
+	)
 
-	RootCmd.AddCommand(SupernodeCmd)
+	supernodeCmd.PersistentFlags().IntVarP(&supernodeListenPortFlag, supernodeListenPortKey, "l", 1234, "UDP listen port")
+	supernodeCmd.PersistentFlags().IntVarP(&supernodeManagementPortFlag, supernodeManagementPortKey, "m", 5645, "UDP management port")
+
+	if err := viper.BindPFlags(supernodeCmd.PersistentFlags()); err != nil {
+		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
+	}
+
+	viper.AutomaticEnv()
+
+	rootCmd.AddCommand(supernodeCmd)
 }
