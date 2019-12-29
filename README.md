@@ -8,7 +8,7 @@ A Go package [is available](https://godoc.org/github.com/pojntfx/gon2n). In orde
 
 ## Usage
 
-You may also set the flags by setting env variables in the format `GON2N_[COMMAND]_[FLAG]`, i.e. `GON2N_EDGE_DEVICEIP=10.0.0.2`.
+You may also set the flags by setting env variables in the format `GON2N_[FLAG]` (i.e. `GON2N_EDGE_DEVICEIP=10.0.0.2`) or by using a [command-specific configuration file](examples/edge.yaml).
 
 ```bash
 % gon2n
