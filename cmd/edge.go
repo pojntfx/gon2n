@@ -24,6 +24,12 @@ var EdgeCmd = &cobra.Command{
 			SupernodeHostPort:    "localhost:1234",
 			TypeOfService:        16,
 			EncryptionMethod:     2,
+			DeviceName:           "edge0",
+			AddressMode:          "static",
+			DeviceIP:             "10.0.0.1",
+			DeviceNetmask:        "255.255.255.0",
+			DeviceMACAddress:     "DE:AD:BE:EF:01:10",
+			MTU:                  1290,
 		}
 
 		return edge.Start()

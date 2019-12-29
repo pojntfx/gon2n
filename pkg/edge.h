@@ -12,4 +12,10 @@ int edge_start(
     int register_ttl,
     char *supernode,
     int tos,
-    int transop_id);
+    int transop_id,
+    char *dev,
+    char *address_mode,
+    char *device_ip,
+    char *device_mask,
+    char *device_mac,
+    int mtu);
