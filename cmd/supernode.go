@@ -29,9 +29,9 @@ var supernodeCmd = &cobra.Command{
 
 func init() {
 	var (
+		supernodeConfigFileFlag     string
 		supernodeListenPortFlag     int
 		supernodeManagementPortFlag int
-		supernodeConfigFileFlag     string
 	)
 
 	supernodeCmd.PersistentFlags().StringVarP(&supernodeConfigFileFlag, supernodeConfigFileKey, "f", "supernode.yaml", "Configuration file to use")

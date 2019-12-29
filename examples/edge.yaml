@@ -1,0 +1,21 @@
+edge:
+  allowP2P: true
+  allowRouting: true
+  communityName: mynetwork
+  disablePMTUDiscovery: false
+  disableMulticast: false
+  dynamicIPMode: false
+  encryptionKey: mysecretkey
+  localPort: 0
+  managementPort: 5644
+  registerInterval: 1
+  registerTTL: 1
+  supernodeHostPort: localhost:1234
+  typeOfService: 16
+  encryptionMethod: 2
+  deviceName: edge0
+  addressMode: static
+  deviceIP: 10.0.0.1
+  deviceNetmask: 255.255.255.0
+  deviceMACAddress: DE:AD:BE:EF:01:10
+  MTU: 1290
