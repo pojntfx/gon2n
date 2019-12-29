@@ -15,7 +15,13 @@ int edge_start(
     int register_ttl,
     char *supernode,
     int tos,
-    int transop_id)
+    int transop_id,
+    char *dev,
+    char *address_mode,
+    char *device_ip,
+    char *device_mask,
+    char *device_mac,
+    int mtu)
 {
     int keep_running;
     n2n_edge_conf_t conf;
@@ -45,12 +51,12 @@ int edge_start(
     }
 
     if (tuntap_open(&tuntap,
-                    "edge0",             // Name of the device to create
-                    "static",            // IP mode; static|dhcp
-                    "10.0.0.1",          // Set ip address
-                    "255.255.255.0",     // Netmask to use
-                    "DE:AD:BE:EF:01:10", // Set mac address
-                    DEFAULT_MTU) < 0)    // MTU to use
+                    dev,
+                    address_mode,
+                    device_ip,
+                    device_mask,
+                    device_mac,
+                    mtu) < 0)
     {
         return -1;
     }

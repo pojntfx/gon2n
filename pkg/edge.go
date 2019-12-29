@@ -27,6 +27,12 @@ type Edge struct {
 	SupernodeHostPort    string
 	TypeOfService        int
 	EncryptionMethod     int
+	DeviceName           string
+	AddressMode          string
+	DeviceIP             string
+	DeviceNetmask        string
+	DeviceMACAddress     string
+	MTU                  int
 }
 
 func (e *Edge) getCIntFromGoBool(goBool bool) C.int {
@@ -53,7 +59,13 @@ func (e *Edge) Start() error {
 		C.int(e.RegisterTTL),
 		C.CString(e.SupernodeHostPort),
 		C.int(e.TypeOfService),
-		C.int(e.EncryptionMethod)))
+		C.int(e.EncryptionMethod),
+		C.CString(e.DeviceName),
+		C.CString(e.AddressMode),
+		C.CString(e.DeviceIP),
+		C.CString(e.DeviceNetmask),
+		C.CString(e.DeviceMACAddress),
+		C.int(e.MTU)))
 
 	if res == 0 {
 		return nil
