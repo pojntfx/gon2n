@@ -13,8 +13,8 @@ import (
 )
 
 type Supernode struct {
-	ListenPort int;
-	ManagementPort int;
+	ListenPort     int
+	ManagementPort int
 }
 
 func (e *Supernode) Start() error {

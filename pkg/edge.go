@@ -13,10 +13,47 @@ import (
 )
 
 type Edge struct {
+	AllowP2P             bool
+	AllowRouting         bool
+	CommunityName        string
+	DisablePMTUDiscovery bool
+	DropMulticast        bool
+	DynamicIPMode        bool
+	EncryptionKey        string
+	LocalPort            int
+	ManagementPort       int
+	RegisterInterval     int
+	RegisterTTL          int
+	SupernodeHostPort    string
+	TypeOfService        int
+	EncryptionMethod     int
+}
+
+func (e *Edge) getCIntFromGoBool(goBool bool) C.int {
+	cInt := C.int(0)
+	if goBool {
+		cInt = C.int(1)
+	}
+
+	return cInt
 }
 
 func (e *Edge) Start() error {
-	res := int(C.edge_start())
+	res := int(C.edge_start(
+		e.getCIntFromGoBool(e.AllowP2P),
+		e.getCIntFromGoBool(e.AllowRouting),
+		C.CString(e.CommunityName),
+		e.getCIntFromGoBool(e.DisablePMTUDiscovery),
+		e.getCIntFromGoBool(e.DropMulticast),
+		e.getCIntFromGoBool(e.DynamicIPMode),
+		C.CString(e.EncryptionKey),
+		C.int(e.LocalPort),
+		C.int(e.ManagementPort),
+		C.int(e.RegisterInterval),
+		C.int(e.RegisterTTL),
+		C.CString(e.SupernodeHostPort),
+		C.int(e.TypeOfService),
+		C.int(e.EncryptionMethod)))
 
 	if res == 0 {
 		return nil
