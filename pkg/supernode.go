@@ -12,11 +12,13 @@ import (
 	"errors"
 )
 
+// Supernode allows edge nodes to announce and discover other nodes.
 type Supernode struct {
-	ListenPort     int
-	ManagementPort int
+	ListenPort     int // UDP listen port.
+	ManagementPort int // UDP management port. `5645` is the n2n default.
 }
 
+// Start starts a supernode.
 func (e *Supernode) Start() error {
 	res := int(C.supernode_start(C.int(e.ListenPort), C.int(e.ManagementPort)))
 
