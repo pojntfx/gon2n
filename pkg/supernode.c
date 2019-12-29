@@ -1,7 +1,6 @@
 #include "n2n/n2n.h"
 
 // See https://github.com/pojntfx/n2n/blob/dev/example_sn_embed.c
-
 int supernode_start(int listenPort, int managementPort)
 {
     int keep_running;
@@ -9,7 +8,7 @@ int supernode_start(int listenPort, int managementPort)
     int rc;
 
     sn_init(&sss_node);
-    sss_node.daemon = 0;   // Whether to daemonize
+    sss_node.daemon = 0;         // Whether to daemonize
     sss_node.lport = listenPort; // Main UDP listen port
 
     sss_node.sock = open_socket(sss_node.lport, 1);
