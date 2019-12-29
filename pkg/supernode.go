@@ -8,14 +8,20 @@ package pkg
 #include "supernode.h"
 */
 import "C"
+import (
+	"errors"
+)
 
 type Supernode struct {
 	ListenPort int;
 	ManagementPort int;
 }
 
-func (e *Supernode) Start() int {
-	res := C.supernode_start(C.int(e.ListenPort), C.int(e.ManagementPort))
+func (e *Supernode) Start() error {
+	res := int(C.supernode_start(C.int(e.ListenPort), C.int(e.ManagementPort)))
 
-	return int(res)
+	if res == 0 {
+		return nil
+	}
+	return errors.New("could not start supernode")
 }

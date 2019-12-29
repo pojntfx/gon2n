@@ -8,7 +8,7 @@ import (
 
 var RootCmd = &cobra.Command{
 	Use:   "gon2n",
-	Short: "Go bindings for n2n",
+	Short: "Go bindings and CLI for n2n",
 }
 
 func Execute() {
