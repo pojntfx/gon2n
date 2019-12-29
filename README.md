@@ -16,9 +16,8 @@ Usage:
   gon2n [command]
 
 Available Commands:
-  edge        Start a n2n edge
   help        Help about any command
-  supernode   Start a n2n supernode
+  supernode   Start a supernode
 
 Flags:
   -h, --help   help for gon2n

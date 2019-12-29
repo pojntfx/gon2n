@@ -7,7 +7,7 @@ import (
 
 var SupernodeCmd = &cobra.Command{
 	Use:   "supernode",
-	Short: "Start a n2n supernode",
+	Short: "Start a supernode",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		supernode := pkg.Supernode{
 			ListenPort:     listenPort,
