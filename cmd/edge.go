@@ -12,6 +12,12 @@ var edgeCmd = &cobra.Command{
 	Use:   "edge",
 	Short: "Start an edge",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		viper.SetConfigFile(viper.GetString(edgeConfigFileKey))
+
+		if err := viper.ReadInConfig(); err != nil {
+			return err
+		}
+
 		edge := pkg.Edge{
 			AllowP2P:             viper.GetBool(edgeAllowP2PKey),
 			AllowRouting:         viper.GetBool(edgeAllowRoutingKey),
@@ -41,6 +47,7 @@ var edgeCmd = &cobra.Command{
 
 func init() {
 	var (
+		edgeConfigFileFlag           string
 		edgeAllowP2PFlag             bool
 		edgeAllowRoutingFlag         bool
 		edgeCommunityNameFlag        string
@@ -63,10 +70,11 @@ func init() {
 		edgeMTUFlag                  int
 	)
 
+	edgeCmd.PersistentFlags().StringVarP(&edgeConfigFileFlag, edgeConfigFileKey, "f", "edge.yaml", "Configuration file to use")
 	edgeCmd.PersistentFlags().BoolVarP(&edgeAllowP2PFlag, edgeAllowP2PKey, "p", true, "Whether to allow peer-to-peer connections. If false, all traffic will be routed through the supernode.")
 	edgeCmd.PersistentFlags().BoolVarP(&edgeAllowRoutingFlag, edgeAllowRoutingKey, "r", true, "Whether to allow the node to route traffic to other nodes.")
 	edgeCmd.PersistentFlags().StringVarP(&edgeCommunityNameFlag, edgeCommunityNameKey, "c", "mynetwork", "The name of the n2n community to join.")
-	edgeCmd.PersistentFlags().BoolVarP(&edgeDisablePMTUDiscoveryFlag, edgeDisablePMTUDiscoveryKey, "d", false, "Whether to allow peer-to-peer connections. If false, all traffic will be routed through the supernode.")
+	edgeCmd.PersistentFlags().BoolVarP(&edgeDisablePMTUDiscoveryFlag, edgeDisablePMTUDiscoveryKey, "d", false, "Whether to disable path MTU discovery.")
 	edgeCmd.PersistentFlags().BoolVarP(&edgeDisableMulticastFlag, edgeDisableMulticastKey, "m", false, "Whether to disable multicast.")
 	edgeCmd.PersistentFlags().BoolVarP(&edgeDynamicIPModeFlag, edgeDynamicIPModeKey, "y", false, "Whether the IP address is set dynamically (see --address-mode). If the edge is running the network's DHCP server, this must be false.")
 	edgeCmd.PersistentFlags().StringVarP(&edgeEncryptionKeyFlag, edgeEncryptionKeyKey, "k", "mysecretkey", "The key to use for encryption.")
