@@ -6,6 +6,9 @@ import (
 	"github.com/spf13/viper"
 	"gitlab.com/z0mbie42/rz-go/v2"
 	"gitlab.com/z0mbie42/rz-go/v2/log"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 var supernodeCmd = &cobra.Command{
@@ -25,7 +28,44 @@ var supernodeCmd = &cobra.Command{
 			ManagementPort: viper.GetInt(supernodeManagementPortKey),
 		}
 
-		return supernode.Start()
+		if err := supernode.Configure(); err != nil {
+			return err
+		}
+
+		if err := supernode.OpenListenPortSocket(); err != nil {
+			return err
+		}
+
+		if err := supernode.OpenManagementPortSocket(); err != nil {
+			return err
+		}
+
+		interrupt := make(chan os.Signal, 2)
+		signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+		go func() {
+			<-interrupt
+
+			// Allow manually killing the process
+			go func() {
+				<-interrupt
+
+				os.Exit(1)
+			}()
+
+			log.Info("Gracefully stopping supernode (this might take a few seconds)", rz.Int("ListenPort", supernode.ListenPort), rz.Int("ManagementPort", supernode.ManagementPort))
+
+			if err := supernode.Stop(); err != nil {
+				log.Fatal("Could not stop supernode", rz.Err(err))
+			}
+		}()
+
+		log.Info("Starting supernode", rz.Int("ListenPort", supernode.ListenPort), rz.Int("ManagementPort", supernode.ManagementPort))
+
+		if err := supernode.Start(); err != nil {
+			return err
+		}
+
+		return nil
 	},
 }
 
