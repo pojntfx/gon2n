@@ -2,11 +2,13 @@ package cmd
 
 const (
 	supernodeKeyPrefix         = "supernode."
+	supernodeConfigFileDefault = ""
 	supernodeConfigFileKey     = supernodeKeyPrefix + "configFile"
 	supernodeListenPortKey     = supernodeKeyPrefix + "listenPort"
 	supernodeManagementPortKey = supernodeKeyPrefix + "managementPort"
 
 	edgeKeyPrefix               = "edge."
+	edgeConfigFileDefault       = ""
 	edgeConfigFileKey           = edgeKeyPrefix + "configFile"
 	edgeAllowP2PKey             = edgeKeyPrefix + "allowP2P"
 	edgeAllowRoutingKey         = edgeKeyPrefix + "allowRouting"

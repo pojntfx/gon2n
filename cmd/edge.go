@@ -12,10 +12,12 @@ var edgeCmd = &cobra.Command{
 	Use:   "edge",
 	Short: "Start an edge",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		viper.SetConfigFile(viper.GetString(edgeConfigFileKey))
+		if !(viper.GetString(edgeConfigFileKey) == edgeConfigFileDefault) {
+			viper.SetConfigFile(viper.GetString(edgeConfigFileKey))
 
-		if err := viper.ReadInConfig(); err != nil {
-			return err
+			if err := viper.ReadInConfig(); err != nil {
+				return err
+			}
 		}
 
 		edge := pkg.Edge{
@@ -70,7 +72,7 @@ func init() {
 		edgeMTUFlag                  int
 	)
 
-	edgeCmd.PersistentFlags().StringVarP(&edgeConfigFileFlag, edgeConfigFileKey, "f", "edge.yaml", "Configuration file to use")
+	edgeCmd.PersistentFlags().StringVarP(&edgeConfigFileFlag, edgeConfigFileKey, "f", edgeConfigFileDefault, "Configuration file to use")
 	edgeCmd.PersistentFlags().BoolVarP(&edgeAllowP2PFlag, edgeAllowP2PKey, "p", true, "Whether to allow peer-to-peer connections. If false, all traffic will be routed through the supernode.")
 	edgeCmd.PersistentFlags().BoolVarP(&edgeAllowRoutingFlag, edgeAllowRoutingKey, "r", true, "Whether to allow the node to route traffic to other nodes.")
 	edgeCmd.PersistentFlags().StringVarP(&edgeCommunityNameFlag, edgeCommunityNameKey, "c", "mynetwork", "The name of the n2n community to join.")
