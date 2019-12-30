@@ -14,16 +14,57 @@ import (
 
 // Supernode allows edge nodes to announce and discover other nodes.
 type Supernode struct {
-	ListenPort     int // UDP listen port.
-	ManagementPort int // UDP management port. `5645` is the n2n default.
+	ListenPort     int        // UDP listen port.
+	ManagementPort int        // UDP management port. `5645` is the n2n default.
+	cSupernode     C.n2n_sn_t // Supernode instance.
+	cKeepRunning   C.int      // Whether the supernode should be kept running.
+}
+
+// Configure configures a supernode.
+func (e *Supernode) Configure() error {
+	if errCode := C.supernode_configure(&e.cSupernode, C.int(e.ListenPort)); int(errCode) != 0 {
+		return errors.New("could not configure supernode")
+	}
+
+	return nil
+}
+
+// OpenListenPortSocket opens a listen port socket.
+func (e *Supernode) OpenListenPortSocket() error {
+	if errCode := C.supernode_open_lport_socket(&e.cSupernode); int(errCode) != 0 {
+		return errors.New("could not open listen port socket")
+	}
+
+	return nil
+}
+
+// OpenManagementPortSocket opens a management port socket.
+func (e *Supernode) OpenManagementPortSocket() error {
+	if errCode := C.supernode_open_mgmt_socket(&e.cSupernode, C.int(e.ManagementPort)); int(errCode) != 0 {
+		return errors.New("could not open management port socket")
+	}
+
+	return nil
 }
 
 // Start starts a supernode.
 func (e *Supernode) Start() error {
-	res := int(C.supernode_start(C.int(e.ListenPort), C.int(e.ManagementPort)))
+	e.cKeepRunning = C.int(1)
 
-	if res == 0 {
-		return nil
+	if errCode := C.supernode_start(&e.cSupernode, &e.cKeepRunning); int(errCode) != 0 {
+		return errors.New("could not start supernode")
 	}
-	return errors.New("could not start supernode")
+
+	return nil
+}
+
+// Stop stops a supernode.
+func (e *Supernode) Stop() error {
+	e.cKeepRunning = C.int(0)
+
+	if errCode := C.supernode_stop(&e.cSupernode); int(errCode) != 0 {
+		return errors.New("could not stop supernode")
+	}
+
+	return nil
 }
