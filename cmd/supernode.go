@@ -12,10 +12,12 @@ var supernodeCmd = &cobra.Command{
 	Use:   "supernode",
 	Short: "Start a supernode",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		viper.SetConfigFile(viper.GetString(supernodeConfigFileKey))
+		if !(viper.GetString(supernodeConfigFileKey) == supernodeConfigFileDefault) {
+			viper.SetConfigFile(viper.GetString(supernodeConfigFileKey))
 
-		if err := viper.ReadInConfig(); err != nil {
-			return err
+			if err := viper.ReadInConfig(); err != nil {
+				return err
+			}
 		}
 
 		supernode := pkg.Supernode{
@@ -34,7 +36,7 @@ func init() {
 		supernodeManagementPortFlag int
 	)
 
-	supernodeCmd.PersistentFlags().StringVarP(&supernodeConfigFileFlag, supernodeConfigFileKey, "f", "supernode.yaml", "Configuration file to use")
+	supernodeCmd.PersistentFlags().StringVarP(&supernodeConfigFileFlag, supernodeConfigFileKey, "f", supernodeConfigFileDefault, "Configuration file to use")
 	supernodeCmd.PersistentFlags().IntVarP(&supernodeListenPortFlag, supernodeListenPortKey, "l", 1234, "UDP listen port")
 	supernodeCmd.PersistentFlags().IntVarP(&supernodeManagementPortFlag, supernodeManagementPortKey, "m", 5645, "UDP management port")
 
