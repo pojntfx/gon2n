@@ -4,6 +4,6 @@ go 1.13
 
 require (
 	github.com/spf13/cobra v0.0.5
-	github.com/spf13/viper v1.3.2
-	gitlab.com/z0mbie42/rz-go/v2 v2.8.0
+	github.com/spf13/viper v1.6.1
+	gitlab.com/bloom42/libs/rz-go/v2 v2.9.0
 )
