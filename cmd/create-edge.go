@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"github.com/pojntfx/gon2n/pkg"
+	"github.com/pojntfx/gon2n/pkg/workers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gitlab.com/z0mbie42/rz-go/v2"
-	"gitlab.com/z0mbie42/rz-go/v2/log"
+	"gitlab.com/bloom42/libs/rz-go/v2"
+	"gitlab.com/bloom42/libs/rz-go/v2/log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -13,7 +13,7 @@ import (
 
 var edgeCmd = &cobra.Command{
 	Use:   "edge",
-	Short: "Start an edge",
+	Short: "Create an edge",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if !(viper.GetString(edgeConfigFileKey) == edgeConfigFileDefault) {
 			viper.SetConfigFile(viper.GetString(edgeConfigFileKey))
@@ -23,7 +23,7 @@ var edgeCmd = &cobra.Command{
 			}
 		}
 
-		edge := pkg.Edge{
+		edge := workers.Edge{
 			AllowP2P:             viper.GetBool(edgeAllowP2PKey),
 			AllowRouting:         viper.GetBool(edgeAllowRoutingKey),
 			CommunityName:        viper.GetString(edgeCommunityNameKey),
@@ -104,7 +104,7 @@ func init() {
 		edgeMTUFlag                  int
 	)
 
-	edgeCmd.PersistentFlags().StringVarP(&edgeConfigFileFlag, edgeConfigFileKey, "f", edgeConfigFileDefault, "Configuration file to use")
+	edgeCmd.PersistentFlags().StringVarP(&edgeConfigFileFlag, edgeConfigFileKey, "f", edgeConfigFileDefault, "Configuration file to use.")
 	edgeCmd.PersistentFlags().BoolVarP(&edgeAllowP2PFlag, edgeAllowP2PKey, "p", true, "Whether to allow peer-to-peer connections. If false, all traffic will be routed through the supernode.")
 	edgeCmd.PersistentFlags().BoolVarP(&edgeAllowRoutingFlag, edgeAllowRoutingKey, "r", true, "Whether to allow the node to route traffic to other nodes.")
 	edgeCmd.PersistentFlags().StringVarP(&edgeCommunityNameFlag, edgeCommunityNameKey, "c", "mynetwork", "The name of the n2n community to join.")
@@ -132,5 +132,5 @@ func init() {
 
 	viper.AutomaticEnv()
 
-	rootCmd.AddCommand(edgeCmd)
+	createCmd.AddCommand(edgeCmd)
 }
