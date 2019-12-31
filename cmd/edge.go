@@ -6,6 +6,9 @@ import (
 	"github.com/spf13/viper"
 	"gitlab.com/z0mbie42/rz-go/v2"
 	"gitlab.com/z0mbie42/rz-go/v2/log"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 var edgeCmd = &cobra.Command{
@@ -42,6 +45,35 @@ var edgeCmd = &cobra.Command{
 			DeviceMACAddress:     viper.GetString(edgeDeviceMACAddressKey),
 			MTU:                  viper.GetInt(edgeMTUKey),
 		}
+
+		if err := edge.Configure(); err != nil {
+			return err
+		}
+
+		if err := edge.OpenTunTapDevice(); err != nil {
+			return err
+		}
+
+		interrupt := make(chan os.Signal, 2)
+		signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+		go func() {
+			<-interrupt
+
+			// Allow manually killing the process
+			go func() {
+				<-interrupt
+
+				os.Exit(1)
+			}()
+
+			log.Info("Gracefully stopping edge (this might take a few seconds)")
+
+			if err := edge.Stop(); err != nil {
+				log.Fatal("Could not stop edge", rz.Err(err))
+			}
+		}()
+
+		log.Info("Starting edge")
 
 		return edge.Start()
 	},

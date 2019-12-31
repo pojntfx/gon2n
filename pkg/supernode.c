@@ -35,12 +35,11 @@ int supernode_open_mgmt_socket(n2n_sn_t *sss_node, int mgmt_port)
 
 int supernode_start(n2n_sn_t *sss_node, int *keep_running)
 {
-    return run_sn_loop(sss_node, keep_running);
-}
+    int rc;
 
-int supernode_stop(n2n_sn_t *sss_node)
-{
+    rc = run_sn_loop(sss_node, keep_running);
+
     sn_term(sss_node);
 
-    return 0;
+    return rc;
 }

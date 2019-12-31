@@ -17,7 +17,7 @@ type Supernode struct {
 	ListenPort     int        // UDP listen port.
 	ManagementPort int        // UDP management port. `5645` is the n2n default.
 	cSupernode     C.n2n_sn_t // Supernode instance.
-	cKeepRunning   C.int      // Whether the supernode should be kept running.
+	cKeepRunning   C.int      // Whether the supernode should be kept running. Set to `C.int(0)` at any time and it will be stopped.
 }
 
 // Configure configures a supernode.
@@ -61,10 +61,6 @@ func (e *Supernode) Start() error {
 // Stop stops a supernode.
 func (e *Supernode) Stop() error {
 	e.cKeepRunning = C.int(0)
-
-	if errCode := C.supernode_stop(&e.cSupernode); int(errCode) != 0 {
-		return errors.New("could not stop supernode")
-	}
 
 	return nil
 }
