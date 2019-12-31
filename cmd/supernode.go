@@ -52,20 +52,16 @@ var supernodeCmd = &cobra.Command{
 				os.Exit(1)
 			}()
 
-			log.Info("Gracefully stopping supernode (this might take a few seconds)", rz.Int("ListenPort", supernode.ListenPort), rz.Int("ManagementPort", supernode.ManagementPort))
+			log.Info("Gracefully stopping supernode (this might take a few seconds)")
 
 			if err := supernode.Stop(); err != nil {
 				log.Fatal("Could not stop supernode", rz.Err(err))
 			}
 		}()
 
-		log.Info("Starting supernode", rz.Int("ListenPort", supernode.ListenPort), rz.Int("ManagementPort", supernode.ManagementPort))
+		log.Info("Starting supernode")
 
-		if err := supernode.Start(); err != nil {
-			return err
-		}
-
-		return nil
+		return supernode.Start()
 	},
 }
 
