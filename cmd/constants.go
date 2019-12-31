@@ -1,6 +1,11 @@
 package cmd
 
 const (
+	serverKeyPrefix         = "server."
+	serverConfigFileDefault = ""
+	serverConfigFileKey     = serverKeyPrefix + "configFile"
+	serverListenHostPortKey = serverKeyPrefix + "listenHostPort"
+
 	supernodeKeyPrefix         = "supernode."
 	supernodeConfigFileDefault = ""
 	supernodeConfigFileKey     = supernodeKeyPrefix + "configFile"
