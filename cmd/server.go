@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"net"
-
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated/proto"
 	"github.com/pojntfx/gon2n/pkg/svc"
 	"github.com/pojntfx/gon2n/pkg/workers"
@@ -12,6 +10,10 @@ import (
 	"gitlab.com/bloom42/libs/rz-go/v2/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"net"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 var serverCmd = &cobra.Command{
@@ -34,9 +36,34 @@ var serverCmd = &cobra.Command{
 		server := grpc.NewServer()
 		reflection.Register(server)
 
-		gon2n.RegisterSupernodeManagerServer(server, &svc.SupernodeManager{
+		service := svc.SupernodeManager{
 			SupernodesManaged: make(map[string]*workers.Supernode),
-		})
+		}
+
+		gon2n.RegisterSupernodeManagerServer(server, &service)
+
+		interrupt := make(chan os.Signal, 2)
+		signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+		go func() {
+			<-interrupt
+
+			// Allow manually killing the process
+			go func() {
+				<-interrupt
+
+				os.Exit(1)
+			}()
+
+			log.Info("Gracefully stopping server (this might take a few seconds)")
+
+			for _, supernode := range service.SupernodesManaged {
+				if err := supernode.Stop(); err != nil {
+					log.Fatal("Could not stop supernode", rz.Err(err))
+				}
+			}
+
+			server.GracefulStop()
+		}()
 
 		log.Info("Starting server")
 
