@@ -83,7 +83,7 @@ func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerL
 		supernodeManaged := gon2n.SupernodeManaged{
 			Id:             id,
 			ListenPort:     int64(supernode.GetListenPort()),
-			ManagementPort: 0,
+			ManagementPort: int64(supernode.GetManagementPort()),
 		}
 
 		supernodesManaged = append(supernodesManaged, &supernodeManaged)
