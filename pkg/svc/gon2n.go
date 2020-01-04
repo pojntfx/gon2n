@@ -47,7 +47,14 @@ func (s *SupernodeManager) Create(_ context.Context, args *gon2n.SupernodeManage
 
 	log.Info("Starting supernode")
 
-	go supernode.Start()
+	go func(supernode *workers.Supernode) {
+		// Keep the supernode running
+		for {
+			if err := supernode.Start(); err != nil {
+				log.Error(err.Error())
+			}
+		}
+	}(&supernode)
 
 	s.SupernodesManaged[id] = &supernode
 
