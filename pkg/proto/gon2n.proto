@@ -6,6 +6,7 @@ package gon2n;
 service SupernodeManager {
   rpc Create(SupernodeManagerCreateArgs) returns (SupernodeManagerCreateReply) {
   };
+  rpc List(SupernodeManagerListArgs) returns (SupernodeManagerListReply) {};
 }
 
 message SupernodeManagerCreateArgs {
@@ -13,4 +14,12 @@ message SupernodeManagerCreateArgs {
   int64 ManagementPort = 2;
 }
 
+message SupernodeManagerListArgs {};
+
 message SupernodeManagerCreateReply { string Id = 1; }
+
+message SupernodeManagerListReply {
+  repeated SupernodeManaged SupernodesManaged = 1;
+}
+
+message SupernodeManaged { string Id = 1; }
