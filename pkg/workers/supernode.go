@@ -10,6 +10,7 @@ package workers
 import "C"
 import (
 	"errors"
+	"time"
 )
 
 // Supernode allows edge nodes to announce and discover other nodes.
@@ -53,6 +54,19 @@ func (e *Supernode) Start() error {
 
 	if errCode := C.supernode_start(&e.cSupernode, &e.cKeepRunning); int(errCode) != 0 {
 		return errors.New("could not start supernode")
+	}
+
+	return nil
+}
+
+// Wait blocks until the supernode instance has stopped.
+func (e *Supernode) Wait() error {
+	for {
+		if int(e.cSupernode.mgmt_sock) == -1 {
+			break
+		}
+
+		time.Sleep(1 * time.Second)
 	}
 
 	return nil
