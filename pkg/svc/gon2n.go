@@ -79,9 +79,11 @@ func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerL
 
 	var supernodesManaged []*gon2n.SupernodeManaged
 
-	for id := range s.SupernodesManaged {
+	for id, supernode := range s.SupernodesManaged {
 		supernodeManaged := gon2n.SupernodeManaged{
-			Id: id,
+			Id:             id,
+			ListenPort:     int64(supernode.GetListenPort()),
+			ManagementPort: 0,
 		}
 
 		supernodesManaged = append(supernodesManaged, &supernodeManaged)
