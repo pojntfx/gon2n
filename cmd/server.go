@@ -5,6 +5,7 @@ import (
 
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated/proto"
 	"github.com/pojntfx/gon2n/pkg/svc"
+	"github.com/pojntfx/gon2n/pkg/workers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go/v2"
@@ -33,7 +34,9 @@ var serverCmd = &cobra.Command{
 		server := grpc.NewServer()
 		reflection.Register(server)
 
-		gon2n.RegisterSupernodeManagerServer(server, &svc.SupernodeManager{})
+		gon2n.RegisterSupernodeManagerServer(server, &svc.SupernodeManager{
+			SupernodesManaged: make(map[string]*workers.Supernode),
+		})
 
 		log.Info("Starting server")
 
