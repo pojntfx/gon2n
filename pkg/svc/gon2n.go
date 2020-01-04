@@ -45,14 +45,11 @@ func (s *SupernodeManager) Create(_ context.Context, args *gon2n.SupernodeManage
 		return nil, status.Errorf(codes.Unknown, err.Error())
 	}
 
-	log.Info("Starting supernode")
-
 	go func(supernode *workers.Supernode) {
-		// Keep the supernode running
-		for {
-			if err := supernode.Start(); err != nil {
-				log.Error(err.Error())
-			}
+		log.Info("Starting supernode")
+
+		if err := supernode.Start(); err != nil {
+			log.Error(err.Error())
 		}
 	}(&supernode)
 
@@ -65,6 +62,8 @@ func (s *SupernodeManager) Create(_ context.Context, args *gon2n.SupernodeManage
 
 // List lists the managed supernodes.
 func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerListArgs) (*gon2n.SupernodeManagerListReply, error) {
+	log.Info("Listing supernodes")
+
 	var supernodesManaged []*gon2n.SupernodeManaged
 
 	for id := range s.SupernodesManaged {
@@ -77,5 +76,39 @@ func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerL
 
 	return &gon2n.SupernodeManagerListReply{
 		SupernodesManaged: supernodesManaged,
+	}, nil
+}
+
+// Delete deletes a supernode.
+func (s *SupernodeManager) Delete(_ context.Context, args *gon2n.SupernodeManagerDeleteArgs) (*gon2n.SupernodeManagerDeleteReply, error) {
+	id := args.GetId()
+
+	supernodesManaged := s.SupernodesManaged[id]
+	if supernodesManaged == nil {
+		msg := "Supernode not found"
+
+		log.Error(msg)
+
+		return nil, status.Errorf(codes.NotFound, msg)
+	}
+
+	log.Info("Stopping supernode")
+
+	if err := supernodesManaged.Stop(); err != nil {
+		log.Error(err.Error())
+
+		return nil, status.Errorf(codes.Unknown, err.Error())
+	}
+
+	if err := supernodesManaged.Wait(); err != nil {
+		log.Error(err.Error())
+
+		return nil, status.Errorf(codes.Unknown, err.Error())
+	}
+
+	delete(s.SupernodesManaged, id)
+
+	return &gon2n.SupernodeManagerDeleteReply{
+		Id: id,
 	}, nil
 }

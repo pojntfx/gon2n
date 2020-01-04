@@ -7,6 +7,8 @@ service SupernodeManager {
   rpc Create(SupernodeManagerCreateArgs) returns (SupernodeManagerCreateReply) {
   };
   rpc List(SupernodeManagerListArgs) returns (SupernodeManagerListReply) {};
+  rpc Delete(SupernodeManagerDeleteArgs) returns (SupernodeManagerDeleteReply) {
+  };
 }
 
 message SupernodeManagerCreateArgs {
@@ -16,6 +18,8 @@ message SupernodeManagerCreateArgs {
 
 message SupernodeManagerListArgs {};
 
+message SupernodeManagerDeleteArgs { string Id = 1; };
+
 message SupernodeManagerCreateReply { string Id = 1; }
 
 message SupernodeManagerListReply {
@@ -23,3 +27,5 @@ message SupernodeManagerListReply {
 }
 
 message SupernodeManaged { string Id = 1; }
+
+message SupernodeManagerDeleteReply { string Id = 1; }
