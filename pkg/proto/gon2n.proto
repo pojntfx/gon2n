@@ -13,4 +13,4 @@ message SupernodeManagerCreateArgs {
   int64 ManagementPort = 2;
 }
 
-message SupernodeManagerCreateReply { int64 Id = 1; }
+message SupernodeManagerCreateReply { string Id = 1; }
