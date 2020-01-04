@@ -26,6 +26,10 @@ message SupernodeManagerListReply {
   repeated SupernodeManaged SupernodesManaged = 1;
 }
 
-message SupernodeManaged { string Id = 1; }
+message SupernodeManaged {
+  string Id = 1;
+  int64 ListenPort = 2;
+  int64 ManagementPort = 3;
+}
 
 message SupernodeManagerDeleteReply { string Id = 1; }

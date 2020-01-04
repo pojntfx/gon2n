@@ -87,3 +87,8 @@ func (e *Supernode) Stop() error {
 
 	return nil
 }
+
+// GetListenPort returns the listen port for the supernode.
+func (e *Supernode) GetListenPort() int {
+	return int(C.int(e.cSupernode.lport))
+}
