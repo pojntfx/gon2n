@@ -55,3 +55,20 @@ func (s *SupernodeManager) Create(_ context.Context, args *gon2n.SupernodeManage
 		Id: id,
 	}, nil
 }
+
+// List lists the managed supernodes.
+func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerListArgs) (*gon2n.SupernodeManagerListReply, error) {
+	var supernodesManaged []*gon2n.SupernodeManaged
+
+	for id := range s.SupernodesManaged {
+		supernodeManaged := gon2n.SupernodeManaged{
+			Id: id,
+		}
+
+		supernodesManaged = append(supernodesManaged, &supernodeManaged)
+	}
+
+	return &gon2n.SupernodeManagerListReply{
+		SupernodesManaged: supernodesManaged,
+	}, nil
+}
