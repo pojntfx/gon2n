@@ -56,9 +56,17 @@ var serverCmd = &cobra.Command{
 
 			log.Info("Gracefully stopping server (this might take a few seconds)")
 
+			msg := "Could not stop supernode"
+
 			for _, supernode := range service.SupernodesManaged {
 				if err := supernode.Stop(); err != nil {
-					log.Fatal("Could not stop supernode", rz.Err(err))
+					log.Fatal(msg, rz.Err(err))
+				}
+			}
+
+			for _, supernode := range service.SupernodesManaged {
+				if err := supernode.Wait(); err != nil {
+					log.Fatal(msg, rz.Err(err))
 				}
 			}
 
