@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"context"
+	"fmt"
+	"github.com/gosuri/uitable"
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated/proto"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -40,7 +42,14 @@ var getSupernodeCmd = &cobra.Command{
 			return err
 		}
 
-		log.Info("Got supernodes", rz.Any("Supernodes", response.GetSupernodesManaged()))
+		table := uitable.New()
+		table.AddRow("ID", "LISTEN PORT", "MANAGEMENT PORT")
+
+		for _, supernode := range response.GetSupernodesManaged() {
+			table.AddRow(supernode.GetId(), supernode.GetListenPort(), supernode.GetManagementPort())
+		}
+
+		fmt.Println(table)
 
 		return nil
 	},
