@@ -61,11 +61,7 @@ func (e *Supernode) Start() error {
 
 // IsScheduledForDeletion returns true if the supernode is scheduled for deletion.
 func (e *Supernode) IsScheduledForDeletion() bool {
-	if int(e.cKeepRunning) == 0 {
-		return true
-	}
-
-	return false
+	return int(e.cKeepRunning) == 0
 }
 
 // Wait blocks until the supernode instance has stopped.
