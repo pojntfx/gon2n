@@ -17,8 +17,9 @@ import (
 )
 
 var serverCmd = &cobra.Command{
-	Use:   "server",
-	Short: "Start a gon2n server",
+	Use:     "server",
+	Aliases: []string{"s"},
+	Short:   "Start a gon2n server",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if !(viper.GetString(serverConfigFileKey) == serverConfigFileDefault) {
 			viper.SetConfigFile(viper.GetString(serverConfigFileKey))
