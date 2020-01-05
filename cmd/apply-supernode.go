@@ -11,9 +11,10 @@ import (
 	"time"
 )
 
-var supernodeCmd = &cobra.Command{
-	Use:   "supernode",
-	Short: "Create a supernode",
+var applySupernodeCmd = &cobra.Command{
+	Use:     "supernode",
+	Aliases: []string{"supernodes", "s"},
+	Short:   "Apply a supernode",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if !(viper.GetString(supernodeConfigFileKey) == supernodeConfigFileDefault) {
 			viper.SetConfigFile(viper.GetString(supernodeConfigFileKey))
@@ -34,8 +35,6 @@ var supernodeCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 
-		log.Info("Starting supernode")
-
 		response, err := client.Create(ctx, &gon2n.SupernodeManagerCreateArgs{
 			ListenPort:     viper.GetInt64(supernodeListenPortKey),
 			ManagementPort: viper.GetInt64(supernodeManagementPortKey),
@@ -44,7 +43,7 @@ var supernodeCmd = &cobra.Command{
 			return err
 		}
 
-		log.Info("Started supernode", rz.String("Id", response.GetId()))
+		log.Info("Applied supernode", rz.String("Id", response.GetId()))
 
 		return nil
 	},
@@ -58,16 +57,16 @@ func init() {
 		supernodeManagementPortFlag int
 	)
 
-	supernodeCmd.PersistentFlags().StringVarP(&supernodeServerHostPortFlag, supernodeServerHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
-	supernodeCmd.PersistentFlags().StringVarP(&supernodeConfigFileFlag, supernodeConfigFileKey, "f", supernodeConfigFileDefault, "Configuration file to use.")
-	supernodeCmd.PersistentFlags().IntVarP(&supernodeListenPortFlag, supernodeListenPortKey, "l", 1234, "UDP listen port.")
-	supernodeCmd.PersistentFlags().IntVarP(&supernodeManagementPortFlag, supernodeManagementPortKey, "m", 5645, "UDP management port.")
+	applySupernodeCmd.PersistentFlags().StringVarP(&supernodeServerHostPortFlag, supernodeServerHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
+	applySupernodeCmd.PersistentFlags().StringVarP(&supernodeConfigFileFlag, supernodeConfigFileKey, "f", supernodeConfigFileDefault, "Configuration file to use.")
+	applySupernodeCmd.PersistentFlags().IntVarP(&supernodeListenPortFlag, supernodeListenPortKey, "l", 1234, "UDP listen port.")
+	applySupernodeCmd.PersistentFlags().IntVarP(&supernodeManagementPortFlag, supernodeManagementPortKey, "m", 5645, "UDP management port.")
 
-	if err := viper.BindPFlags(supernodeCmd.PersistentFlags()); err != nil {
+	if err := viper.BindPFlags(applySupernodeCmd.PersistentFlags()); err != nil {
 		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
 	}
 
 	viper.AutomaticEnv()
 
-	createCmd.AddCommand(supernodeCmd)
+	applyCmd.AddCommand(applySupernodeCmd)
 }
