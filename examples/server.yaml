@@ -1,2 +1,2 @@
 server:
-  listenHostPort: 127.0.0.1:1235
+  listenHostPort: localhost:1235

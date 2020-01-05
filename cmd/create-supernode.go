@@ -1,14 +1,14 @@
 package cmd
 
 import (
-	"github.com/pojntfx/gon2n/pkg/workers"
+	"context"
+	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated/proto"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go/v2"
 	"gitlab.com/bloom42/libs/rz-go/v2/log"
-	"os"
-	"os/signal"
-	"syscall"
+	"google.golang.org/grpc"
+	"time"
 )
 
 var supernodeCmd = &cobra.Command{
@@ -23,55 +23,42 @@ var supernodeCmd = &cobra.Command{
 			}
 		}
 
-		supernode := workers.Supernode{
-			ListenPort:     viper.GetInt(supernodeListenPortKey),
-			ManagementPort: viper.GetInt(supernodeManagementPortKey),
-		}
-
-		if err := supernode.Configure(); err != nil {
+		conn, err := grpc.Dial(viper.GetString(supernodeServerHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
+		if err != nil {
 			return err
 		}
+		defer conn.Close()
 
-		if err := supernode.OpenListenPortSocket(); err != nil {
-			return err
-		}
+		client := gon2n.NewSupernodeManagerClient(conn)
 
-		if err := supernode.OpenManagementPortSocket(); err != nil {
-			return err
-		}
-
-		interrupt := make(chan os.Signal, 2)
-		signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
-		go func() {
-			<-interrupt
-
-			// Allow manually killing the process
-			go func() {
-				<-interrupt
-
-				os.Exit(1)
-			}()
-
-			log.Info("Gracefully stopping supernode (this might take a few seconds)")
-
-			if err := supernode.Stop(); err != nil {
-				log.Fatal("Could not stop supernode", rz.Err(err))
-			}
-		}()
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
 
 		log.Info("Starting supernode")
 
-		return supernode.Start()
+		response, err := client.Create(ctx, &gon2n.SupernodeManagerCreateArgs{
+			ListenPort:     viper.GetInt64(supernodeListenPortKey),
+			ManagementPort: viper.GetInt64(supernodeManagementPortKey),
+		})
+		if err != nil {
+			return err
+		}
+
+		log.Info("Started supernode", rz.String("Id", response.GetId()))
+
+		return nil
 	},
 }
 
 func init() {
 	var (
+		supernodeServerHostPortFlag string
 		supernodeConfigFileFlag     string
 		supernodeListenPortFlag     int
 		supernodeManagementPortFlag int
 	)
 
+	supernodeCmd.PersistentFlags().StringVarP(&supernodeServerHostPortFlag, supernodeServerHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
 	supernodeCmd.PersistentFlags().StringVarP(&supernodeConfigFileFlag, supernodeConfigFileKey, "f", supernodeConfigFileDefault, "Configuration file to use.")
 	supernodeCmd.PersistentFlags().IntVarP(&supernodeListenPortFlag, supernodeListenPortKey, "l", 1234, "UDP listen port.")
 	supernodeCmd.PersistentFlags().IntVarP(&supernodeManagementPortFlag, supernodeManagementPortKey, "m", 5645, "UDP management port.")

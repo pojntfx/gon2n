@@ -8,6 +8,7 @@ const (
 
 	supernodeKeyPrefix         = "supernode."
 	supernodeConfigFileDefault = ""
+	supernodeServerHostPortKey = supernodeKeyPrefix + "serverHostPort"
 	supernodeConfigFileKey     = supernodeKeyPrefix + "configFile"
 	supernodeListenPortKey     = supernodeKeyPrefix + "listenPort"
 	supernodeManagementPortKey = supernodeKeyPrefix + "managementPort"

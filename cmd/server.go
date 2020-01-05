@@ -86,7 +86,7 @@ func init() {
 	)
 
 	serverCmd.PersistentFlags().StringVarP(&serverConfigFileFlag, serverConfigFileKey, "f", serverConfigFileDefault, "Configuration file to use.")
-	serverCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverListenHostPortKey, "l", "127.0.0.1:1235", "TCP listen host:port.")
+	serverCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverListenHostPortKey, "l", "localhost:1235", "TCP listen host:port.")
 
 	if err := viper.BindPFlags(serverCmd.PersistentFlags()); err != nil {
 		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
