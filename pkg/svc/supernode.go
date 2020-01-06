@@ -77,13 +77,12 @@ func (s *SupernodeManager) Create(_ context.Context, args *gon2n.SupernodeManage
 func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerListArgs) (*gon2n.SupernodeManagerListReply, error) {
 	log.Info("Listing supernodes")
 
-	var supernodesManaged []*gon2n.SupernodeManaged
+	var supernodesManaged []*gon2n.SupernodeManagedSummary
 
 	for id, supernode := range s.SupernodesManaged {
-		supernodeManaged := gon2n.SupernodeManaged{
-			Id:             id,
-			ListenPort:     int64(supernode.GetListenPort()),
-			ManagementPort: int64(supernode.ManagementPort),
+		supernodeManaged := gon2n.SupernodeManagedSummary{
+			Id:         id,
+			ListenPort: int64(supernode.GetListenPort()),
 		}
 
 		supernodesManaged = append(supernodesManaged, &supernodeManaged)

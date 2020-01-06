@@ -36,10 +36,10 @@ var getSupernodeCmd = &cobra.Command{
 			}
 
 			table := uitable.New()
-			table.AddRow("ID", "LISTEN PORT", "MANAGEMENT PORT")
+			table.AddRow("ID", "LISTEN PORT")
 
 			for _, supernode := range response.GetSupernodesManaged() {
-				table.AddRow(supernode.GetId(), supernode.GetListenPort(), supernode.GetManagementPort())
+				table.AddRow(supernode.GetId(), supernode.GetListenPort())
 			}
 
 			fmt.Println(table)
