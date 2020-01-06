@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"github.com/ghodss/yaml"
 	"github.com/gosuri/uitable"
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/spf13/cobra"
@@ -13,9 +14,9 @@ import (
 )
 
 var getSupernodeCmd = &cobra.Command{
-	Use:     "supernode",
+	Use:     "supernode [id]",
 	Aliases: []string{"supernodes", "s"},
-	Short:   "Get all supernodes",
+	Short:   "Get one or all supernode(s)",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		conn, err := grpc.Dial(viper.GetString(supernodeServerHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
@@ -28,19 +29,37 @@ var getSupernodeCmd = &cobra.Command{
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		response, err := client.List(ctx, &gon2n.SupernodeManagerListArgs{})
+		if len(args) < 1 {
+			response, err := client.List(ctx, &gon2n.SupernodeManagerListArgs{})
+			if err != nil {
+				return err
+			}
+
+			table := uitable.New()
+			table.AddRow("ID", "LISTEN PORT", "MANAGEMENT PORT")
+
+			for _, supernode := range response.GetSupernodesManaged() {
+				table.AddRow(supernode.GetId(), supernode.GetListenPort(), supernode.GetManagementPort())
+			}
+
+			fmt.Println(table)
+
+			return nil
+		}
+
+		response, err := client.Get(ctx, &gon2n.SupernodeManagerGetArgs{
+			Id: args[0],
+		})
 		if err != nil {
 			return err
 		}
 
-		table := uitable.New()
-		table.AddRow("ID", "LISTEN PORT", "MANAGEMENT PORT")
-
-		for _, supernode := range response.GetSupernodesManaged() {
-			table.AddRow(supernode.GetId(), supernode.GetListenPort(), supernode.GetManagementPort())
+		output, err := yaml.Marshal(&response)
+		if err != nil {
+			return err
 		}
 
-		fmt.Println(table)
+		fmt.Println(string(output))
 
 		return nil
 	},
