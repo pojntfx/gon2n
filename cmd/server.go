@@ -6,8 +6,8 @@ import (
 	"github.com/pojntfx/gon2n/pkg/workers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gitlab.com/bloom42/libs/rz-go/v2"
-	"gitlab.com/bloom42/libs/rz-go/v2/log"
+	"gitlab.com/bloom42/libs/rz-go"
+	"gitlab.com/bloom42/libs/rz-go/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"net"
@@ -37,11 +37,16 @@ var serverCmd = &cobra.Command{
 		server := grpc.NewServer()
 		reflection.Register(server)
 
-		service := svc.SupernodeManager{
+		supernodeService := svc.SupernodeManager{
 			SupernodesManaged: make(map[string]*workers.Supernode),
 		}
 
-		gon2n.RegisterSupernodeManagerServer(server, &service)
+		edgeService := svc.EdgeManager{
+			EdgesManaged: make(map[string]*workers.Edge),
+		}
+
+		gon2n.RegisterSupernodeManagerServer(server, &supernodeService)
+		gon2n.RegisterEdgeManagerServer(server, &edgeService)
 
 		interrupt := make(chan os.Signal, 2)
 		signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
@@ -57,17 +62,30 @@ var serverCmd = &cobra.Command{
 
 			log.Info("Gracefully stopping server (this might take a few seconds)")
 
-			msg := "Could not stop supernode"
+			supernodeMsg := "Could not stop supernode"
+			edgeMsg := "Could not stop edge"
 
-			for _, supernode := range service.SupernodesManaged {
+			for _, supernode := range supernodeService.SupernodesManaged {
 				if err := supernode.Stop(); err != nil {
-					log.Fatal(msg, rz.Err(err))
+					log.Fatal(supernodeMsg, rz.Err(err))
 				}
 			}
 
-			for _, supernode := range service.SupernodesManaged {
+			for _, edge := range edgeService.EdgesManaged {
+				if err := edge.Stop(); err != nil {
+					log.Fatal(edgeMsg, rz.Err(err))
+				}
+			}
+
+			for _, supernode := range supernodeService.SupernodesManaged {
 				if err := supernode.Wait(); err != nil {
-					log.Fatal(msg, rz.Err(err))
+					log.Fatal(supernodeMsg, rz.Err(err))
+				}
+			}
+
+			for _, edge := range edgeService.EdgesManaged {
+				if err := edge.Wait(); err != nil {
+					log.Fatal(edgeMsg, rz.Err(err))
 				}
 			}
 

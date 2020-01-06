@@ -53,5 +53,7 @@ int edge_start(tuntap_dev *tuntap, n2n_edge_conf_t *conf, int *keep_running)
     edge_term(eee);
     tuntap_close(tuntap);
 
+    tuntap->device_mask = 0; // So that we know whether the edge has stopped
+
     return rc;
 }

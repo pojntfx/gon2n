@@ -10,6 +10,7 @@ package workers
 import "C"
 import (
 	"errors"
+	"time"
 )
 
 // Edge is a node which will be part of a virtual network.
@@ -107,6 +108,24 @@ func (e *Edge) Start() error {
 // Stop stops an edge.
 func (e *Edge) Stop() error {
 	e.cKeepRunning = C.int(0)
+
+	return nil
+}
+
+// IsScheduledForDeletion returns true if the edge is scheduled for deletion.
+func (e *Edge) IsScheduledForDeletion() bool {
+	return int(e.cKeepRunning) == 0
+}
+
+// Wait blocks until the edge instance has stopped.
+func (e *Edge) Wait() error {
+	for {
+		if int(e.cTuntapDevice.device_mask) == 0 {
+			break
+		}
+
+		time.Sleep(1 * time.Second)
+	}
 
 	return nil
 }

@@ -6,8 +6,8 @@ import (
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated/proto"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gitlab.com/bloom42/libs/rz-go/v2"
-	"gitlab.com/bloom42/libs/rz-go/v2/log"
+	"gitlab.com/bloom42/libs/rz-go"
+	"gitlab.com/bloom42/libs/rz-go/log"
 	"google.golang.org/grpc"
 )
 
