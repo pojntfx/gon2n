@@ -15,6 +15,7 @@ const (
 
 	edgeKeyPrefix               = "edge."
 	edgeConfigFileDefault       = ""
+	edgeServerHostPortKey       = edgeKeyPrefix + "serverHostPort"
 	edgeConfigFileKey           = edgeKeyPrefix + "configFile"
 	edgeAllowP2PKey             = edgeKeyPrefix + "allowP2P"
 	edgeAllowRoutingKey         = edgeKeyPrefix + "allowRouting"
