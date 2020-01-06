@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/gosuri/uitable"
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated/proto"
+	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go"

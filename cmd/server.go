@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated/proto"
+	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/pojntfx/gon2n/pkg/svc"
 	"github.com/pojntfx/gon2n/pkg/workers"
 	"github.com/spf13/cobra"
