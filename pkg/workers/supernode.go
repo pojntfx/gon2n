@@ -59,6 +59,13 @@ func (e *Supernode) Start() error {
 	return nil
 }
 
+// Stop stops a supernode.
+func (e *Supernode) Stop() error {
+	e.cKeepRunning = C.int(0)
+
+	return nil
+}
+
 // IsScheduledForDeletion returns true if the supernode is scheduled for deletion.
 func (e *Supernode) IsScheduledForDeletion() bool {
 	return int(e.cKeepRunning) == 0
@@ -73,13 +80,6 @@ func (e *Supernode) Wait() error {
 
 		time.Sleep(1 * time.Second)
 	}
-
-	return nil
-}
-
-// Stop stops a supernode.
-func (e *Supernode) Stop() error {
-	e.cKeepRunning = C.int(0)
 
 	return nil
 }

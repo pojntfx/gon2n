@@ -11,6 +11,11 @@ service SupernodeManager {
   };
 }
 
+// EdgeManager manages edges.
+service EdgeManager {
+  rpc Create(EdgeManagerCreateArgs) returns (EdgeManagerCreateReply) {};
+}
+
 message SupernodeManagerCreateArgs {
   int64 ListenPort = 1;
   int64 ManagementPort = 2;
@@ -19,6 +24,29 @@ message SupernodeManagerCreateArgs {
 message SupernodeManagerListArgs {};
 
 message SupernodeManagerDeleteArgs { string Id = 1; };
+
+message EdgeManagerCreateArgs {
+  bool AllowP2P = 1;
+  bool AllowRouting = 2;
+  string CommunityName = 3;
+  bool DisablePMTUDiscovery = 4;
+  bool DisableMulticast = 5;
+  bool DynamicIPMode = 6;
+  string EncryptionKey = 7;
+  int64 LocalPort = 8;
+  int64 ManagementPort = 9;
+  int64 RegisterInterval = 10;
+  int64 RegisterTTL = 11;
+  string SupernodeHostPort = 12;
+  int64 TypeOfService = 13;
+  int64 EncryptionMethod = 14;
+  string DeviceName = 15;
+  string AddressMode = 16;
+  string DeviceIP = 17;
+  string DeviceNetmask = 18;
+  string DeviceMACAddress = 19;
+  int64 MTU = 20;
+}
 
 message SupernodeManagerCreateReply { string Id = 1; }
 
@@ -33,3 +61,5 @@ message SupernodeManaged {
 }
 
 message SupernodeManagerDeleteReply { string Id = 1; }
+
+message EdgeManagerCreateReply { string Id = 1; }

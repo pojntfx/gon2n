@@ -3,8 +3,8 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gitlab.com/bloom42/libs/rz-go/v2"
-	"gitlab.com/bloom42/libs/rz-go/v2/log"
+	"gitlab.com/bloom42/libs/rz-go"
+	"gitlab.com/bloom42/libs/rz-go/log"
 	"strings"
 )
 
