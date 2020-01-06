@@ -5,6 +5,7 @@ package gon2n;
 // EdgeManager manages edges.
 service EdgeManager {
   rpc Create(EdgeManagerCreateArgs) returns (EdgeManagerCreateReply) {};
+  rpc List(EdgeManagerListArgs) returns (EdgeManagerListReply) {};
 }
 
 message EdgeManagerCreateArgs {
@@ -30,4 +31,31 @@ message EdgeManagerCreateArgs {
   int64 MTU = 20;
 }
 
+message EdgeManagerListArgs {};
+
 message EdgeManagerCreateReply { string Id = 1; }
+
+message EdgeManagerListReply { repeated EdgeManaged EdgesManaged = 1; }
+
+message EdgeManaged {
+  string Id = 1;
+  bool AllowP2P = 2;
+  bool AllowRouting = 3;
+  string CommunityName = 4;
+  bool DisablePMTUDiscovery = 5;
+  bool DisableMulticast = 6;
+  bool DynamicIPMode = 7;
+  int64 LocalPort = 8;
+  int64 ManagementPort = 9;
+  int64 RegisterInterval = 10;
+  int64 RegisterTTL = 11;
+  string SupernodeHostPort = 12;
+  int64 TypeOfService = 13;
+  int64 EncryptionMethod = 14;
+  string DeviceName = 15;
+  string AddressMode = 16;
+  string DeviceIP = 17;
+  string DeviceNetmask = 18;
+  string DeviceMACAddress = 19;
+  int64 MTU = 20;
+}
