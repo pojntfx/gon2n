@@ -94,36 +94,64 @@ func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerL
 	}, nil
 }
 
+// Get gets one of the managed supernodes.
+func (s *SupernodeManager) Get(_ context.Context, args *gon2n.SupernodeManagerGetArgs) (*gon2n.SupernodeManaged, error) {
+	log.Info("Getting supernode")
+
+	var supernodeManaged *gon2n.SupernodeManaged
+
+	for id, supernode := range s.SupernodesManaged {
+		if id == args.GetId() {
+			supernodeManaged = &gon2n.SupernodeManaged{
+				Id:             id,
+				ListenPort:     int64(supernode.GetListenPort()),
+				ManagementPort: int64(supernode.ManagementPort),
+			}
+			break
+		}
+	}
+
+	if supernodeManaged != nil {
+		return supernodeManaged, nil
+	}
+
+	msg := "supernode not found"
+
+	log.Error(msg)
+
+	return nil, status.Errorf(codes.NotFound, msg)
+}
+
 // Delete deletes a supernode.
 func (s *SupernodeManager) Delete(_ context.Context, args *gon2n.SupernodeManagerDeleteArgs) (*gon2n.SupernodeManagerDeleteReply, error) {
 	id := args.GetId()
 
 	supernodesManaged := s.SupernodesManaged[id]
-	if supernodesManaged == nil {
-		msg := "supernode not found"
+	if supernodesManaged != nil {
+		log.Info("Stopping supernode")
 
-		log.Error(msg)
+		if err := supernodesManaged.Stop(); err != nil {
+			log.Error(err.Error())
 
-		return nil, status.Errorf(codes.NotFound, msg)
+			return nil, status.Errorf(codes.Unknown, err.Error())
+		}
+
+		if err := supernodesManaged.Wait(); err != nil {
+			log.Error(err.Error())
+
+			return nil, status.Errorf(codes.Unknown, err.Error())
+		}
+
+		delete(s.SupernodesManaged, id)
+
+		return &gon2n.SupernodeManagerDeleteReply{
+			Id: id,
+		}, nil
 	}
 
-	log.Info("Stopping supernode")
+	msg := "supernode not found"
 
-	if err := supernodesManaged.Stop(); err != nil {
-		log.Error(err.Error())
+	log.Error(msg)
 
-		return nil, status.Errorf(codes.Unknown, err.Error())
-	}
-
-	if err := supernodesManaged.Wait(); err != nil {
-		log.Error(err.Error())
-
-		return nil, status.Errorf(codes.Unknown, err.Error())
-	}
-
-	delete(s.SupernodesManaged, id)
-
-	return &gon2n.SupernodeManagerDeleteReply{
-		Id: id,
-	}, nil
+	return nil, status.Errorf(codes.NotFound, msg)
 }
