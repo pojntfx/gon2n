@@ -10,7 +10,6 @@ import (
 	"gitlab.com/bloom42/libs/rz-go/v2"
 	"gitlab.com/bloom42/libs/rz-go/v2/log"
 	"google.golang.org/grpc"
-	"time"
 )
 
 var getSupernodeCmd = &cobra.Command{
@@ -18,14 +17,6 @@ var getSupernodeCmd = &cobra.Command{
 	Aliases: []string{"supernodes", "s"},
 	Short:   "Get all supernodes",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if !(viper.GetString(supernodeConfigFileKey) == supernodeConfigFileDefault) {
-			viper.SetConfigFile(viper.GetString(supernodeConfigFileKey))
-
-			if err := viper.ReadInConfig(); err != nil {
-				return err
-			}
-		}
-
 		conn, err := grpc.Dial(viper.GetString(supernodeServerHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			return err
@@ -34,7 +25,7 @@ var getSupernodeCmd = &cobra.Command{
 
 		client := gon2n.NewSupernodeManagerClient(conn)
 
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
 		response, err := client.List(ctx, &gon2n.SupernodeManagerListArgs{})

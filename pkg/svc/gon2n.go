@@ -100,7 +100,7 @@ func (s *SupernodeManager) Delete(_ context.Context, args *gon2n.SupernodeManage
 
 	supernodesManaged := s.SupernodesManaged[id]
 	if supernodesManaged == nil {
-		msg := "Supernode not found"
+		msg := "supernode not found"
 
 		log.Error(msg)
 

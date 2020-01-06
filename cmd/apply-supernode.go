@@ -9,7 +9,6 @@ import (
 	"gitlab.com/bloom42/libs/rz-go/v2"
 	"gitlab.com/bloom42/libs/rz-go/v2/log"
 	"google.golang.org/grpc"
-	"time"
 )
 
 var applySupernodeCmd = &cobra.Command{
@@ -33,7 +32,7 @@ var applySupernodeCmd = &cobra.Command{
 
 		client := gon2n.NewSupernodeManagerClient(conn)
 
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
 		response, err := client.Create(ctx, &gon2n.SupernodeManagerCreateArgs{
@@ -44,7 +43,7 @@ var applySupernodeCmd = &cobra.Command{
 			return err
 		}
 
-		fmt.Printf("supernode/%s created\n", response.GetId())
+		fmt.Printf("supernode \"%s\" created\n", response.GetId())
 
 		return nil
 	},
