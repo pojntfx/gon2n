@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated/proto"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -43,7 +44,7 @@ var applySupernodeCmd = &cobra.Command{
 			return err
 		}
 
-		log.Info("Applied supernode", rz.String("Id", response.GetId()))
+		fmt.Printf("supernode/%s created\n", response.GetId())
 
 		return nil
 	},
