@@ -87,30 +87,16 @@ func (e *EdgeManager) Create(_ context.Context, args *gon2n.EdgeManagerCreateArg
 func (e *EdgeManager) List(_ context.Context, args *gon2n.EdgeManagerListArgs) (*gon2n.EdgeManagerListReply, error) {
 	log.Info("Listing edges")
 
-	var edgesManaged []*gon2n.EdgeManaged
+	var edgesManaged []*gon2n.EdgeManagedSummary
 
 	for id, edge := range e.EdgesManaged {
-		edgeManaged := gon2n.EdgeManaged{
-			Id:                   id,
-			AllowP2P:             edge.AllowP2P,
-			AllowRouting:         edge.AllowRouting,
-			CommunityName:        edge.CommunityName,
-			DisablePMTUDiscovery: edge.DisablePMTUDiscovery,
-			DisableMulticast:     edge.DisableMulticast,
-			DynamicIPMode:        edge.DynamicIPMode,
-			LocalPort:            int64(edge.LocalPort),
-			ManagementPort:       int64(edge.ManagementPort),
-			RegisterInterval:     int64(edge.RegisterInterval),
-			RegisterTTL:          int64(edge.RegisterTTL),
-			SupernodeHostPort:    edge.SupernodeHostPort,
-			TypeOfService:        int64(edge.TypeOfService),
-			EncryptionMethod:     int64(edge.EncryptionMethod),
-			DeviceName:           edge.DeviceName,
-			AddressMode:          edge.AddressMode,
-			DeviceIP:             edge.DeviceIP,
-			DeviceNetmask:        edge.DeviceNetmask,
-			DeviceMACAddress:     edge.DeviceMACAddress,
-			MTU:                  int64(edge.MTU),
+		edgeManaged := gon2n.EdgeManagedSummary{
+			Id:                id,
+			CommunityName:     edge.CommunityName,
+			LocalPort:         int64(edge.LocalPort),
+			SupernodeHostPort: edge.SupernodeHostPort,
+			EncryptionMethod:  int64(edge.EncryptionMethod),
+			DeviceName:        edge.DeviceName,
 		}
 
 		edgesManaged = append(edgesManaged, &edgeManaged)
