@@ -65,19 +65,19 @@ var getEdgeCmd = &cobra.Command{
 				edge.GetDisablePMTUDiscovery(),
 				edge.GetDisableMulticast(),
 				edge.GetDynamicIPMode(),
-				int(edge.GetLocalPort()),
-				int(edge.GetManagementPort()),
-				int(edge.GetRegisterInterval()),
-				int(edge.GetRegisterTTL()),
+				edge.GetLocalPort(),
+				edge.GetManagementPort(),
+				edge.GetRegisterInterval(),
+				edge.GetRegisterTTL(),
 				edge.GetSupernodeHostPort(),
-				int(edge.GetTypeOfService()),
-				int(edge.GetEncryptionMethod()),
+				edge.GetTypeOfService(),
+				edge.GetEncryptionMethod(),
 				edge.GetDeviceName(),
 				edge.GetAddressMode(),
 				edge.GetDeviceIP(),
 				edge.GetDeviceNetmask(),
 				edge.GetDeviceMACAddress(),
-				int(edge.GetMTU()))
+				edge.GetMTU())
 		}
 
 		fmt.Println(table)

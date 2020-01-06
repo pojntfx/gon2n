@@ -88,8 +88,3 @@ func (e *Supernode) Wait() error {
 func (e *Supernode) GetListenPort() int {
 	return int(C.int(e.cSupernode.lport))
 }
-
-// GetManagementPort returns the management port of the supernode.
-func (e *Supernode) GetManagementPort() int {
-	return e.ManagementPort
-}
