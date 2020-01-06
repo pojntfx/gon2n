@@ -41,7 +41,16 @@ message EdgeManagerDeleteArgs { string Id = 1; };
 
 message EdgeManagerCreateReply { string Id = 1; }
 
-message EdgeManagerListReply { repeated EdgeManaged EdgesManaged = 1; }
+message EdgeManagerListReply { repeated EdgeManagedSummary EdgesManaged = 1; }
+
+message EdgeManagedSummary {
+  string Id = 1;
+  string CommunityName = 2;
+  int64 LocalPort = 3;
+  string SupernodeHostPort = 4;
+  int64 EncryptionMethod = 5;
+  string DeviceName = 6;
+}
 
 message EdgeManaged {
   string Id = 1;

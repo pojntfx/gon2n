@@ -39,48 +39,20 @@ var getEdgeCmd = &cobra.Command{
 			table := uitable.New()
 			table.AddRow(
 				"ID",
-				"ALLOW P2P",
-				"ALLOW ROUTING",
 				"COMMUNITY NAME",
-				"DISABLE PATH MTU DISCOVERY",
-				"DISABLE MULTICAST",
-				"DYNAMIC IP MODE",
 				"LOCAL PORT",
-				"MANAGEMENT PORT",
-				"REGISTER INTERVAL",
-				"REGISTER TTL",
 				"SUPERNODE HOST:PORT",
-				"TYPE OF SERVICE",
 				"ENCRYPTION METHOD",
-				"DEVICE NAME",
-				"ADDRESS MODE",
-				"DEVICE IP",
-				"DEVICE NETMASK",
-				"DEVICE MAC ADDRESS",
-				"MTU")
+				"DEVICE NAME")
 
 			for _, edge := range response.GetEdgesManaged() {
 				table.AddRow(
 					edge.GetId(),
-					edge.GetAllowP2P(),
-					edge.GetAllowRouting(),
 					edge.GetCommunityName(),
-					edge.GetDisablePMTUDiscovery(),
-					edge.GetDisableMulticast(),
-					edge.GetDynamicIPMode(),
 					edge.GetLocalPort(),
-					edge.GetManagementPort(),
-					edge.GetRegisterInterval(),
-					edge.GetRegisterTTL(),
 					edge.GetSupernodeHostPort(),
-					edge.GetTypeOfService(),
 					edge.GetEncryptionMethod(),
-					edge.GetDeviceName(),
-					edge.GetAddressMode(),
-					edge.GetDeviceIP(),
-					edge.GetDeviceNetmask(),
-					edge.GetDeviceMACAddress(),
-					edge.GetMTU())
+					edge.GetDeviceName())
 			}
 
 			fmt.Println(table)
