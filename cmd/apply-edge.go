@@ -1,14 +1,14 @@
 package cmd
 
 import (
-	"github.com/pojntfx/gon2n/pkg/workers"
+	"context"
+	"fmt"
+	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go"
 	"gitlab.com/bloom42/libs/rz-go/log"
-	"os"
-	"os/signal"
-	"syscall"
+	"google.golang.org/grpc"
 )
 
 var applyEdgeCmd = &cobra.Command{
@@ -24,7 +24,18 @@ var applyEdgeCmd = &cobra.Command{
 			}
 		}
 
-		edge := workers.Edge{
+		conn, err := grpc.Dial(viper.GetString(edgeServerHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
+		if err != nil {
+			return err
+		}
+		defer conn.Close()
+
+		client := gon2n.NewEdgeManagerClient(conn)
+
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		response, err := client.Create(ctx, &gon2n.EdgeManagerCreateArgs{
 			AllowP2P:             viper.GetBool(edgeAllowP2PKey),
 			AllowRouting:         viper.GetBool(edgeAllowRoutingKey),
 			CommunityName:        viper.GetString(edgeCommunityNameKey),
@@ -32,56 +43,33 @@ var applyEdgeCmd = &cobra.Command{
 			DisableMulticast:     viper.GetBool(edgeDisableMulticastKey),
 			DynamicIPMode:        viper.GetBool(edgeDynamicIPModeKey),
 			EncryptionKey:        viper.GetString(edgeEncryptionKeyKey),
-			LocalPort:            viper.GetInt(edgeLocalPortKey),
-			ManagementPort:       viper.GetInt(edgeManagementPortKey),
-			RegisterInterval:     viper.GetInt(edgeRegisterIntervalKey),
-			RegisterTTL:          viper.GetInt(edgeRegisterTTLKey),
+			LocalPort:            int64(viper.GetInt(edgeLocalPortKey)),
+			ManagementPort:       int64(viper.GetInt(edgeManagementPortKey)),
+			RegisterInterval:     int64(viper.GetInt(edgeRegisterIntervalKey)),
+			RegisterTTL:          int64(viper.GetInt(edgeRegisterTTLKey)),
 			SupernodeHostPort:    viper.GetString(edgeSupernodeHostPortKey),
-			TypeOfService:        viper.GetInt(edgeTypeOfServiceKey),
-			EncryptionMethod:     viper.GetInt(edgeEncryptionMethodKey),
+			TypeOfService:        int64(viper.GetInt(edgeTypeOfServiceKey)),
+			EncryptionMethod:     int64(viper.GetInt(edgeEncryptionMethodKey)),
 			DeviceName:           viper.GetString(edgeDeviceNameKey),
 			AddressMode:          viper.GetString(edgeAddressModeKey),
 			DeviceIP:             viper.GetString(edgeDeviceIPKey),
 			DeviceNetmask:        viper.GetString(edgeDeviceNetmaskKey),
 			DeviceMACAddress:     viper.GetString(edgeDeviceMACAddressKey),
-			MTU:                  viper.GetInt(edgeMTUKey),
-		}
-
-		if err := edge.Configure(); err != nil {
+			MTU:                  int64(viper.GetInt(edgeMTUKey)),
+		})
+		if err != nil {
 			return err
 		}
 
-		if err := edge.OpenTunTapDevice(); err != nil {
-			return err
-		}
+		fmt.Printf("edge \"%s\" created\n", response.GetId())
 
-		interrupt := make(chan os.Signal, 2)
-		signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
-		go func() {
-			<-interrupt
-
-			// Allow manually killing the process
-			go func() {
-				<-interrupt
-
-				os.Exit(1)
-			}()
-
-			log.Info("Gracefully stopping edge (this might take a few seconds)")
-
-			if err := edge.Stop(); err != nil {
-				log.Fatal("Could not stop edge", rz.Err(err))
-			}
-		}()
-
-		log.Info("Starting edge")
-
-		return edge.Start()
+		return nil
 	},
 }
 
 func init() {
 	var (
+		edgeServerHostPortFlag       string
 		edgeConfigFileFlag           string
 		edgeAllowP2PFlag             bool
 		edgeAllowRoutingFlag         bool
@@ -105,6 +93,7 @@ func init() {
 		edgeMTUFlag                  int
 	)
 
+	applyEdgeCmd.PersistentFlags().StringVarP(&edgeServerHostPortFlag, edgeServerHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
 	applyEdgeCmd.PersistentFlags().StringVarP(&edgeConfigFileFlag, edgeConfigFileKey, "f", edgeConfigFileDefault, "Configuration file to use.")
 	applyEdgeCmd.PersistentFlags().BoolVarP(&edgeAllowP2PFlag, edgeAllowP2PKey, "p", true, "Whether to allow peer-to-peer connections. If false, all traffic will be routed through the supernode.")
 	applyEdgeCmd.PersistentFlags().BoolVarP(&edgeAllowRoutingFlag, edgeAllowRoutingKey, "r", true, "Whether to allow the node to route traffic to other nodes.")
@@ -117,7 +106,7 @@ func init() {
 	applyEdgeCmd.PersistentFlags().IntVarP(&edgeManagementPortFlag, edgeManagementPortKey, "a", 5644, "UDP management port. 5644 is the n2n default.")
 	applyEdgeCmd.PersistentFlags().IntVarP(&edgeRegisterIntervalFlag, edgeRegisterIntervalKey, "n", 1, "Interval in seconds for both UDP NAT hole punching and registration of the edge on the supernode.")
 	applyEdgeCmd.PersistentFlags().IntVarP(&edgeRegisterTTLFlag, edgeRegisterTTLKey, "t", 1, "Interval in seconds for UDP NAT hole punching through the supernode.")
-	applyEdgeCmd.PersistentFlags().StringVarP(&edgeSupernodeHostPortFlag, edgeSupernodeHostPortKey, "s", "localhost:1234", "Host:port of the supernode to connect to.")
+	applyEdgeCmd.PersistentFlags().StringVarP(&edgeSupernodeHostPortFlag, edgeSupernodeHostPortKey, "w", "localhost:1234", "Host:port of the supernode to connect to.")
 	applyEdgeCmd.PersistentFlags().IntVarP(&edgeTypeOfServiceFlag, edgeTypeOfServiceKey, "o", 16, "Type of service to use.")
 	applyEdgeCmd.PersistentFlags().IntVarP(&edgeEncryptionMethodFlag, edgeEncryptionMethodKey, "e", 2, "Method of encryption to use. 1 is no encryption, 2 is Twofish encryption, 3 is AES-CBC encryption. Twofish encryption is the n2n default, but only due to legacy compatibility reasons; AES-CBC is up to ten times faster.")
 	applyEdgeCmd.PersistentFlags().StringVarP(&edgeDeviceNameFlag, edgeDeviceNameKey, "v", "edge0", "Name of the TUN/TAP device to create.")
