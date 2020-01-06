@@ -22,8 +22,8 @@ type Supernode struct {
 }
 
 // Configure configures a supernode.
-func (e *Supernode) Configure() error {
-	if errCode := C.supernode_configure(&e.cSupernode, C.int(e.ListenPort)); int(errCode) != 0 {
+func (s *Supernode) Configure() error {
+	if errCode := C.supernode_configure(&s.cSupernode, C.int(s.ListenPort)); int(errCode) != 0 {
 		return errors.New("could not configure supernode")
 	}
 
@@ -31,8 +31,8 @@ func (e *Supernode) Configure() error {
 }
 
 // OpenListenPortSocket opens a listen port socket.
-func (e *Supernode) OpenListenPortSocket() error {
-	if errCode := C.supernode_open_lport_socket(&e.cSupernode); int(errCode) != 0 {
+func (s *Supernode) OpenListenPortSocket() error {
+	if errCode := C.supernode_open_lport_socket(&s.cSupernode); int(errCode) != 0 {
 		return errors.New("could not open listen port socket")
 	}
 
@@ -40,8 +40,8 @@ func (e *Supernode) OpenListenPortSocket() error {
 }
 
 // OpenManagementPortSocket opens a management port socket.
-func (e *Supernode) OpenManagementPortSocket() error {
-	if errCode := C.supernode_open_mgmt_socket(&e.cSupernode, C.int(e.ManagementPort)); int(errCode) != 0 {
+func (s *Supernode) OpenManagementPortSocket() error {
+	if errCode := C.supernode_open_mgmt_socket(&s.cSupernode, C.int(s.ManagementPort)); int(errCode) != 0 {
 		return errors.New("could not open management port socket")
 	}
 
@@ -49,10 +49,10 @@ func (e *Supernode) OpenManagementPortSocket() error {
 }
 
 // Start starts a supernode.
-func (e *Supernode) Start() error {
-	e.cKeepRunning = C.int(1)
+func (s *Supernode) Start() error {
+	s.cKeepRunning = C.int(1)
 
-	if errCode := C.supernode_start(&e.cSupernode, &e.cKeepRunning); int(errCode) != 0 {
+	if errCode := C.supernode_start(&s.cSupernode, &s.cKeepRunning); int(errCode) != 0 {
 		return errors.New("could not start supernode")
 	}
 
@@ -60,21 +60,21 @@ func (e *Supernode) Start() error {
 }
 
 // Stop stops a supernode.
-func (e *Supernode) Stop() error {
-	e.cKeepRunning = C.int(0)
+func (s *Supernode) Stop() error {
+	s.cKeepRunning = C.int(0)
 
 	return nil
 }
 
 // IsScheduledForDeletion returns true if the supernode is scheduled for deletion.
-func (e *Supernode) IsScheduledForDeletion() bool {
-	return int(e.cKeepRunning) == 0
+func (s *Supernode) IsScheduledForDeletion() bool {
+	return int(s.cKeepRunning) == 0
 }
 
 // Wait blocks until the supernode instance has stopped.
-func (e *Supernode) Wait() error {
+func (s *Supernode) Wait() error {
 	for {
-		if int(e.cSupernode.mgmt_sock) == -1 {
+		if int(s.cSupernode.mgmt_sock) == -1 {
 			break
 		}
 
@@ -85,6 +85,6 @@ func (e *Supernode) Wait() error {
 }
 
 // GetListenPort returns the listen port of the supernode.
-func (e *Supernode) GetListenPort() int {
-	return int(C.int(e.cSupernode.lport))
+func (s *Supernode) GetListenPort() int {
+	return int(C.int(s.cSupernode.lport))
 }

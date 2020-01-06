@@ -120,3 +120,37 @@ func (e *EdgeManager) List(_ context.Context, args *gon2n.EdgeManagerListArgs) (
 		EdgesManaged: edgesManaged,
 	}, nil
 }
+
+// Delete deletes a edge.
+func (e *EdgeManager) Delete(_ context.Context, args *gon2n.EdgeManagerDeleteArgs) (*gon2n.EdgeManagerDeleteReply, error) {
+	id := args.GetId()
+
+	edgesManaged := e.EdgesManaged[id]
+	if edgesManaged == nil {
+		msg := "edge not found"
+
+		log.Error(msg)
+
+		return nil, status.Errorf(codes.NotFound, msg)
+	}
+
+	log.Info("Stopping edge")
+
+	if err := edgesManaged.Stop(); err != nil {
+		log.Error(err.Error())
+
+		return nil, status.Errorf(codes.Unknown, err.Error())
+	}
+
+	if err := edgesManaged.Wait(); err != nil {
+		log.Error(err.Error())
+
+		return nil, status.Errorf(codes.Unknown, err.Error())
+	}
+
+	delete(e.EdgesManaged, id)
+
+	return &gon2n.EdgeManagerDeleteReply{
+		Id: id,
+	}, nil
+}
