@@ -1,10 +1,10 @@
 package svc
 
-//go:generate sh -c "mkdir -p ../proto/generated && protoc --go_out=paths=source_relative,plugins=grpc:../proto/generated -I=../ ../proto/*.proto"
+//go:generate sh -c "mkdir -p ../proto/generated && protoc --go_out=paths=source_relative,plugins=grpc:../proto/generated -I=../proto ../proto/*.proto"
 
 import (
 	"context"
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated/proto"
+	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/pojntfx/gon2n/pkg/workers"
 	uuid "github.com/satori/go.uuid"
 	"gitlab.com/bloom42/libs/rz-go/log"
@@ -16,12 +16,6 @@ import (
 type SupernodeManager struct {
 	gon2n.UnimplementedSupernodeManagerServer
 	SupernodesManaged map[string]*workers.Supernode
-}
-
-// EdgeManager manages edges.
-type EdgeManager struct {
-	gon2n.UnimplementedEdgeManagerServer
-	EdgesManaged map[string]*workers.Edge
 }
 
 // Create creates a supernode.

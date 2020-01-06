@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package gon2n;
+
+// SupernodeManager manages supernodes.
+service SupernodeManager {
+  rpc Create(SupernodeManagerCreateArgs) returns (SupernodeManagerCreateReply) {
+  };
+  rpc List(SupernodeManagerListArgs) returns (SupernodeManagerListReply) {};
+  rpc Delete(SupernodeManagerDeleteArgs) returns (SupernodeManagerDeleteReply) {
+  };
+}
+
+message SupernodeManagerCreateArgs {
+  int64 ListenPort = 1;
+  int64 ManagementPort = 2;
+}
+
+message SupernodeManagerListArgs {};
+
+message SupernodeManagerDeleteArgs { string Id = 1; };
+
+message SupernodeManagerCreateReply { string Id = 1; }
+
+message SupernodeManagerListReply {
+  repeated SupernodeManaged SupernodesManaged = 1;
+}
+
+message SupernodeManaged {
+  string Id = 1;
+  int64 ListenPort = 2;
+  int64 ManagementPort = 3;
+}
+
+message SupernodeManagerDeleteReply { string Id = 1; }
