@@ -6,6 +6,7 @@ package gon2n;
 service EdgeManager {
   rpc Create(EdgeManagerCreateArgs) returns (EdgeManagerCreateReply) {};
   rpc List(EdgeManagerListArgs) returns (EdgeManagerListReply) {};
+  rpc Delete(EdgeManagerDeleteArgs) returns (EdgeManagerDeleteReply) {};
 }
 
 message EdgeManagerCreateArgs {
@@ -33,6 +34,8 @@ message EdgeManagerCreateArgs {
 
 message EdgeManagerListArgs {};
 
+message EdgeManagerDeleteArgs { string Id = 1; };
+
 message EdgeManagerCreateReply { string Id = 1; }
 
 message EdgeManagerListReply { repeated EdgeManaged EdgesManaged = 1; }
@@ -59,3 +62,5 @@ message EdgeManaged {
   string DeviceMACAddress = 19;
   int64 MTU = 20;
 }
+
+message EdgeManagerDeleteReply { string Id = 1; }
