@@ -6,6 +6,7 @@ package gon2n;
 service EdgeManager {
   rpc Create(EdgeManagerCreateArgs) returns (EdgeManagerCreateReply) {};
   rpc List(EdgeManagerListArgs) returns (EdgeManagerListReply) {};
+  rpc Get(EdgeManagerGetArgs) returns (EdgeManaged) {};
   rpc Delete(EdgeManagerDeleteArgs) returns (EdgeManagerDeleteReply) {};
 }
 
@@ -33,6 +34,8 @@ message EdgeManagerCreateArgs {
 }
 
 message EdgeManagerListArgs {};
+
+message EdgeManagerGetArgs { string Id = 1; };
 
 message EdgeManagerDeleteArgs { string Id = 1; };
 
