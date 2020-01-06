@@ -121,6 +121,51 @@ func (e *EdgeManager) List(_ context.Context, args *gon2n.EdgeManagerListArgs) (
 	}, nil
 }
 
+// Get gets one of the managed edges.
+func (e *EdgeManager) Get(_ context.Context, args *gon2n.EdgeManagerGetArgs) (*gon2n.EdgeManaged, error) {
+	log.Info("Getting edge")
+
+	var edgeManaged *gon2n.EdgeManaged
+
+	for id, edge := range e.EdgesManaged {
+		if id == args.GetId() {
+			edgeManaged = &gon2n.EdgeManaged{
+				Id:                   id,
+				AllowP2P:             edge.AllowP2P,
+				AllowRouting:         edge.AllowRouting,
+				CommunityName:        edge.CommunityName,
+				DisablePMTUDiscovery: edge.DisablePMTUDiscovery,
+				DisableMulticast:     edge.DisableMulticast,
+				DynamicIPMode:        edge.DynamicIPMode,
+				LocalPort:            int64(edge.LocalPort),
+				ManagementPort:       int64(edge.ManagementPort),
+				RegisterInterval:     int64(edge.RegisterInterval),
+				RegisterTTL:          int64(edge.RegisterTTL),
+				SupernodeHostPort:    edge.SupernodeHostPort,
+				TypeOfService:        int64(edge.TypeOfService),
+				EncryptionMethod:     int64(edge.EncryptionMethod),
+				DeviceName:           edge.DeviceName,
+				AddressMode:          edge.AddressMode,
+				DeviceIP:             edge.DeviceIP,
+				DeviceNetmask:        edge.DeviceNetmask,
+				DeviceMACAddress:     edge.DeviceMACAddress,
+				MTU:                  int64(edge.MTU),
+			}
+			break
+		}
+	}
+
+	if edgeManaged != nil {
+		return edgeManaged, nil
+	}
+
+	msg := "edge not found"
+
+	log.Error(msg)
+
+	return nil, status.Errorf(codes.NotFound, msg)
+}
+
 // Delete deletes a edge.
 func (e *EdgeManager) Delete(_ context.Context, args *gon2n.EdgeManagerDeleteArgs) (*gon2n.EdgeManagerDeleteReply, error) {
 	id := args.GetId()
