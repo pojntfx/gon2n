@@ -12,13 +12,13 @@ import (
 	"sync"
 )
 
-var deleteEdgeCmd = &cobra.Command{
-	Use:     "edge <id> [id...]",
-	Aliases: []string{"edges", "e"},
+var deleteCmd = &cobra.Command{
+	Use:     "delete <id> [id...]",
+	Aliases: []string{"d"},
 	Short:   "Delete one or more edge(s)",
 	Args:    cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		conn, err := grpc.Dial(viper.GetString(edgeServerHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
+		conn, err := grpc.Dial(viper.GetString(serverHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			return err
 		}
@@ -60,16 +60,16 @@ var deleteEdgeCmd = &cobra.Command{
 
 func init() {
 	var (
-		edgeServerHostPortFlag string
+		serverHostPortFlag string
 	)
 
-	deleteEdgeCmd.PersistentFlags().StringVarP(&edgeServerHostPortFlag, edgeServerHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
+	deleteCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
 
-	if err := viper.BindPFlags(deleteEdgeCmd.PersistentFlags()); err != nil {
+	if err := viper.BindPFlags(deleteCmd.PersistentFlags()); err != nil {
 		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
 	}
 
 	viper.AutomaticEnv()
 
-	deleteCmd.AddCommand(deleteEdgeCmd)
+	rootCmd.AddCommand(deleteCmd)
 }

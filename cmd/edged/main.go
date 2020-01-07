@@ -1,6 +1,12 @@
 package main
 
 import (
+	"net"
+	"os"
+	"os/signal"
+	"strings"
+	"syscall"
+
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/pojntfx/gon2n/pkg/svc"
 	"github.com/pojntfx/gon2n/pkg/workers"
@@ -10,10 +16,6 @@ import (
 	"gitlab.com/bloom42/libs/rz-go/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"net"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
 const (
@@ -25,11 +27,15 @@ const (
 
 var rootCmd = &cobra.Command{
 	Use:   "edged",
-	Short: "n2n edge management daemon",
-	Long: `n2n edge management daemon.
+	Short: "edged is the n2n edge management daemon",
+	Long: `edged is the n2n edge management daemon.
 
 Find more information at:
 https://pojntfx.github.io/gon2n/`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		viper.SetEnvPrefix("edged")
+		viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_", ".", "_"))
+	},
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if !(viper.GetString(configFileKey) == configFileDefault) {
 			viper.SetConfigFile(viper.GetString(configFileKey))

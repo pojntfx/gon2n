@@ -1,2 +1,2 @@
-server:
+edged:
   listenHostPort: localhost:1235

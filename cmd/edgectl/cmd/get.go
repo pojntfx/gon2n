@@ -14,12 +14,12 @@ import (
 	"google.golang.org/grpc"
 )
 
-var getEdgeCmd = &cobra.Command{
-	Use:     "edge [id]",
-	Aliases: []string{"edges", "e"},
+var getCmd = &cobra.Command{
+	Use:     "get [id]",
+	Aliases: []string{"g"},
 	Short:   "Get one or all edge(s)",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		conn, err := grpc.Dial(viper.GetString(edgeServerHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
+		conn, err := grpc.Dial(viper.GetString(serverHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			return err
 		}
@@ -80,16 +80,16 @@ var getEdgeCmd = &cobra.Command{
 
 func init() {
 	var (
-		edgeServerHostPortFlag string
+		serverHostPortFlag string
 	)
 
-	getEdgeCmd.PersistentFlags().StringVarP(&edgeServerHostPortFlag, edgeServerHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
+	getCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
 
-	if err := viper.BindPFlags(getEdgeCmd.PersistentFlags()); err != nil {
+	if err := viper.BindPFlags(getCmd.PersistentFlags()); err != nil {
 		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
 	}
 
 	viper.AutomaticEnv()
 
-	getCmd.AddCommand(getEdgeCmd)
+	rootCmd.AddCommand(getCmd)
 }

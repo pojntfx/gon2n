@@ -9,14 +9,14 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "gon2n",
-	Short: "Go bindings and CLI for n2n",
-	Long: `Go bindings and CLI for n2n.
+	Use:   "edgectl",
+	Short: "edgectl manages edged, the n2n edge management daemon",
+	Long: `edgectl manages edged, the n2n edge management daemon.
 
 Find more information at:
 https://pojntfx.github.io/gon2n/`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		viper.SetEnvPrefix("gon2n")
+		viper.SetEnvPrefix("edge")
 		viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_", ".", "_"))
 	},
 }

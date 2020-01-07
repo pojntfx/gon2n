@@ -12,13 +12,13 @@ import (
 	"sync"
 )
 
-var deleteSupernodeCmd = &cobra.Command{
-	Use:     "supernode <id> [id...]",
-	Aliases: []string{"supernodes", "s"},
+var deleteCmd = &cobra.Command{
+	Use:     "delete <id> [id...]",
+	Aliases: []string{"d"},
 	Short:   "Delete one or more supernode(s)",
 	Args:    cobra.MinimumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		conn, err := grpc.Dial(viper.GetString(supernodeServerHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
+		conn, err := grpc.Dial(viper.GetString(serverHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			return err
 		}
@@ -60,16 +60,16 @@ var deleteSupernodeCmd = &cobra.Command{
 
 func init() {
 	var (
-		supernodeServerHostPortFlag string
+		serverHostPortFlag string
 	)
 
-	deleteSupernodeCmd.PersistentFlags().StringVarP(&supernodeServerHostPortFlag, supernodeServerHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
+	deleteCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", "localhost:1236", "Host:port of the gon2n server to use.")
 
-	if err := viper.BindPFlags(deleteSupernodeCmd.PersistentFlags()); err != nil {
+	if err := viper.BindPFlags(deleteCmd.PersistentFlags()); err != nil {
 		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
 	}
 
 	viper.AutomaticEnv()
 
-	deleteCmd.AddCommand(deleteSupernodeCmd)
+	rootCmd.AddCommand(deleteCmd)
 }
