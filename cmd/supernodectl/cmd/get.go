@@ -13,12 +13,12 @@ import (
 	"google.golang.org/grpc"
 )
 
-var getSupernodeCmd = &cobra.Command{
-	Use:     "supernode [id]",
-	Aliases: []string{"supernodes", "s"},
+var getCmd = &cobra.Command{
+	Use:     "get [id]",
+	Aliases: []string{"g"},
 	Short:   "Get one or all supernode(s)",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		conn, err := grpc.Dial(viper.GetString(supernodeServerHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
+		conn, err := grpc.Dial(viper.GetString(serverHostPortKey), grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			return err
 		}
@@ -67,16 +67,16 @@ var getSupernodeCmd = &cobra.Command{
 
 func init() {
 	var (
-		supernodeServerHostPortFlag string
+		serverHostPortFlag string
 	)
 
-	getSupernodeCmd.PersistentFlags().StringVarP(&supernodeServerHostPortFlag, supernodeServerHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
+	getCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", "localhost:1236", "Host:port of the gon2n server to use.")
 
-	if err := viper.BindPFlags(getSupernodeCmd.PersistentFlags()); err != nil {
+	if err := viper.BindPFlags(getCmd.PersistentFlags()); err != nil {
 		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
 	}
 
 	viper.AutomaticEnv()
 
-	getCmd.AddCommand(getSupernodeCmd)
+	rootCmd.AddCommand(getCmd)
 }

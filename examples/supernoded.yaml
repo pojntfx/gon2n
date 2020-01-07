@@ -1,2 +1,2 @@
-server:
+supernoded:
   listenHostPort: localhost:1236
