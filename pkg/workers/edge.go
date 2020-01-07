@@ -8,7 +8,10 @@ package workers
 import "C"
 import (
 	"errors"
+	"fmt"
+	"strconv"
 	"time"
+	"unsafe"
 )
 
 // Edge is a node which will be part of a virtual network.
@@ -36,6 +39,101 @@ type Edge struct {
 	cTuntapDevice        C.tuntap_dev      // TUN/TAP device instance.
 	cConf                C.n2n_edge_conf_t // Internal edge configuration.
 	cKeepRunning         C.int             // Whether the edge should be kept running. Set to `C.int(0)` at any time and it will be stopped.
+}
+
+// GetAllowP2P returns whether P2P is enabled.
+func (e *Edge) GetAllowP2P() bool {
+	varFromC, _ := e.getGoIntFromCUnsignedChar(e.cConf.allow_p2p)
+
+	return e.getBoolFromInt(int(varFromC))
+}
+
+// GetAllowRouting returns whether routing is enabled.
+func (e *Edge) GetAllowRouting() bool {
+	varFromC, _ := e.getGoIntFromCUnsignedChar(e.cConf.allow_routing)
+
+	return e.getBoolFromInt(int(varFromC))
+}
+
+// GetCommunityName returns the community name.
+func (e *Edge) GetCommunityName() string {
+	return C.GoString((*C.char)(unsafe.Pointer(&e.cConf.community_name)))
+}
+
+// GetDisablePMTUDiscovery returns whether path MTU discovery is enabled.
+func (e *Edge) GetDisablePMTUDiscovery() bool {
+	varFromC, _ := e.getGoIntFromCUnsignedChar(e.cConf.disable_pmtu_discovery)
+
+	return e.getBoolFromInt(int(varFromC))
+}
+
+// GetDisableMulticast returns whether multicast is disabled.
+func (e *Edge) GetDisableMulticast() bool {
+	varFromC, _ := e.getGoIntFromCUnsignedChar(e.cConf.drop_multicast)
+
+	return e.getBoolFromInt(int(varFromC))
+}
+
+// GetDynamicIPMode returns whether dynamic IP mode is enabled.
+func (e *Edge) GetDynamicIPMode() bool {
+	varFromC, _ := e.getGoIntFromCUnsignedChar(e.cConf.dyn_ip_mode)
+
+	return e.getBoolFromInt(int(varFromC))
+}
+
+// GetEncryptionKey returns the encryption key.
+func (e *Edge) GetEncryptionKey() string {
+	return fmt.Sprintf("%T", e.cConf.encrypt_key)
+}
+
+// GetLocalPort returns the local port.
+func (e *Edge) GetLocalPort() int {
+	return int(e.cConf.local_port)
+}
+
+// GetManagementPort returns the management port.
+func (e *Edge) GetManagementPort() int {
+	return int(e.cConf.mgmt_port)
+}
+
+// GetRegisterInterval returns the register interval.
+func (e *Edge) GetRegisterInterval() int {
+	return int(e.cConf.register_interval)
+}
+
+// GetRegisterTTL returns the register TTL.
+func (e *Edge) GetRegisterTTL() int {
+	return int(e.cConf.register_ttl)
+}
+
+// GetTypeOfService returns the type of service.
+func (e *Edge) GetTypeOfService() int {
+	return int(e.cConf.tos)
+}
+
+// GetEncryptionMethod returns the encryption method.
+func (e *Edge) GetEncryptionMethod() int {
+	return int(e.cConf.transop_id)
+}
+
+// GetDeviceName returns the device name.
+func (e *Edge) GetDeviceName() string {
+	return C.GoString((*C.char)(unsafe.Pointer(&e.cTuntapDevice.dev_name)))
+}
+
+// GetMTU returns the MTU.
+func (e *Edge) GetMTU() int {
+	return int(e.cTuntapDevice.mtu)
+}
+
+// getGoIntFromCUnsignedChar parses the Go int from a C uchar.
+func (e *Edge) getGoIntFromCUnsignedChar(cUChar C.uchar) (int64, error) {
+	return strconv.ParseInt(fmt.Sprintf("%v", cUChar), 10, 64)
+}
+
+// getBoolFromInt converts the an int with the C conventions to a Go bool.
+func (e *Edge) getBoolFromInt(cInt int) bool {
+	return cInt != 0
 }
 
 // getCIntFromGoBool converts a Go bool to a C int.

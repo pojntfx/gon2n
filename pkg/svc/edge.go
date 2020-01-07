@@ -92,11 +92,11 @@ func (e *EdgeManager) List(_ context.Context, args *gon2n.EdgeManagerListArgs) (
 	for id, edge := range e.EdgesManaged {
 		edgeManaged := gon2n.EdgeManagedSummary{
 			Id:                id,
-			CommunityName:     edge.CommunityName,
-			LocalPort:         int64(edge.LocalPort),
+			CommunityName:     edge.GetCommunityName(),
+			LocalPort:         int64(edge.GetLocalPort()),
 			SupernodeHostPort: edge.SupernodeHostPort,
-			EncryptionMethod:  int64(edge.EncryptionMethod),
-			DeviceName:        edge.DeviceName,
+			EncryptionMethod:  int64(edge.GetEncryptionMethod()),
+			DeviceName:        edge.GetDeviceName(),
 		}
 
 		edgesManaged = append(edgesManaged, &edgeManaged)
@@ -117,25 +117,25 @@ func (e *EdgeManager) Get(_ context.Context, args *gon2n.EdgeManagerGetArgs) (*g
 		if id == args.GetId() {
 			edgeManaged = &gon2n.EdgeManaged{
 				Id:                   id,
-				AllowP2P:             edge.AllowP2P,
-				AllowRouting:         edge.AllowRouting,
-				CommunityName:        edge.CommunityName,
-				DisablePMTUDiscovery: edge.DisablePMTUDiscovery,
-				DisableMulticast:     edge.DisableMulticast,
-				DynamicIPMode:        edge.DynamicIPMode,
-				LocalPort:            int64(edge.LocalPort),
-				ManagementPort:       int64(edge.ManagementPort),
-				RegisterInterval:     int64(edge.RegisterInterval),
-				RegisterTTL:          int64(edge.RegisterTTL),
+				AllowP2P:             edge.GetAllowP2P(),
+				AllowRouting:         edge.GetAllowRouting(),
+				CommunityName:        edge.GetCommunityName(),
+				DisablePMTUDiscovery: edge.GetDisablePMTUDiscovery(),
+				DisableMulticast:     edge.GetDisableMulticast(),
+				DynamicIPMode:        edge.GetDynamicIPMode(),
+				LocalPort:            int64(edge.GetLocalPort()),
+				ManagementPort:       int64(edge.GetManagementPort()),
+				RegisterInterval:     int64(edge.GetRegisterInterval()),
+				RegisterTTL:          int64(edge.GetRegisterTTL()),
 				SupernodeHostPort:    edge.SupernodeHostPort,
-				TypeOfService:        int64(edge.TypeOfService),
-				EncryptionMethod:     int64(edge.EncryptionMethod),
-				DeviceName:           edge.DeviceName,
+				TypeOfService:        int64(edge.GetTypeOfService()),
+				EncryptionMethod:     int64(edge.GetEncryptionMethod()),
+				DeviceName:           edge.GetDeviceName(),
 				AddressMode:          edge.AddressMode,
 				DeviceIP:             edge.DeviceIP,
 				DeviceNetmask:        edge.DeviceNetmask,
 				DeviceMACAddress:     edge.DeviceMACAddress,
-				MTU:                  int64(edge.MTU),
+				MTU:                  int64(edge.GetMTU()),
 			}
 			break
 		}
