@@ -1,0 +1,2 @@
+server:
+  listenHostPort: localhost:1236
