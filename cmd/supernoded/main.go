@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
@@ -16,20 +16,30 @@ import (
 	"syscall"
 )
 
-var serverCmd = &cobra.Command{
-	Use:     "server",
-	Aliases: []string{"s"},
-	Short:   "Start a gon2n server",
+const (
+	keyPrefix         = "supernoded."
+	configFileDefault = ""
+	configFileKey     = keyPrefix + "configFile"
+	listenHostPortKey = keyPrefix + "listenHostPort"
+)
+
+var rootCmd = &cobra.Command{
+	Use:   "supernoded",
+	Short: "n2n supernode management daemon",
+	Long: `n2n supernode management daemon.
+
+Find more information at:
+https://pojntfx.github.io/gon2n/`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if !(viper.GetString(serverConfigFileKey) == serverConfigFileDefault) {
-			viper.SetConfigFile(viper.GetString(serverConfigFileKey))
+		if !(viper.GetString(configFileKey) == configFileDefault) {
+			viper.SetConfigFile(viper.GetString(configFileKey))
 
 			if err := viper.ReadInConfig(); err != nil {
 				return err
 			}
 		}
 
-		listener, err := net.Listen("tcp", viper.GetString(serverListenHostPortKey))
+		listener, err := net.Listen("tcp", viper.GetString(listenHostPortKey))
 		if err != nil {
 			return err
 		}
@@ -41,12 +51,7 @@ var serverCmd = &cobra.Command{
 			SupernodesManaged: make(map[string]*workers.Supernode),
 		}
 
-		edgeService := svc.EdgeManager{
-			EdgesManaged: make(map[string]*workers.Edge),
-		}
-
 		gon2n.RegisterSupernodeManagerServer(server, &supernodeService)
-		gon2n.RegisterEdgeManagerServer(server, &edgeService)
 
 		interrupt := make(chan os.Signal, 2)
 		signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
@@ -62,30 +67,17 @@ var serverCmd = &cobra.Command{
 
 			log.Info("Gracefully stopping server (this might take a few seconds)")
 
-			supernodeMsg := "Could not stop supernode"
-			edgeMsg := "Could not stop edge"
+			msg := "Could not stop supernode"
 
 			for _, supernode := range supernodeService.SupernodesManaged {
 				if err := supernode.Stop(); err != nil {
-					log.Fatal(supernodeMsg, rz.Err(err))
-				}
-			}
-
-			for _, edge := range edgeService.EdgesManaged {
-				if err := edge.Stop(); err != nil {
-					log.Fatal(edgeMsg, rz.Err(err))
+					log.Fatal(msg, rz.Err(err))
 				}
 			}
 
 			for _, supernode := range supernodeService.SupernodesManaged {
 				if err := supernode.Wait(); err != nil {
-					log.Fatal(supernodeMsg, rz.Err(err))
-				}
-			}
-
-			for _, edge := range edgeService.EdgesManaged {
-				if err := edge.Wait(); err != nil {
-					log.Fatal(edgeMsg, rz.Err(err))
+					log.Fatal(msg, rz.Err(err))
 				}
 			}
 
@@ -100,18 +92,22 @@ var serverCmd = &cobra.Command{
 
 func init() {
 	var (
-		serverConfigFileFlag string
-		serverHostPortFlag   string
+		configFileFlag string
+		hostPortFlag   string
 	)
 
-	serverCmd.PersistentFlags().StringVarP(&serverConfigFileFlag, serverConfigFileKey, "f", serverConfigFileDefault, "Configuration file to use.")
-	serverCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverListenHostPortKey, "l", "localhost:1235", "TCP listen host:port.")
+	rootCmd.PersistentFlags().StringVarP(&configFileFlag, configFileKey, "f", configFileDefault, "Configuration file to use.")
+	rootCmd.PersistentFlags().StringVarP(&hostPortFlag, listenHostPortKey, "l", "localhost:1235", "TCP listen host:port.")
 
-	if err := viper.BindPFlags(serverCmd.PersistentFlags()); err != nil {
-		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
+	if err := viper.BindPFlags(rootCmd.PersistentFlags()); err != nil {
+		log.Fatal("Could not bind flags", rz.Err(err))
 	}
 
 	viper.AutomaticEnv()
+}
 
-	rootCmd.AddCommand(serverCmd)
+func main() {
+	if err := rootCmd.Execute(); err != nil {
+		log.Fatal("Could not start root command", rz.Err(err))
+	}
 }
