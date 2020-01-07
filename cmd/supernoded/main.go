@@ -1,12 +1,7 @@
 package main
 
 import (
-	"net"
-	"os"
-	"os/signal"
-	"strings"
-	"syscall"
-
+	constants "github.com/pojntfx/gon2n/cmd"
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/pojntfx/gon2n/pkg/svc"
 	"github.com/pojntfx/gon2n/pkg/workers"
@@ -16,6 +11,11 @@ import (
 	"gitlab.com/bloom42/libs/rz-go/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"net"
+	"os"
+	"os/signal"
+	"strings"
+	"syscall"
 )
 
 const (
@@ -103,7 +103,7 @@ func init() {
 	)
 
 	rootCmd.PersistentFlags().StringVarP(&configFileFlag, configFileKey, "f", configFileDefault, "Configuration file to use.")
-	rootCmd.PersistentFlags().StringVarP(&hostPortFlag, listenHostPortKey, "l", "localhost:1236", "TCP listen host:port.")
+	rootCmd.PersistentFlags().StringVarP(&hostPortFlag, listenHostPortKey, "l", constants.SupernodeServerHostPortDefault, "TCP listen host:port.")
 
 	if err := viper.BindPFlags(rootCmd.PersistentFlags()); err != nil {
 		log.Fatal("Could not bind flags", rz.Err(err))

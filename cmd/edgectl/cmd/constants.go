@@ -26,7 +26,3 @@ const (
 	deviceMACAddressKey     = keyPrefix + "deviceMACAddress"
 	mtuKey                  = keyPrefix + "MTU"
 )
-
-const (
-	couldNotBindFlagsErrorMessage = "Could not bind flags"
-)
