@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	constants "github.com/pojntfx/gon2n/cmd"
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -93,7 +94,7 @@ func init() {
 		mtuFlag                  int
 	)
 
-	applyCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
+	applyCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", constants.EdgedServerHostPortDefault, "Host:port of the gon2n server to use.")
 	applyCmd.PersistentFlags().StringVarP(&configFileFlag, configFileKey, "f", configFileDefault, "Configuration file to use.")
 	applyCmd.PersistentFlags().BoolVarP(&allowP2PFlag, allowP2PKey, "p", true, "Whether to allow peer-to-peer connections. If false, all traffic will be routed through the supernode.")
 	applyCmd.PersistentFlags().BoolVarP(&allowRoutingFlag, allowRoutingKey, "r", true, "Whether to allow the node to route traffic to other nodes.")
@@ -106,7 +107,7 @@ func init() {
 	applyCmd.PersistentFlags().IntVarP(&managementPortFlag, managementPortKey, "a", 5644, "UDP management port. 5644 is the n2n default.")
 	applyCmd.PersistentFlags().IntVarP(&registerIntervalFlag, registerIntervalKey, "n", 1, "Interval in seconds for both UDP NAT hole punching and registration of the edge on the supernode.")
 	applyCmd.PersistentFlags().IntVarP(&registerTTLFlag, registerTTLKey, "t", 1, "Interval in seconds for UDP NAT hole punching through the supernode.")
-	applyCmd.PersistentFlags().StringVarP(&supernodeHostPortFlag, supernodeHostPortKey, "w", "localhost:1234", "Host:port of the supernode to connect to.")
+	applyCmd.PersistentFlags().StringVarP(&supernodeHostPortFlag, supernodeHostPortKey, "w", constants.SupernodeHostPortDefault, "Host:port of the supernode to connect to.")
 	applyCmd.PersistentFlags().IntVarP(&typeOfServiceFlag, typeOfServiceKey, "o", 16, "Type of service to use.")
 	applyCmd.PersistentFlags().IntVarP(&encryptionMethodFlag, encryptionMethodKey, "e", 2, "Method of encryption to use. 1 is no encryption, 2 is Twofish encryption, 3 is AES-CBC encryption. Twofish encryption is the n2n default, but only due to legacy compatibility reasons; AES-CBC is up to ten times faster.")
 	applyCmd.PersistentFlags().StringVarP(&deviceNameFlag, deviceNameKey, "v", "edge0", "Name of the TUN/TAP device to create.")
@@ -117,7 +118,7 @@ func init() {
 	applyCmd.PersistentFlags().IntVarP(&mtuFlag, mtuKey, "u", 1290, "The MTU to use.")
 
 	if err := viper.BindPFlags(applyCmd.PersistentFlags()); err != nil {
-		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
+		log.Fatal(constants.CouldNotBindFlagsErrorMessage, rz.Err(err))
 	}
 
 	viper.AutomaticEnv()

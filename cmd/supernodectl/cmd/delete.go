@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	constants "github.com/pojntfx/gon2n/cmd"
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -63,10 +64,10 @@ func init() {
 		serverHostPortFlag string
 	)
 
-	deleteCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", "localhost:1236", "Host:port of the gon2n server to use.")
+	deleteCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", constants.SupernodeServerHostPortDefault, "Host:port of the gon2n server to use.")
 
 	if err := viper.BindPFlags(deleteCmd.PersistentFlags()); err != nil {
-		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
+		log.Fatal(constants.CouldNotBindFlagsErrorMessage, rz.Err(err))
 	}
 
 	viper.AutomaticEnv()

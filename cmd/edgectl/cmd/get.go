@@ -3,9 +3,9 @@ package cmd
 import (
 	"context"
 	"fmt"
-
 	"github.com/ghodss/yaml"
 	"github.com/gosuri/uitable"
+	constants "github.com/pojntfx/gon2n/cmd"
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -83,10 +83,10 @@ func init() {
 		serverHostPortFlag string
 	)
 
-	getCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", "localhost:1235", "Host:port of the gon2n server to use.")
+	getCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", constants.EdgedServerHostPortDefault, "Host:port of the gon2n server to use.")
 
 	if err := viper.BindPFlags(getCmd.PersistentFlags()); err != nil {
-		log.Fatal(couldNotBindFlagsErrorMessage, rz.Err(err))
+		log.Fatal(constants.CouldNotBindFlagsErrorMessage, rz.Err(err))
 	}
 
 	viper.AutomaticEnv()

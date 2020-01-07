@@ -8,7 +8,3 @@ const (
 	listenPortKey     = keyPrefix + "listenPort"
 	managementPortKey = keyPrefix + "managementPort"
 )
-
-const (
-	couldNotBindFlagsErrorMessage = "Could not bind flags"
-)
