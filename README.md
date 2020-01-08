@@ -18,14 +18,7 @@ In a similar way, `gon2n` is built of multiple components. The components are:
 
 ## Installation
 
-Go packages [are available](https://godoc.org/github.com/pojntfx/gon2n). In order to use it, you have to `go generate` it first.
-
-In order to install the commands, use their Go packages:
-
-- [`edged`](https://godoc.org/github.com/pojntfx/gon2n/cmd/edged)
-- [`supernoded`](https://godoc.org/github.com/pojntfx/gon2n/cmd/supernoded)
-- [`edgectl`](https://godoc.org/github.com/pojntfx/gon2n/cmd/edgectl)
-- [`supernodectl`](https://godoc.org/github.com/pojntfx/gon2n/cmd/supernodectl)
+A Go package [is available](https://godoc.org/github.com/pojntfx/gon2n). In order to use it, you have to `go generate` it first.
 
 ## Usage
 
