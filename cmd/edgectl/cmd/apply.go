@@ -112,10 +112,10 @@ func init() {
 	applyCmd.PersistentFlags().IntVarP(&encryptionMethodFlag, encryptionMethodKey, "e", 2, "Method of encryption to use. 1 is no encryption, 2 is Twofish encryption, 3 is AES-CBC encryption. Twofish encryption is the n2n default, but only due to legacy compatibility reasons; AES-CBC is up to ten times faster.")
 	applyCmd.PersistentFlags().StringVarP(&deviceNameFlag, deviceNameKey, "v", "edge0", "Name of the TUN/TAP device to create.")
 	applyCmd.PersistentFlags().StringVarP(&addressModeFlag, addressModeKey, "z", "static", "Mode of IP address assignment. \"static\" is a static assignment, \"dhcp\" uses the DHCP server at --device-ip (see --dynamic-ip-node). If the edge is running the network's DHCP server, this must be \"static\".")
-	applyCmd.PersistentFlags().StringVarP(&deviceIPFlag, deviceIPKey, "i", "10.0.0.1", "IP address to set. Set to \"0.0.0.0\" if you are using \"dhcp\" as --address-mode. If the edge is running the network's DHCP server this must be set explicitly; i.e. to \"192.168.1.0\" if the DHCP server should give out addresses from \"192.168.1.10\" to \"192.168.1.100\".")
+	applyCmd.PersistentFlags().StringVarP(&deviceIPFlag, deviceIPKey, "i", "192.168.1.1", "IP address to set. Set to \"0.0.0.0\" if you are using \"dhcp\" as --address-mode. If the edge is running the network's DHCP server this must be set explicitly; i.e. to \"192.168.1.0\" if the DHCP server should give out addresses from \"192.168.1.10\" to \"192.168.1.100\".")
 	applyCmd.PersistentFlags().StringVarP(&deviceNetmaskFlag, deviceNetmaskKey, "q", "255.255.255.0", "The netmask to use.")
 	applyCmd.PersistentFlags().StringVarP(&deviceMACAddressFlag, deviceMACAddressKey, "x", "DE:AD:BE:EF:01:10", "The MAC address to use. Must be unique per edge.")
-	applyCmd.PersistentFlags().IntVarP(&mtuFlag, mtuKey, "u", 1290, "The MTU to use.")
+	applyCmd.PersistentFlags().IntVarP(&mtuFlag, mtuKey, "u", 1500, "The MTU to use.")
 
 	if err := viper.BindPFlags(applyCmd.PersistentFlags()); err != nil {
 		log.Fatal(constants.CouldNotBindFlagsErrorMessage, rz.Err(err))
