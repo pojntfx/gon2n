@@ -4,34 +4,15 @@ package gon2n;
 
 // SupernodeManager manages supernodes.
 service SupernodeManager {
-  rpc Create(SupernodeManagerCreateArgs) returns (SupernodeManagerCreateReply) {
-  };
+  rpc Create(Supernode) returns (SupernodeManagedId) {};
   rpc List(SupernodeManagerListArgs) returns (SupernodeManagerListReply) {};
-  rpc Get(SupernodeManagerGetArgs) returns (SupernodeManaged) {};
-  rpc Delete(SupernodeManagerDeleteArgs) returns (SupernodeManagerDeleteReply) {
-  };
+  rpc Get(SupernodeManagedId) returns (SupernodeManaged) {};
+  rpc Delete(SupernodeManagedId) returns (SupernodeManagedId) {};
 }
 
-message SupernodeManagerCreateArgs {
+message Supernode {
   int64 ListenPort = 1;
   int64 ManagementPort = 2;
-}
-
-message SupernodeManagerListArgs {};
-
-message SupernodeManagerGetArgs { string Id = 1; };
-
-message SupernodeManagerDeleteArgs { string Id = 1; };
-
-message SupernodeManagerCreateReply { string Id = 1; }
-
-message SupernodeManagerListReply {
-  repeated SupernodeManagedSummary SupernodesManaged = 1;
-}
-
-message SupernodeManagedSummary {
-  string Id = 1;
-  int64 ListenPort = 2;
 }
 
 message SupernodeManaged {
@@ -40,4 +21,10 @@ message SupernodeManaged {
   int64 ManagementPort = 3;
 }
 
-message SupernodeManagerDeleteReply { string Id = 1; }
+message SupernodeManagerListArgs {};
+
+message SupernodeManagedId { string Id = 1; };
+
+message SupernodeManagerListReply {
+  repeated SupernodeManaged SupernodesManaged = 1;
+}

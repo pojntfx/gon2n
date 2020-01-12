@@ -60,7 +60,7 @@ var getCmd = &cobra.Command{
 			return nil
 		}
 
-		response, err := client.Get(ctx, &gon2n.EdgeManagerGetArgs{
+		response, err := client.Get(ctx, &gon2n.EdgeManagedId{
 			Id: args[0],
 		})
 		if err != nil {

@@ -17,7 +17,7 @@ type EdgeManager struct {
 }
 
 // Create creates a edge.
-func (e *EdgeManager) Create(_ context.Context, args *gon2n.EdgeManagerCreateArgs) (*gon2n.EdgeManagerCreateReply, error) {
+func (e *EdgeManager) Create(_ context.Context, args *gon2n.Edge) (*gon2n.EdgeManagedId, error) {
 	id := uuid.NewV4().String()
 
 	edge := workers.Edge{
@@ -78,7 +78,7 @@ func (e *EdgeManager) Create(_ context.Context, args *gon2n.EdgeManagerCreateArg
 
 	e.EdgesManaged[id] = &edge
 
-	return &gon2n.EdgeManagerCreateReply{
+	return &gon2n.EdgeManagedId{
 		Id: id,
 	}, nil
 }
@@ -87,16 +87,29 @@ func (e *EdgeManager) Create(_ context.Context, args *gon2n.EdgeManagerCreateArg
 func (e *EdgeManager) List(_ context.Context, args *gon2n.EdgeManagerListArgs) (*gon2n.EdgeManagerListReply, error) {
 	log.Info("Listing edges")
 
-	var edgesManaged []*gon2n.EdgeManagedSummary
-
+	var edgesManaged []*gon2n.EdgeManaged
 	for id, edge := range e.EdgesManaged {
-		edgeManaged := gon2n.EdgeManagedSummary{
-			Id:                id,
-			CommunityName:     edge.GetCommunityName(),
-			LocalPort:         int64(edge.GetLocalPort()),
-			SupernodeHostPort: edge.SupernodeHostPort,
-			EncryptionMethod:  int64(edge.GetEncryptionMethod()),
-			DeviceName:        edge.GetDeviceName(),
+		edgeManaged := gon2n.EdgeManaged{
+			Id:                   id,
+			AllowP2P:             edge.GetAllowP2P(),
+			AllowRouting:         edge.GetAllowRouting(),
+			CommunityName:        edge.GetCommunityName(),
+			DisablePMTUDiscovery: edge.GetDisablePMTUDiscovery(),
+			DisableMulticast:     edge.GetDisableMulticast(),
+			DynamicIPMode:        edge.GetDynamicIPMode(),
+			LocalPort:            int64(edge.GetLocalPort()),
+			ManagementPort:       int64(edge.GetManagementPort()),
+			RegisterInterval:     int64(edge.GetRegisterInterval()),
+			RegisterTTL:          int64(edge.GetRegisterTTL()),
+			SupernodeHostPort:    edge.SupernodeHostPort,
+			TypeOfService:        int64(edge.GetTypeOfService()),
+			EncryptionMethod:     int64(edge.GetEncryptionMethod()),
+			DeviceName:           edge.GetDeviceName(),
+			AddressMode:          edge.AddressMode,
+			DeviceIP:             edge.DeviceIP,
+			DeviceNetmask:        edge.DeviceNetmask,
+			DeviceMACAddress:     edge.DeviceMACAddress,
+			MTU:                  int64(edge.GetMTU()),
 		}
 
 		edgesManaged = append(edgesManaged, &edgeManaged)
@@ -108,7 +121,7 @@ func (e *EdgeManager) List(_ context.Context, args *gon2n.EdgeManagerListArgs) (
 }
 
 // Get gets one of the managed edges.
-func (e *EdgeManager) Get(_ context.Context, args *gon2n.EdgeManagerGetArgs) (*gon2n.EdgeManaged, error) {
+func (e *EdgeManager) Get(_ context.Context, args *gon2n.EdgeManagedId) (*gon2n.EdgeManaged, error) {
 	log.Info("Getting edge")
 
 	var edgeManaged *gon2n.EdgeManaged
@@ -153,7 +166,7 @@ func (e *EdgeManager) Get(_ context.Context, args *gon2n.EdgeManagerGetArgs) (*g
 }
 
 // Delete deletes a edge.
-func (e *EdgeManager) Delete(_ context.Context, args *gon2n.EdgeManagerDeleteArgs) (*gon2n.EdgeManagerDeleteReply, error) {
+func (e *EdgeManager) Delete(_ context.Context, args *gon2n.EdgeManagedId) (*gon2n.EdgeManagedId, error) {
 	id := args.GetId()
 
 	edgesManaged := e.EdgesManaged[id]
@@ -181,7 +194,7 @@ func (e *EdgeManager) Delete(_ context.Context, args *gon2n.EdgeManagerDeleteArg
 
 	delete(e.EdgesManaged, id)
 
-	return &gon2n.EdgeManagerDeleteReply{
+	return &gon2n.EdgeManagedId{
 		Id: id,
 	}, nil
 }

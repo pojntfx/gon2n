@@ -4,13 +4,13 @@ package gon2n;
 
 // EdgeManager manages edges.
 service EdgeManager {
-  rpc Create(EdgeManagerCreateArgs) returns (EdgeManagerCreateReply) {};
+  rpc Create(Edge) returns (EdgeManagedId) {};
   rpc List(EdgeManagerListArgs) returns (EdgeManagerListReply) {};
-  rpc Get(EdgeManagerGetArgs) returns (EdgeManaged) {};
-  rpc Delete(EdgeManagerDeleteArgs) returns (EdgeManagerDeleteReply) {};
+  rpc Get(EdgeManagedId) returns (EdgeManaged) {};
+  rpc Delete(EdgeManagedId) returns (EdgeManagedId) {};
 }
 
-message EdgeManagerCreateArgs {
+message Edge {
   bool AllowP2P = 1;
   bool AllowRouting = 2;
   string CommunityName = 3;
@@ -31,25 +31,6 @@ message EdgeManagerCreateArgs {
   string DeviceNetmask = 18;
   string DeviceMACAddress = 19;
   int64 MTU = 20;
-}
-
-message EdgeManagerListArgs {};
-
-message EdgeManagerGetArgs { string Id = 1; };
-
-message EdgeManagerDeleteArgs { string Id = 1; };
-
-message EdgeManagerCreateReply { string Id = 1; }
-
-message EdgeManagerListReply { repeated EdgeManagedSummary EdgesManaged = 1; }
-
-message EdgeManagedSummary {
-  string Id = 1;
-  string CommunityName = 2;
-  int64 LocalPort = 3;
-  string SupernodeHostPort = 4;
-  int64 EncryptionMethod = 5;
-  string DeviceName = 6;
 }
 
 message EdgeManaged {
@@ -75,4 +56,8 @@ message EdgeManaged {
   int64 MTU = 20;
 }
 
-message EdgeManagerDeleteReply { string Id = 1; }
+message EdgeManagerListArgs {};
+
+message EdgeManagedId { string Id = 1; };
+
+message EdgeManagerListReply { repeated EdgeManaged EdgesManaged = 1; }

@@ -36,7 +36,7 @@ var applyCmd = &cobra.Command{
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		response, err := client.Create(ctx, &gon2n.EdgeManagerCreateArgs{
+		response, err := client.Create(ctx, &gon2n.Edge{
 			AllowP2P:             viper.GetBool(allowP2PKey),
 			AllowRouting:         viper.GetBool(allowRoutingKey),
 			CommunityName:        viper.GetString(communityNameKey),

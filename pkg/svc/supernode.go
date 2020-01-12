@@ -19,7 +19,7 @@ type SupernodeManager struct {
 }
 
 // Create creates a supernode.
-func (s *SupernodeManager) Create(_ context.Context, args *gon2n.SupernodeManagerCreateArgs) (*gon2n.SupernodeManagerCreateReply, error) {
+func (s *SupernodeManager) Create(_ context.Context, args *gon2n.Supernode) (*gon2n.SupernodeManagedId, error) {
 	id := uuid.NewV4().String()
 
 	supernode := workers.Supernode{
@@ -68,7 +68,7 @@ func (s *SupernodeManager) Create(_ context.Context, args *gon2n.SupernodeManage
 
 	s.SupernodesManaged[id] = &supernode
 
-	return &gon2n.SupernodeManagerCreateReply{
+	return &gon2n.SupernodeManagedId{
 		Id: id,
 	}, nil
 }
@@ -77,12 +77,12 @@ func (s *SupernodeManager) Create(_ context.Context, args *gon2n.SupernodeManage
 func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerListArgs) (*gon2n.SupernodeManagerListReply, error) {
 	log.Info("Listing supernodes")
 
-	var supernodesManaged []*gon2n.SupernodeManagedSummary
-
+	var supernodesManaged []*gon2n.SupernodeManaged
 	for id, supernode := range s.SupernodesManaged {
-		supernodeManaged := gon2n.SupernodeManagedSummary{
-			Id:         id,
-			ListenPort: int64(supernode.GetListenPort()),
+		supernodeManaged := gon2n.SupernodeManaged{
+			Id:             id,
+			ListenPort:     int64(supernode.GetListenPort()),
+			ManagementPort: int64(supernode.ManagementPort),
 		}
 
 		supernodesManaged = append(supernodesManaged, &supernodeManaged)
@@ -94,7 +94,7 @@ func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerL
 }
 
 // Get gets one of the managed supernodes.
-func (s *SupernodeManager) Get(_ context.Context, args *gon2n.SupernodeManagerGetArgs) (*gon2n.SupernodeManaged, error) {
+func (s *SupernodeManager) Get(_ context.Context, args *gon2n.SupernodeManagedId) (*gon2n.SupernodeManaged, error) {
 	log.Info("Getting supernode")
 
 	var supernodeManaged *gon2n.SupernodeManaged
@@ -122,7 +122,7 @@ func (s *SupernodeManager) Get(_ context.Context, args *gon2n.SupernodeManagerGe
 }
 
 // Delete deletes a supernode.
-func (s *SupernodeManager) Delete(_ context.Context, args *gon2n.SupernodeManagerDeleteArgs) (*gon2n.SupernodeManagerDeleteReply, error) {
+func (s *SupernodeManager) Delete(_ context.Context, args *gon2n.SupernodeManagedId) (*gon2n.SupernodeManagedId, error) {
 	id := args.GetId()
 
 	supernodesManaged := s.SupernodesManaged[id]
@@ -143,7 +143,7 @@ func (s *SupernodeManager) Delete(_ context.Context, args *gon2n.SupernodeManage
 
 		delete(s.SupernodesManaged, id)
 
-		return &gon2n.SupernodeManagerDeleteReply{
+		return &gon2n.SupernodeManagedId{
 			Id: id,
 		}, nil
 	}

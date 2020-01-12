@@ -24,7 +24,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type EdgeManagerCreateArgs struct {
+type Edge struct {
 	AllowP2P             bool     `protobuf:"varint,1,opt,name=AllowP2P,proto3" json:"AllowP2P,omitempty"`
 	AllowRouting         bool     `protobuf:"varint,2,opt,name=AllowRouting,proto3" json:"AllowRouting,omitempty"`
 	CommunityName        string   `protobuf:"bytes,3,opt,name=CommunityName,proto3" json:"CommunityName,omitempty"`
@@ -50,435 +50,169 @@ type EdgeManagerCreateArgs struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *EdgeManagerCreateArgs) Reset()         { *m = EdgeManagerCreateArgs{} }
-func (m *EdgeManagerCreateArgs) String() string { return proto.CompactTextString(m) }
-func (*EdgeManagerCreateArgs) ProtoMessage()    {}
-func (*EdgeManagerCreateArgs) Descriptor() ([]byte, []int) {
+func (m *Edge) Reset()         { *m = Edge{} }
+func (m *Edge) String() string { return proto.CompactTextString(m) }
+func (*Edge) ProtoMessage()    {}
+func (*Edge) Descriptor() ([]byte, []int) {
 	return fileDescriptor_cab1176173a95651, []int{0}
 }
 
-func (m *EdgeManagerCreateArgs) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EdgeManagerCreateArgs.Unmarshal(m, b)
+func (m *Edge) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Edge.Unmarshal(m, b)
 }
-func (m *EdgeManagerCreateArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EdgeManagerCreateArgs.Marshal(b, m, deterministic)
+func (m *Edge) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Edge.Marshal(b, m, deterministic)
 }
-func (m *EdgeManagerCreateArgs) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EdgeManagerCreateArgs.Merge(m, src)
+func (m *Edge) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Edge.Merge(m, src)
 }
-func (m *EdgeManagerCreateArgs) XXX_Size() int {
-	return xxx_messageInfo_EdgeManagerCreateArgs.Size(m)
+func (m *Edge) XXX_Size() int {
+	return xxx_messageInfo_Edge.Size(m)
 }
-func (m *EdgeManagerCreateArgs) XXX_DiscardUnknown() {
-	xxx_messageInfo_EdgeManagerCreateArgs.DiscardUnknown(m)
+func (m *Edge) XXX_DiscardUnknown() {
+	xxx_messageInfo_Edge.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_EdgeManagerCreateArgs proto.InternalMessageInfo
+var xxx_messageInfo_Edge proto.InternalMessageInfo
 
-func (m *EdgeManagerCreateArgs) GetAllowP2P() bool {
+func (m *Edge) GetAllowP2P() bool {
 	if m != nil {
 		return m.AllowP2P
 	}
 	return false
 }
 
-func (m *EdgeManagerCreateArgs) GetAllowRouting() bool {
+func (m *Edge) GetAllowRouting() bool {
 	if m != nil {
 		return m.AllowRouting
 	}
 	return false
 }
 
-func (m *EdgeManagerCreateArgs) GetCommunityName() string {
+func (m *Edge) GetCommunityName() string {
 	if m != nil {
 		return m.CommunityName
 	}
 	return ""
 }
 
-func (m *EdgeManagerCreateArgs) GetDisablePMTUDiscovery() bool {
+func (m *Edge) GetDisablePMTUDiscovery() bool {
 	if m != nil {
 		return m.DisablePMTUDiscovery
 	}
 	return false
 }
 
-func (m *EdgeManagerCreateArgs) GetDisableMulticast() bool {
+func (m *Edge) GetDisableMulticast() bool {
 	if m != nil {
 		return m.DisableMulticast
 	}
 	return false
 }
 
-func (m *EdgeManagerCreateArgs) GetDynamicIPMode() bool {
+func (m *Edge) GetDynamicIPMode() bool {
 	if m != nil {
 		return m.DynamicIPMode
 	}
 	return false
 }
 
-func (m *EdgeManagerCreateArgs) GetEncryptionKey() string {
+func (m *Edge) GetEncryptionKey() string {
 	if m != nil {
 		return m.EncryptionKey
 	}
 	return ""
 }
 
-func (m *EdgeManagerCreateArgs) GetLocalPort() int64 {
+func (m *Edge) GetLocalPort() int64 {
 	if m != nil {
 		return m.LocalPort
 	}
 	return 0
 }
 
-func (m *EdgeManagerCreateArgs) GetManagementPort() int64 {
+func (m *Edge) GetManagementPort() int64 {
 	if m != nil {
 		return m.ManagementPort
 	}
 	return 0
 }
 
-func (m *EdgeManagerCreateArgs) GetRegisterInterval() int64 {
+func (m *Edge) GetRegisterInterval() int64 {
 	if m != nil {
 		return m.RegisterInterval
 	}
 	return 0
 }
 
-func (m *EdgeManagerCreateArgs) GetRegisterTTL() int64 {
+func (m *Edge) GetRegisterTTL() int64 {
 	if m != nil {
 		return m.RegisterTTL
 	}
 	return 0
 }
 
-func (m *EdgeManagerCreateArgs) GetSupernodeHostPort() string {
+func (m *Edge) GetSupernodeHostPort() string {
 	if m != nil {
 		return m.SupernodeHostPort
 	}
 	return ""
 }
 
-func (m *EdgeManagerCreateArgs) GetTypeOfService() int64 {
+func (m *Edge) GetTypeOfService() int64 {
 	if m != nil {
 		return m.TypeOfService
 	}
 	return 0
 }
 
-func (m *EdgeManagerCreateArgs) GetEncryptionMethod() int64 {
+func (m *Edge) GetEncryptionMethod() int64 {
 	if m != nil {
 		return m.EncryptionMethod
 	}
 	return 0
 }
 
-func (m *EdgeManagerCreateArgs) GetDeviceName() string {
+func (m *Edge) GetDeviceName() string {
 	if m != nil {
 		return m.DeviceName
 	}
 	return ""
 }
 
-func (m *EdgeManagerCreateArgs) GetAddressMode() string {
+func (m *Edge) GetAddressMode() string {
 	if m != nil {
 		return m.AddressMode
 	}
 	return ""
 }
 
-func (m *EdgeManagerCreateArgs) GetDeviceIP() string {
+func (m *Edge) GetDeviceIP() string {
 	if m != nil {
 		return m.DeviceIP
 	}
 	return ""
 }
 
-func (m *EdgeManagerCreateArgs) GetDeviceNetmask() string {
+func (m *Edge) GetDeviceNetmask() string {
 	if m != nil {
 		return m.DeviceNetmask
 	}
 	return ""
 }
 
-func (m *EdgeManagerCreateArgs) GetDeviceMACAddress() string {
+func (m *Edge) GetDeviceMACAddress() string {
 	if m != nil {
 		return m.DeviceMACAddress
 	}
 	return ""
 }
 
-func (m *EdgeManagerCreateArgs) GetMTU() int64 {
+func (m *Edge) GetMTU() int64 {
 	if m != nil {
 		return m.MTU
 	}
 	return 0
-}
-
-type EdgeManagerListArgs struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *EdgeManagerListArgs) Reset()         { *m = EdgeManagerListArgs{} }
-func (m *EdgeManagerListArgs) String() string { return proto.CompactTextString(m) }
-func (*EdgeManagerListArgs) ProtoMessage()    {}
-func (*EdgeManagerListArgs) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cab1176173a95651, []int{1}
-}
-
-func (m *EdgeManagerListArgs) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EdgeManagerListArgs.Unmarshal(m, b)
-}
-func (m *EdgeManagerListArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EdgeManagerListArgs.Marshal(b, m, deterministic)
-}
-func (m *EdgeManagerListArgs) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EdgeManagerListArgs.Merge(m, src)
-}
-func (m *EdgeManagerListArgs) XXX_Size() int {
-	return xxx_messageInfo_EdgeManagerListArgs.Size(m)
-}
-func (m *EdgeManagerListArgs) XXX_DiscardUnknown() {
-	xxx_messageInfo_EdgeManagerListArgs.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_EdgeManagerListArgs proto.InternalMessageInfo
-
-type EdgeManagerGetArgs struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *EdgeManagerGetArgs) Reset()         { *m = EdgeManagerGetArgs{} }
-func (m *EdgeManagerGetArgs) String() string { return proto.CompactTextString(m) }
-func (*EdgeManagerGetArgs) ProtoMessage()    {}
-func (*EdgeManagerGetArgs) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cab1176173a95651, []int{2}
-}
-
-func (m *EdgeManagerGetArgs) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EdgeManagerGetArgs.Unmarshal(m, b)
-}
-func (m *EdgeManagerGetArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EdgeManagerGetArgs.Marshal(b, m, deterministic)
-}
-func (m *EdgeManagerGetArgs) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EdgeManagerGetArgs.Merge(m, src)
-}
-func (m *EdgeManagerGetArgs) XXX_Size() int {
-	return xxx_messageInfo_EdgeManagerGetArgs.Size(m)
-}
-func (m *EdgeManagerGetArgs) XXX_DiscardUnknown() {
-	xxx_messageInfo_EdgeManagerGetArgs.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_EdgeManagerGetArgs proto.InternalMessageInfo
-
-func (m *EdgeManagerGetArgs) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type EdgeManagerDeleteArgs struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *EdgeManagerDeleteArgs) Reset()         { *m = EdgeManagerDeleteArgs{} }
-func (m *EdgeManagerDeleteArgs) String() string { return proto.CompactTextString(m) }
-func (*EdgeManagerDeleteArgs) ProtoMessage()    {}
-func (*EdgeManagerDeleteArgs) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cab1176173a95651, []int{3}
-}
-
-func (m *EdgeManagerDeleteArgs) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EdgeManagerDeleteArgs.Unmarshal(m, b)
-}
-func (m *EdgeManagerDeleteArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EdgeManagerDeleteArgs.Marshal(b, m, deterministic)
-}
-func (m *EdgeManagerDeleteArgs) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EdgeManagerDeleteArgs.Merge(m, src)
-}
-func (m *EdgeManagerDeleteArgs) XXX_Size() int {
-	return xxx_messageInfo_EdgeManagerDeleteArgs.Size(m)
-}
-func (m *EdgeManagerDeleteArgs) XXX_DiscardUnknown() {
-	xxx_messageInfo_EdgeManagerDeleteArgs.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_EdgeManagerDeleteArgs proto.InternalMessageInfo
-
-func (m *EdgeManagerDeleteArgs) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type EdgeManagerCreateReply struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *EdgeManagerCreateReply) Reset()         { *m = EdgeManagerCreateReply{} }
-func (m *EdgeManagerCreateReply) String() string { return proto.CompactTextString(m) }
-func (*EdgeManagerCreateReply) ProtoMessage()    {}
-func (*EdgeManagerCreateReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cab1176173a95651, []int{4}
-}
-
-func (m *EdgeManagerCreateReply) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EdgeManagerCreateReply.Unmarshal(m, b)
-}
-func (m *EdgeManagerCreateReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EdgeManagerCreateReply.Marshal(b, m, deterministic)
-}
-func (m *EdgeManagerCreateReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EdgeManagerCreateReply.Merge(m, src)
-}
-func (m *EdgeManagerCreateReply) XXX_Size() int {
-	return xxx_messageInfo_EdgeManagerCreateReply.Size(m)
-}
-func (m *EdgeManagerCreateReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_EdgeManagerCreateReply.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_EdgeManagerCreateReply proto.InternalMessageInfo
-
-func (m *EdgeManagerCreateReply) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type EdgeManagerListReply struct {
-	EdgesManaged         []*EdgeManagedSummary `protobuf:"bytes,1,rep,name=EdgesManaged,proto3" json:"EdgesManaged,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
-	XXX_unrecognized     []byte                `json:"-"`
-	XXX_sizecache        int32                 `json:"-"`
-}
-
-func (m *EdgeManagerListReply) Reset()         { *m = EdgeManagerListReply{} }
-func (m *EdgeManagerListReply) String() string { return proto.CompactTextString(m) }
-func (*EdgeManagerListReply) ProtoMessage()    {}
-func (*EdgeManagerListReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cab1176173a95651, []int{5}
-}
-
-func (m *EdgeManagerListReply) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EdgeManagerListReply.Unmarshal(m, b)
-}
-func (m *EdgeManagerListReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EdgeManagerListReply.Marshal(b, m, deterministic)
-}
-func (m *EdgeManagerListReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EdgeManagerListReply.Merge(m, src)
-}
-func (m *EdgeManagerListReply) XXX_Size() int {
-	return xxx_messageInfo_EdgeManagerListReply.Size(m)
-}
-func (m *EdgeManagerListReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_EdgeManagerListReply.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_EdgeManagerListReply proto.InternalMessageInfo
-
-func (m *EdgeManagerListReply) GetEdgesManaged() []*EdgeManagedSummary {
-	if m != nil {
-		return m.EdgesManaged
-	}
-	return nil
-}
-
-type EdgeManagedSummary struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
-	CommunityName        string   `protobuf:"bytes,2,opt,name=CommunityName,proto3" json:"CommunityName,omitempty"`
-	LocalPort            int64    `protobuf:"varint,3,opt,name=LocalPort,proto3" json:"LocalPort,omitempty"`
-	SupernodeHostPort    string   `protobuf:"bytes,4,opt,name=SupernodeHostPort,proto3" json:"SupernodeHostPort,omitempty"`
-	EncryptionMethod     int64    `protobuf:"varint,5,opt,name=EncryptionMethod,proto3" json:"EncryptionMethod,omitempty"`
-	DeviceName           string   `protobuf:"bytes,6,opt,name=DeviceName,proto3" json:"DeviceName,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *EdgeManagedSummary) Reset()         { *m = EdgeManagedSummary{} }
-func (m *EdgeManagedSummary) String() string { return proto.CompactTextString(m) }
-func (*EdgeManagedSummary) ProtoMessage()    {}
-func (*EdgeManagedSummary) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cab1176173a95651, []int{6}
-}
-
-func (m *EdgeManagedSummary) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EdgeManagedSummary.Unmarshal(m, b)
-}
-func (m *EdgeManagedSummary) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EdgeManagedSummary.Marshal(b, m, deterministic)
-}
-func (m *EdgeManagedSummary) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EdgeManagedSummary.Merge(m, src)
-}
-func (m *EdgeManagedSummary) XXX_Size() int {
-	return xxx_messageInfo_EdgeManagedSummary.Size(m)
-}
-func (m *EdgeManagedSummary) XXX_DiscardUnknown() {
-	xxx_messageInfo_EdgeManagedSummary.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_EdgeManagedSummary proto.InternalMessageInfo
-
-func (m *EdgeManagedSummary) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *EdgeManagedSummary) GetCommunityName() string {
-	if m != nil {
-		return m.CommunityName
-	}
-	return ""
-}
-
-func (m *EdgeManagedSummary) GetLocalPort() int64 {
-	if m != nil {
-		return m.LocalPort
-	}
-	return 0
-}
-
-func (m *EdgeManagedSummary) GetSupernodeHostPort() string {
-	if m != nil {
-		return m.SupernodeHostPort
-	}
-	return ""
-}
-
-func (m *EdgeManagedSummary) GetEncryptionMethod() int64 {
-	if m != nil {
-		return m.EncryptionMethod
-	}
-	return 0
-}
-
-func (m *EdgeManagedSummary) GetDeviceName() string {
-	if m != nil {
-		return m.DeviceName
-	}
-	return ""
 }
 
 type EdgeManaged struct {
@@ -511,7 +245,7 @@ func (m *EdgeManaged) Reset()         { *m = EdgeManaged{} }
 func (m *EdgeManaged) String() string { return proto.CompactTextString(m) }
 func (*EdgeManaged) ProtoMessage()    {}
 func (*EdgeManaged) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cab1176173a95651, []int{7}
+	return fileDescriptor_cab1176173a95651, []int{1}
 }
 
 func (m *EdgeManaged) XXX_Unmarshal(b []byte) error {
@@ -672,104 +406,164 @@ func (m *EdgeManaged) GetMTU() int64 {
 	return 0
 }
 
-type EdgeManagerDeleteReply struct {
+type EdgeManagerListArgs struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EdgeManagerListArgs) Reset()         { *m = EdgeManagerListArgs{} }
+func (m *EdgeManagerListArgs) String() string { return proto.CompactTextString(m) }
+func (*EdgeManagerListArgs) ProtoMessage()    {}
+func (*EdgeManagerListArgs) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cab1176173a95651, []int{2}
+}
+
+func (m *EdgeManagerListArgs) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EdgeManagerListArgs.Unmarshal(m, b)
+}
+func (m *EdgeManagerListArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EdgeManagerListArgs.Marshal(b, m, deterministic)
+}
+func (m *EdgeManagerListArgs) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EdgeManagerListArgs.Merge(m, src)
+}
+func (m *EdgeManagerListArgs) XXX_Size() int {
+	return xxx_messageInfo_EdgeManagerListArgs.Size(m)
+}
+func (m *EdgeManagerListArgs) XXX_DiscardUnknown() {
+	xxx_messageInfo_EdgeManagerListArgs.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EdgeManagerListArgs proto.InternalMessageInfo
+
+type EdgeManagedId struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *EdgeManagerDeleteReply) Reset()         { *m = EdgeManagerDeleteReply{} }
-func (m *EdgeManagerDeleteReply) String() string { return proto.CompactTextString(m) }
-func (*EdgeManagerDeleteReply) ProtoMessage()    {}
-func (*EdgeManagerDeleteReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cab1176173a95651, []int{8}
+func (m *EdgeManagedId) Reset()         { *m = EdgeManagedId{} }
+func (m *EdgeManagedId) String() string { return proto.CompactTextString(m) }
+func (*EdgeManagedId) ProtoMessage()    {}
+func (*EdgeManagedId) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cab1176173a95651, []int{3}
 }
 
-func (m *EdgeManagerDeleteReply) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EdgeManagerDeleteReply.Unmarshal(m, b)
+func (m *EdgeManagedId) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EdgeManagedId.Unmarshal(m, b)
 }
-func (m *EdgeManagerDeleteReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EdgeManagerDeleteReply.Marshal(b, m, deterministic)
+func (m *EdgeManagedId) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EdgeManagedId.Marshal(b, m, deterministic)
 }
-func (m *EdgeManagerDeleteReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EdgeManagerDeleteReply.Merge(m, src)
+func (m *EdgeManagedId) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EdgeManagedId.Merge(m, src)
 }
-func (m *EdgeManagerDeleteReply) XXX_Size() int {
-	return xxx_messageInfo_EdgeManagerDeleteReply.Size(m)
+func (m *EdgeManagedId) XXX_Size() int {
+	return xxx_messageInfo_EdgeManagedId.Size(m)
 }
-func (m *EdgeManagerDeleteReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_EdgeManagerDeleteReply.DiscardUnknown(m)
+func (m *EdgeManagedId) XXX_DiscardUnknown() {
+	xxx_messageInfo_EdgeManagedId.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_EdgeManagerDeleteReply proto.InternalMessageInfo
+var xxx_messageInfo_EdgeManagedId proto.InternalMessageInfo
 
-func (m *EdgeManagerDeleteReply) GetId() string {
+func (m *EdgeManagedId) GetId() string {
 	if m != nil {
 		return m.Id
 	}
 	return ""
 }
 
+type EdgeManagerListReply struct {
+	EdgesManaged         []*EdgeManaged `protobuf:"bytes,1,rep,name=EdgesManaged,proto3" json:"EdgesManaged,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
+}
+
+func (m *EdgeManagerListReply) Reset()         { *m = EdgeManagerListReply{} }
+func (m *EdgeManagerListReply) String() string { return proto.CompactTextString(m) }
+func (*EdgeManagerListReply) ProtoMessage()    {}
+func (*EdgeManagerListReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cab1176173a95651, []int{4}
+}
+
+func (m *EdgeManagerListReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EdgeManagerListReply.Unmarshal(m, b)
+}
+func (m *EdgeManagerListReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EdgeManagerListReply.Marshal(b, m, deterministic)
+}
+func (m *EdgeManagerListReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EdgeManagerListReply.Merge(m, src)
+}
+func (m *EdgeManagerListReply) XXX_Size() int {
+	return xxx_messageInfo_EdgeManagerListReply.Size(m)
+}
+func (m *EdgeManagerListReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_EdgeManagerListReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EdgeManagerListReply proto.InternalMessageInfo
+
+func (m *EdgeManagerListReply) GetEdgesManaged() []*EdgeManaged {
+	if m != nil {
+		return m.EdgesManaged
+	}
+	return nil
+}
+
 func init() {
-	proto.RegisterType((*EdgeManagerCreateArgs)(nil), "gon2n.EdgeManagerCreateArgs")
-	proto.RegisterType((*EdgeManagerListArgs)(nil), "gon2n.EdgeManagerListArgs")
-	proto.RegisterType((*EdgeManagerGetArgs)(nil), "gon2n.EdgeManagerGetArgs")
-	proto.RegisterType((*EdgeManagerDeleteArgs)(nil), "gon2n.EdgeManagerDeleteArgs")
-	proto.RegisterType((*EdgeManagerCreateReply)(nil), "gon2n.EdgeManagerCreateReply")
-	proto.RegisterType((*EdgeManagerListReply)(nil), "gon2n.EdgeManagerListReply")
-	proto.RegisterType((*EdgeManagedSummary)(nil), "gon2n.EdgeManagedSummary")
+	proto.RegisterType((*Edge)(nil), "gon2n.Edge")
 	proto.RegisterType((*EdgeManaged)(nil), "gon2n.EdgeManaged")
-	proto.RegisterType((*EdgeManagerDeleteReply)(nil), "gon2n.EdgeManagerDeleteReply")
+	proto.RegisterType((*EdgeManagerListArgs)(nil), "gon2n.EdgeManagerListArgs")
+	proto.RegisterType((*EdgeManagedId)(nil), "gon2n.EdgeManagedId")
+	proto.RegisterType((*EdgeManagerListReply)(nil), "gon2n.EdgeManagerListReply")
 }
 
 func init() { proto.RegisterFile("edge.proto", fileDescriptor_cab1176173a95651) }
 
 var fileDescriptor_cab1176173a95651 = []byte{
-	// 677 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x56, 0xdd, 0x6e, 0xd3, 0x4c,
-	0x10, 0x6d, 0xe2, 0x24, 0x6d, 0x26, 0x6d, 0xbf, 0x76, 0xdb, 0x7e, 0x5a, 0x42, 0x41, 0x91, 0x55,
-	0x41, 0x84, 0x50, 0x2f, 0x82, 0xc4, 0x1d, 0x17, 0x51, 0x53, 0x95, 0x88, 0x1a, 0x22, 0x37, 0x7d,
-	0x00, 0x37, 0x1e, 0x8c, 0x85, 0xed, 0x8d, 0xd6, 0x9b, 0x22, 0xbf, 0x0a, 0x2f, 0x87, 0xc4, 0x8b,
-	0x80, 0x76, 0xdc, 0x34, 0xfe, 0xab, 0x48, 0x6f, 0x11, 0x77, 0xf6, 0x99, 0xe3, 0xdd, 0x39, 0xbb,
-	0x73, 0x4e, 0x02, 0x80, 0xae, 0x87, 0xa7, 0x73, 0x29, 0x94, 0x60, 0x4d, 0x4f, 0x44, 0x83, 0xc8,
-	0xfc, 0xd5, 0x84, 0xa3, 0x73, 0xd7, 0x43, 0xcb, 0x89, 0x1c, 0x0f, 0xe5, 0x99, 0x44, 0x47, 0xe1,
-	0x50, 0x7a, 0x31, 0xeb, 0xc2, 0xd6, 0x30, 0x08, 0xc4, 0xb7, 0xc9, 0x60, 0xc2, 0x6b, 0xbd, 0x5a,
-	0x7f, 0xcb, 0xbe, 0x7f, 0x67, 0x26, 0x6c, 0xd3, 0xb3, 0x2d, 0x16, 0xca, 0x8f, 0x3c, 0x5e, 0xa7,
-	0x7a, 0x0e, 0x63, 0x27, 0xb0, 0x73, 0x26, 0xc2, 0x70, 0x11, 0xf9, 0x2a, 0xf9, 0xe8, 0x84, 0xc8,
-	0x8d, 0x5e, 0xad, 0xdf, 0xb6, 0xf3, 0x20, 0x1b, 0xc0, 0xe1, 0xc8, 0x8f, 0x9d, 0x9b, 0x00, 0x27,
-	0xd6, 0xf4, 0x7a, 0xe4, 0xc7, 0x33, 0x71, 0x8b, 0x32, 0xe1, 0x0d, 0x5a, 0xb1, 0xb2, 0xc6, 0x5e,
-	0xc1, 0xde, 0x1d, 0x6e, 0x2d, 0x02, 0xe5, 0xcf, 0x9c, 0x58, 0xf1, 0x26, 0xf1, 0x4b, 0xb8, 0xee,
-	0x62, 0x94, 0x44, 0x4e, 0xe8, 0xcf, 0xc6, 0x13, 0x4b, 0xb8, 0xc8, 0x5b, 0x44, 0xcc, 0x83, 0x9a,
-	0x75, 0x1e, 0xcd, 0x64, 0x32, 0x57, 0xbe, 0x88, 0x3e, 0x60, 0xc2, 0x37, 0xd3, 0x5e, 0x73, 0x20,
-	0x3b, 0x86, 0xf6, 0xa5, 0x98, 0x39, 0xc1, 0x44, 0x48, 0xc5, 0xb7, 0x7a, 0xb5, 0xbe, 0x61, 0xaf,
-	0x00, 0xf6, 0x02, 0x76, 0xd3, 0x43, 0x0c, 0x31, 0x52, 0x44, 0x69, 0x13, 0xa5, 0x80, 0xea, 0xee,
-	0x6d, 0xf4, 0xfc, 0x58, 0xa1, 0x1c, 0x47, 0x0a, 0xe5, 0xad, 0x13, 0x70, 0x20, 0x66, 0x09, 0x67,
-	0x3d, 0xe8, 0x2c, 0xb1, 0xe9, 0xf4, 0x92, 0x77, 0x88, 0x96, 0x85, 0xd8, 0x6b, 0xd8, 0xbf, 0x5a,
-	0xcc, 0x51, 0x46, 0xc2, 0xc5, 0xf7, 0x22, 0x4e, 0x37, 0xde, 0xa6, 0xee, 0xcb, 0x05, 0xad, 0x73,
-	0x9a, 0xcc, 0xf1, 0xd3, 0xe7, 0x2b, 0x94, 0xb7, 0xfe, 0x0c, 0xf9, 0x0e, 0xad, 0x98, 0x07, 0x75,
-	0x87, 0x2b, 0xe1, 0x16, 0xaa, 0x2f, 0xc2, 0xe5, 0xbb, 0x69, 0x87, 0x45, 0x9c, 0x3d, 0x07, 0x18,
-	0xa1, 0xfe, 0x8a, 0xae, 0xf8, 0x3f, 0xda, 0x38, 0x83, 0x68, 0x05, 0x43, 0xd7, 0x95, 0x18, 0xc7,
-	0x74, 0xfa, 0x7b, 0x44, 0xc8, 0x42, 0x7a, 0xce, 0x52, 0xfe, 0x78, 0xc2, 0xf7, 0xa9, 0x7c, 0xff,
-	0x4e, 0xb7, 0x97, 0xae, 0x85, 0x2a, 0x74, 0xe2, 0xaf, 0x9c, 0xa5, 0xf7, 0x92, 0x03, 0x69, 0x1e,
-	0x08, 0xb0, 0x86, 0x67, 0x77, 0x2b, 0xf3, 0x03, 0x22, 0x96, 0x70, 0xb6, 0x07, 0x86, 0x35, 0xbd,
-	0xe6, 0x87, 0x24, 0x47, 0x3f, 0x9a, 0x47, 0x70, 0x90, 0x31, 0xc0, 0xa5, 0x1f, 0x2b, 0x3d, 0xfe,
-	0xe6, 0x09, 0xb0, 0x0c, 0x7c, 0x81, 0x84, 0xb2, 0x5d, 0xa8, 0x8f, 0x5d, 0xb2, 0x43, 0xdb, 0xae,
-	0x8f, 0x5d, 0xf3, 0x65, 0xce, 0x3d, 0x23, 0x0c, 0xf0, 0xce, 0x3d, 0x45, 0x62, 0x1f, 0xfe, 0x2f,
-	0xd9, 0xcc, 0xc6, 0x79, 0x90, 0x94, 0x98, 0xd7, 0x70, 0x58, 0xe8, 0x27, 0xe5, 0xbd, 0x83, 0x6d,
-	0x8d, 0xc7, 0x69, 0x41, 0x7f, 0x61, 0xf4, 0x3b, 0x83, 0x27, 0xa7, 0xe4, 0xe3, 0xd3, 0xd5, 0x27,
-	0xee, 0xd5, 0x22, 0x0c, 0x1d, 0x99, 0xd8, 0x39, 0xba, 0xf9, 0xb3, 0x96, 0x15, 0xb4, 0x24, 0x15,
-	0x77, 0x2f, 0xbb, 0xb6, 0x5e, 0xe5, 0xda, 0x9c, 0x13, 0x8c, 0xa2, 0x13, 0x2a, 0x67, 0xb2, 0xf1,
-	0xd0, 0x4c, 0x56, 0x4d, 0x5b, 0x73, 0xad, 0x69, 0x6b, 0x15, 0xa7, 0xcd, 0xfc, 0xd1, 0x84, 0x4e,
-	0x46, 0x64, 0x49, 0x5d, 0x36, 0xd3, 0xea, 0x7f, 0xc8, 0x34, 0x63, 0x9d, 0x4c, 0x6b, 0x3c, 0x26,
-	0xd3, 0x9a, 0x8f, 0xcc, 0xb4, 0xd6, 0xba, 0x99, 0xb6, 0x59, 0x95, 0x69, 0xff, 0xd2, 0xea, 0x6f,
-	0x4c, 0xab, 0x7c, 0x8e, 0xa4, 0x81, 0x53, 0x99, 0x23, 0x83, 0xef, 0xf5, 0xac, 0x17, 0x24, 0xbb,
-	0x80, 0x56, 0x1a, 0x3b, 0xec, 0xb8, 0x94, 0x19, 0x99, 0xdf, 0xfd, 0xee, 0xb3, 0x87, 0xaa, 0xb4,
-	0x8d, 0xb9, 0xc1, 0x86, 0xd0, 0xd0, 0xa9, 0xc4, 0xba, 0x65, 0xe2, 0x32, 0x3d, 0xbb, 0x4f, 0xab,
-	0x6b, 0xcb, 0x25, 0xde, 0x82, 0x71, 0x81, 0x8a, 0x95, 0xc3, 0x6b, 0x19, 0xb4, 0x5d, 0x56, 0xce,
-	0x35, 0x73, 0x43, 0x6b, 0x48, 0x25, 0x57, 0x69, 0x58, 0xa5, 0x6f, 0x95, 0x86, 0xcc, 0x51, 0x99,
-	0x1b, 0x37, 0x2d, 0xfa, 0x13, 0xf4, 0xe6, 0x77, 0x00, 0x00, 0x00, 0xff, 0xff, 0xfd, 0x80, 0xf4,
-	0x98, 0x12, 0x09, 0x00, 0x00,
+	// 592 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x95, 0xc1, 0x6e, 0xd3, 0x4c,
+	0x10, 0xc7, 0xeb, 0x38, 0x49, 0x9b, 0x49, 0xdb, 0xaf, 0xdd, 0xe6, 0x93, 0x56, 0x01, 0x41, 0x64,
+	0x21, 0x14, 0x21, 0xa8, 0x44, 0x90, 0x7a, 0x8f, 0x9a, 0x0a, 0x2c, 0xea, 0x62, 0xb9, 0xe9, 0x03,
+	0xb8, 0xf6, 0x60, 0x2c, 0x6c, 0x6f, 0xb4, 0xde, 0x14, 0xf9, 0x69, 0xb9, 0x73, 0xe0, 0x19, 0xd0,
+	0x8e, 0x4b, 0x63, 0xc7, 0xa9, 0x68, 0xaf, 0x88, 0x9b, 0xfd, 0x9b, 0xff, 0xcc, 0xce, 0x78, 0xff,
+	0x23, 0x03, 0x60, 0x18, 0xe1, 0xf1, 0x42, 0x0a, 0x25, 0x58, 0x27, 0x12, 0xd9, 0x24, 0xb3, 0x7e,
+	0x76, 0xa0, 0x7d, 0x16, 0x46, 0xc8, 0x86, 0xb0, 0x33, 0x4d, 0x12, 0xf1, 0xcd, 0x9d, 0xb8, 0xdc,
+	0x18, 0x19, 0xe3, 0x1d, 0xef, 0xee, 0x9d, 0x59, 0xb0, 0x4b, 0xcf, 0x9e, 0x58, 0xaa, 0x38, 0x8b,
+	0x78, 0x8b, 0xe2, 0x35, 0xc6, 0x5e, 0xc0, 0xde, 0xa9, 0x48, 0xd3, 0x65, 0x16, 0xab, 0xe2, 0xc2,
+	0x4f, 0x91, 0x9b, 0x23, 0x63, 0xdc, 0xf3, 0xea, 0x90, 0x4d, 0x60, 0x30, 0x8b, 0x73, 0xff, 0x3a,
+	0x41, 0xd7, 0x99, 0x5f, 0xcd, 0xe2, 0x3c, 0x10, 0x37, 0x28, 0x0b, 0xde, 0xa6, 0x8a, 0x1b, 0x63,
+	0xec, 0x15, 0x1c, 0xdc, 0x72, 0x67, 0x99, 0xa8, 0x38, 0xf0, 0x73, 0xc5, 0x3b, 0xa4, 0x6f, 0x70,
+	0xdd, 0xc5, 0xac, 0xc8, 0xfc, 0x34, 0x0e, 0x6c, 0xd7, 0x11, 0x21, 0xf2, 0x2e, 0x09, 0xeb, 0x50,
+	0xab, 0xce, 0xb2, 0x40, 0x16, 0x0b, 0x15, 0x8b, 0xec, 0x23, 0x16, 0x7c, 0xbb, 0xec, 0xb5, 0x06,
+	0xd9, 0x53, 0xe8, 0x9d, 0x8b, 0xc0, 0x4f, 0x5c, 0x21, 0x15, 0xdf, 0x19, 0x19, 0x63, 0xd3, 0x5b,
+	0x01, 0xf6, 0x12, 0xf6, 0x1d, 0x3f, 0xf3, 0x23, 0x4c, 0x31, 0x53, 0x24, 0xe9, 0x91, 0x64, 0x8d,
+	0xea, 0xee, 0x3d, 0x8c, 0xe2, 0x5c, 0xa1, 0xb4, 0x33, 0x85, 0xf2, 0xc6, 0x4f, 0x38, 0x90, 0xb2,
+	0xc1, 0xd9, 0x08, 0xfa, 0xbf, 0xd9, 0x7c, 0x7e, 0xce, 0xfb, 0x24, 0xab, 0x22, 0xf6, 0x1a, 0x0e,
+	0x2f, 0x97, 0x0b, 0x94, 0x99, 0x08, 0xf1, 0x83, 0xc8, 0xcb, 0x83, 0x77, 0xa9, 0xfb, 0x66, 0x40,
+	0xcf, 0x39, 0x2f, 0x16, 0xf8, 0xe9, 0xf3, 0x25, 0xca, 0x9b, 0x38, 0x40, 0xbe, 0x47, 0x15, 0xeb,
+	0x50, 0x77, 0xb8, 0x1a, 0xdc, 0x41, 0xf5, 0x45, 0x84, 0x7c, 0xbf, 0xec, 0x70, 0x9d, 0xb3, 0x67,
+	0x00, 0x33, 0xd4, 0x59, 0x74, 0xc5, 0xff, 0xd1, 0xc1, 0x15, 0xa2, 0x27, 0x98, 0x86, 0xa1, 0xc4,
+	0x3c, 0xa7, 0xaf, 0x7f, 0x40, 0x82, 0x2a, 0xd2, 0x3e, 0x2b, 0xf5, 0xb6, 0xcb, 0x0f, 0x29, 0x7c,
+	0xf7, 0x4e, 0xb7, 0x57, 0xd6, 0x42, 0x95, 0xfa, 0xf9, 0x57, 0xce, 0xca, 0x7b, 0xa9, 0x41, 0xf2,
+	0x03, 0x01, 0x67, 0x7a, 0x7a, 0x5b, 0x99, 0x1f, 0x91, 0xb0, 0xc1, 0xd9, 0x01, 0x98, 0xce, 0xfc,
+	0x8a, 0x0f, 0x68, 0x1c, 0xfd, 0x68, 0x7d, 0xef, 0x40, 0x5f, 0x1b, 0xbe, 0xbc, 0xa6, 0x90, 0xed,
+	0x43, 0xcb, 0x0e, 0xc9, 0xf1, 0x3d, 0xaf, 0x65, 0x87, 0xb5, 0x3d, 0x68, 0xfd, 0x61, 0x0f, 0xcc,
+	0x87, 0xec, 0x41, 0xfb, 0x31, 0x7b, 0xd0, 0x79, 0xe4, 0x1e, 0x74, 0x1f, 0xba, 0x07, 0xdb, 0x9b,
+	0xf6, 0xe0, 0x9f, 0xc3, 0xff, 0x46, 0x87, 0xff, 0x0f, 0x47, 0x2b, 0x83, 0xcb, 0xf3, 0x38, 0x57,
+	0x53, 0x19, 0xe5, 0xd6, 0x73, 0xd8, 0xab, 0xf8, 0xde, 0x6e, 0x38, 0xdf, 0xba, 0x80, 0xc1, 0x5a,
+	0x9e, 0x87, 0x8b, 0xa4, 0x60, 0x27, 0xb0, 0xab, 0x79, 0x7e, 0x9b, 0xc9, 0x8d, 0x91, 0x39, 0xee,
+	0x4f, 0xd8, 0x31, 0xfd, 0x40, 0x8e, 0x2b, 0x35, 0xbd, 0x9a, 0x6e, 0xf2, 0xc3, 0xa8, 0x6e, 0x9a,
+	0x64, 0x6f, 0xa0, 0x7b, 0x2a, 0xd1, 0x57, 0xc8, 0xfa, 0x95, 0xdc, 0xe1, 0xa0, 0x59, 0xc8, 0x0e,
+	0xad, 0x2d, 0x36, 0x85, 0xb6, 0xee, 0x81, 0x0d, 0x1b, 0xf1, 0xbb, 0x99, 0x86, 0x4f, 0x36, 0xc7,
+	0xa8, 0x6f, 0x6b, 0x8b, 0xbd, 0x05, 0xf3, 0x3d, 0x2a, 0xb6, 0xf1, 0x84, 0xe1, 0x86, 0x01, 0xac,
+	0x2d, 0x76, 0x02, 0xdd, 0x19, 0x26, 0xa8, 0xf0, 0x9e, 0xac, 0x7b, 0xba, 0xbd, 0xee, 0xd2, 0x5f,
+	0xf5, 0xdd, 0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xbe, 0x36, 0xc0, 0xe9, 0x63, 0x07, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -784,10 +578,10 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type EdgeManagerClient interface {
-	Create(ctx context.Context, in *EdgeManagerCreateArgs, opts ...grpc.CallOption) (*EdgeManagerCreateReply, error)
+	Create(ctx context.Context, in *Edge, opts ...grpc.CallOption) (*EdgeManagedId, error)
 	List(ctx context.Context, in *EdgeManagerListArgs, opts ...grpc.CallOption) (*EdgeManagerListReply, error)
-	Get(ctx context.Context, in *EdgeManagerGetArgs, opts ...grpc.CallOption) (*EdgeManaged, error)
-	Delete(ctx context.Context, in *EdgeManagerDeleteArgs, opts ...grpc.CallOption) (*EdgeManagerDeleteReply, error)
+	Get(ctx context.Context, in *EdgeManagedId, opts ...grpc.CallOption) (*EdgeManaged, error)
+	Delete(ctx context.Context, in *EdgeManagedId, opts ...grpc.CallOption) (*EdgeManagedId, error)
 }
 
 type edgeManagerClient struct {
@@ -798,8 +592,8 @@ func NewEdgeManagerClient(cc *grpc.ClientConn) EdgeManagerClient {
 	return &edgeManagerClient{cc}
 }
 
-func (c *edgeManagerClient) Create(ctx context.Context, in *EdgeManagerCreateArgs, opts ...grpc.CallOption) (*EdgeManagerCreateReply, error) {
-	out := new(EdgeManagerCreateReply)
+func (c *edgeManagerClient) Create(ctx context.Context, in *Edge, opts ...grpc.CallOption) (*EdgeManagedId, error) {
+	out := new(EdgeManagedId)
 	err := c.cc.Invoke(ctx, "/gon2n.EdgeManager/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -816,7 +610,7 @@ func (c *edgeManagerClient) List(ctx context.Context, in *EdgeManagerListArgs, o
 	return out, nil
 }
 
-func (c *edgeManagerClient) Get(ctx context.Context, in *EdgeManagerGetArgs, opts ...grpc.CallOption) (*EdgeManaged, error) {
+func (c *edgeManagerClient) Get(ctx context.Context, in *EdgeManagedId, opts ...grpc.CallOption) (*EdgeManaged, error) {
 	out := new(EdgeManaged)
 	err := c.cc.Invoke(ctx, "/gon2n.EdgeManager/Get", in, out, opts...)
 	if err != nil {
@@ -825,8 +619,8 @@ func (c *edgeManagerClient) Get(ctx context.Context, in *EdgeManagerGetArgs, opt
 	return out, nil
 }
 
-func (c *edgeManagerClient) Delete(ctx context.Context, in *EdgeManagerDeleteArgs, opts ...grpc.CallOption) (*EdgeManagerDeleteReply, error) {
-	out := new(EdgeManagerDeleteReply)
+func (c *edgeManagerClient) Delete(ctx context.Context, in *EdgeManagedId, opts ...grpc.CallOption) (*EdgeManagedId, error) {
+	out := new(EdgeManagedId)
 	err := c.cc.Invoke(ctx, "/gon2n.EdgeManager/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -836,26 +630,26 @@ func (c *edgeManagerClient) Delete(ctx context.Context, in *EdgeManagerDeleteArg
 
 // EdgeManagerServer is the server API for EdgeManager service.
 type EdgeManagerServer interface {
-	Create(context.Context, *EdgeManagerCreateArgs) (*EdgeManagerCreateReply, error)
+	Create(context.Context, *Edge) (*EdgeManagedId, error)
 	List(context.Context, *EdgeManagerListArgs) (*EdgeManagerListReply, error)
-	Get(context.Context, *EdgeManagerGetArgs) (*EdgeManaged, error)
-	Delete(context.Context, *EdgeManagerDeleteArgs) (*EdgeManagerDeleteReply, error)
+	Get(context.Context, *EdgeManagedId) (*EdgeManaged, error)
+	Delete(context.Context, *EdgeManagedId) (*EdgeManagedId, error)
 }
 
 // UnimplementedEdgeManagerServer can be embedded to have forward compatible implementations.
 type UnimplementedEdgeManagerServer struct {
 }
 
-func (*UnimplementedEdgeManagerServer) Create(ctx context.Context, req *EdgeManagerCreateArgs) (*EdgeManagerCreateReply, error) {
+func (*UnimplementedEdgeManagerServer) Create(ctx context.Context, req *Edge) (*EdgeManagedId, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (*UnimplementedEdgeManagerServer) List(ctx context.Context, req *EdgeManagerListArgs) (*EdgeManagerListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (*UnimplementedEdgeManagerServer) Get(ctx context.Context, req *EdgeManagerGetArgs) (*EdgeManaged, error) {
+func (*UnimplementedEdgeManagerServer) Get(ctx context.Context, req *EdgeManagedId) (*EdgeManaged, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (*UnimplementedEdgeManagerServer) Delete(ctx context.Context, req *EdgeManagerDeleteArgs) (*EdgeManagerDeleteReply, error) {
+func (*UnimplementedEdgeManagerServer) Delete(ctx context.Context, req *EdgeManagedId) (*EdgeManagedId, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 
@@ -864,7 +658,7 @@ func RegisterEdgeManagerServer(s *grpc.Server, srv EdgeManagerServer) {
 }
 
 func _EdgeManager_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EdgeManagerCreateArgs)
+	in := new(Edge)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -876,7 +670,7 @@ func _EdgeManager_Create_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/gon2n.EdgeManager/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EdgeManagerServer).Create(ctx, req.(*EdgeManagerCreateArgs))
+		return srv.(EdgeManagerServer).Create(ctx, req.(*Edge))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -900,7 +694,7 @@ func _EdgeManager_List_Handler(srv interface{}, ctx context.Context, dec func(in
 }
 
 func _EdgeManager_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EdgeManagerGetArgs)
+	in := new(EdgeManagedId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -912,13 +706,13 @@ func _EdgeManager_Get_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/gon2n.EdgeManager/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EdgeManagerServer).Get(ctx, req.(*EdgeManagerGetArgs))
+		return srv.(EdgeManagerServer).Get(ctx, req.(*EdgeManagedId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _EdgeManager_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EdgeManagerDeleteArgs)
+	in := new(EdgeManagedId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -930,7 +724,7 @@ func _EdgeManager_Delete_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/gon2n.EdgeManager/Delete",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EdgeManagerServer).Delete(ctx, req.(*EdgeManagerDeleteArgs))
+		return srv.(EdgeManagerServer).Delete(ctx, req.(*EdgeManagedId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
