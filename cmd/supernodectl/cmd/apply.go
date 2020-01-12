@@ -36,7 +36,7 @@ var applyCmd = &cobra.Command{
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		response, err := client.Create(ctx, &gon2n.SupernodeManagerCreateArgs{
+		response, err := client.Create(ctx, &gon2n.Supernode{
 			ListenPort:     viper.GetInt64(listenPortKey),
 			ManagementPort: viper.GetInt64(managementPortKey),
 		})

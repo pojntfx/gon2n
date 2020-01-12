@@ -48,7 +48,7 @@ var getCmd = &cobra.Command{
 			return nil
 		}
 
-		response, err := client.Get(ctx, &gon2n.SupernodeManagerGetArgs{
+		response, err := client.Get(ctx, &gon2n.SupernodeManagedId{
 			Id: args[0],
 		})
 		if err != nil {

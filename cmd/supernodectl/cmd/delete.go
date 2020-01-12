@@ -36,7 +36,7 @@ var deleteCmd = &cobra.Command{
 			wg.Add(1)
 
 			go func(id string, wg *sync.WaitGroup) {
-				response, err := client.Delete(ctx, &gon2n.SupernodeManagerDeleteArgs{
+				response, err := client.Delete(ctx, &gon2n.SupernodeManagedId{
 					Id: id,
 				})
 				if err != nil {

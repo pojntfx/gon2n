@@ -24,7 +24,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type SupernodeManagerCreateArgs struct {
+type Supernode struct {
 	ListenPort           int64    `protobuf:"varint,1,opt,name=ListenPort,proto3" json:"ListenPort,omitempty"`
 	ManagementPort       int64    `protobuf:"varint,2,opt,name=ManagementPort,proto3" json:"ManagementPort,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -32,275 +32,41 @@ type SupernodeManagerCreateArgs struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *SupernodeManagerCreateArgs) Reset()         { *m = SupernodeManagerCreateArgs{} }
-func (m *SupernodeManagerCreateArgs) String() string { return proto.CompactTextString(m) }
-func (*SupernodeManagerCreateArgs) ProtoMessage()    {}
-func (*SupernodeManagerCreateArgs) Descriptor() ([]byte, []int) {
+func (m *Supernode) Reset()         { *m = Supernode{} }
+func (m *Supernode) String() string { return proto.CompactTextString(m) }
+func (*Supernode) ProtoMessage()    {}
+func (*Supernode) Descriptor() ([]byte, []int) {
 	return fileDescriptor_eee77e6761fc0983, []int{0}
 }
 
-func (m *SupernodeManagerCreateArgs) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SupernodeManagerCreateArgs.Unmarshal(m, b)
+func (m *Supernode) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Supernode.Unmarshal(m, b)
 }
-func (m *SupernodeManagerCreateArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SupernodeManagerCreateArgs.Marshal(b, m, deterministic)
+func (m *Supernode) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Supernode.Marshal(b, m, deterministic)
 }
-func (m *SupernodeManagerCreateArgs) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SupernodeManagerCreateArgs.Merge(m, src)
+func (m *Supernode) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Supernode.Merge(m, src)
 }
-func (m *SupernodeManagerCreateArgs) XXX_Size() int {
-	return xxx_messageInfo_SupernodeManagerCreateArgs.Size(m)
+func (m *Supernode) XXX_Size() int {
+	return xxx_messageInfo_Supernode.Size(m)
 }
-func (m *SupernodeManagerCreateArgs) XXX_DiscardUnknown() {
-	xxx_messageInfo_SupernodeManagerCreateArgs.DiscardUnknown(m)
+func (m *Supernode) XXX_DiscardUnknown() {
+	xxx_messageInfo_Supernode.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_SupernodeManagerCreateArgs proto.InternalMessageInfo
+var xxx_messageInfo_Supernode proto.InternalMessageInfo
 
-func (m *SupernodeManagerCreateArgs) GetListenPort() int64 {
+func (m *Supernode) GetListenPort() int64 {
 	if m != nil {
 		return m.ListenPort
 	}
 	return 0
 }
 
-func (m *SupernodeManagerCreateArgs) GetManagementPort() int64 {
+func (m *Supernode) GetManagementPort() int64 {
 	if m != nil {
 		return m.ManagementPort
-	}
-	return 0
-}
-
-type SupernodeManagerListArgs struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *SupernodeManagerListArgs) Reset()         { *m = SupernodeManagerListArgs{} }
-func (m *SupernodeManagerListArgs) String() string { return proto.CompactTextString(m) }
-func (*SupernodeManagerListArgs) ProtoMessage()    {}
-func (*SupernodeManagerListArgs) Descriptor() ([]byte, []int) {
-	return fileDescriptor_eee77e6761fc0983, []int{1}
-}
-
-func (m *SupernodeManagerListArgs) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SupernodeManagerListArgs.Unmarshal(m, b)
-}
-func (m *SupernodeManagerListArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SupernodeManagerListArgs.Marshal(b, m, deterministic)
-}
-func (m *SupernodeManagerListArgs) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SupernodeManagerListArgs.Merge(m, src)
-}
-func (m *SupernodeManagerListArgs) XXX_Size() int {
-	return xxx_messageInfo_SupernodeManagerListArgs.Size(m)
-}
-func (m *SupernodeManagerListArgs) XXX_DiscardUnknown() {
-	xxx_messageInfo_SupernodeManagerListArgs.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SupernodeManagerListArgs proto.InternalMessageInfo
-
-type SupernodeManagerGetArgs struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *SupernodeManagerGetArgs) Reset()         { *m = SupernodeManagerGetArgs{} }
-func (m *SupernodeManagerGetArgs) String() string { return proto.CompactTextString(m) }
-func (*SupernodeManagerGetArgs) ProtoMessage()    {}
-func (*SupernodeManagerGetArgs) Descriptor() ([]byte, []int) {
-	return fileDescriptor_eee77e6761fc0983, []int{2}
-}
-
-func (m *SupernodeManagerGetArgs) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SupernodeManagerGetArgs.Unmarshal(m, b)
-}
-func (m *SupernodeManagerGetArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SupernodeManagerGetArgs.Marshal(b, m, deterministic)
-}
-func (m *SupernodeManagerGetArgs) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SupernodeManagerGetArgs.Merge(m, src)
-}
-func (m *SupernodeManagerGetArgs) XXX_Size() int {
-	return xxx_messageInfo_SupernodeManagerGetArgs.Size(m)
-}
-func (m *SupernodeManagerGetArgs) XXX_DiscardUnknown() {
-	xxx_messageInfo_SupernodeManagerGetArgs.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SupernodeManagerGetArgs proto.InternalMessageInfo
-
-func (m *SupernodeManagerGetArgs) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type SupernodeManagerDeleteArgs struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *SupernodeManagerDeleteArgs) Reset()         { *m = SupernodeManagerDeleteArgs{} }
-func (m *SupernodeManagerDeleteArgs) String() string { return proto.CompactTextString(m) }
-func (*SupernodeManagerDeleteArgs) ProtoMessage()    {}
-func (*SupernodeManagerDeleteArgs) Descriptor() ([]byte, []int) {
-	return fileDescriptor_eee77e6761fc0983, []int{3}
-}
-
-func (m *SupernodeManagerDeleteArgs) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SupernodeManagerDeleteArgs.Unmarshal(m, b)
-}
-func (m *SupernodeManagerDeleteArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SupernodeManagerDeleteArgs.Marshal(b, m, deterministic)
-}
-func (m *SupernodeManagerDeleteArgs) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SupernodeManagerDeleteArgs.Merge(m, src)
-}
-func (m *SupernodeManagerDeleteArgs) XXX_Size() int {
-	return xxx_messageInfo_SupernodeManagerDeleteArgs.Size(m)
-}
-func (m *SupernodeManagerDeleteArgs) XXX_DiscardUnknown() {
-	xxx_messageInfo_SupernodeManagerDeleteArgs.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SupernodeManagerDeleteArgs proto.InternalMessageInfo
-
-func (m *SupernodeManagerDeleteArgs) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type SupernodeManagerCreateReply struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *SupernodeManagerCreateReply) Reset()         { *m = SupernodeManagerCreateReply{} }
-func (m *SupernodeManagerCreateReply) String() string { return proto.CompactTextString(m) }
-func (*SupernodeManagerCreateReply) ProtoMessage()    {}
-func (*SupernodeManagerCreateReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_eee77e6761fc0983, []int{4}
-}
-
-func (m *SupernodeManagerCreateReply) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SupernodeManagerCreateReply.Unmarshal(m, b)
-}
-func (m *SupernodeManagerCreateReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SupernodeManagerCreateReply.Marshal(b, m, deterministic)
-}
-func (m *SupernodeManagerCreateReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SupernodeManagerCreateReply.Merge(m, src)
-}
-func (m *SupernodeManagerCreateReply) XXX_Size() int {
-	return xxx_messageInfo_SupernodeManagerCreateReply.Size(m)
-}
-func (m *SupernodeManagerCreateReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_SupernodeManagerCreateReply.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SupernodeManagerCreateReply proto.InternalMessageInfo
-
-func (m *SupernodeManagerCreateReply) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type SupernodeManagerListReply struct {
-	SupernodesManaged    []*SupernodeManagedSummary `protobuf:"bytes,1,rep,name=SupernodesManaged,proto3" json:"SupernodesManaged,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}                   `json:"-"`
-	XXX_unrecognized     []byte                     `json:"-"`
-	XXX_sizecache        int32                      `json:"-"`
-}
-
-func (m *SupernodeManagerListReply) Reset()         { *m = SupernodeManagerListReply{} }
-func (m *SupernodeManagerListReply) String() string { return proto.CompactTextString(m) }
-func (*SupernodeManagerListReply) ProtoMessage()    {}
-func (*SupernodeManagerListReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_eee77e6761fc0983, []int{5}
-}
-
-func (m *SupernodeManagerListReply) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SupernodeManagerListReply.Unmarshal(m, b)
-}
-func (m *SupernodeManagerListReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SupernodeManagerListReply.Marshal(b, m, deterministic)
-}
-func (m *SupernodeManagerListReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SupernodeManagerListReply.Merge(m, src)
-}
-func (m *SupernodeManagerListReply) XXX_Size() int {
-	return xxx_messageInfo_SupernodeManagerListReply.Size(m)
-}
-func (m *SupernodeManagerListReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_SupernodeManagerListReply.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SupernodeManagerListReply proto.InternalMessageInfo
-
-func (m *SupernodeManagerListReply) GetSupernodesManaged() []*SupernodeManagedSummary {
-	if m != nil {
-		return m.SupernodesManaged
-	}
-	return nil
-}
-
-type SupernodeManagedSummary struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
-	ListenPort           int64    `protobuf:"varint,2,opt,name=ListenPort,proto3" json:"ListenPort,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *SupernodeManagedSummary) Reset()         { *m = SupernodeManagedSummary{} }
-func (m *SupernodeManagedSummary) String() string { return proto.CompactTextString(m) }
-func (*SupernodeManagedSummary) ProtoMessage()    {}
-func (*SupernodeManagedSummary) Descriptor() ([]byte, []int) {
-	return fileDescriptor_eee77e6761fc0983, []int{6}
-}
-
-func (m *SupernodeManagedSummary) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SupernodeManagedSummary.Unmarshal(m, b)
-}
-func (m *SupernodeManagedSummary) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SupernodeManagedSummary.Marshal(b, m, deterministic)
-}
-func (m *SupernodeManagedSummary) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SupernodeManagedSummary.Merge(m, src)
-}
-func (m *SupernodeManagedSummary) XXX_Size() int {
-	return xxx_messageInfo_SupernodeManagedSummary.Size(m)
-}
-func (m *SupernodeManagedSummary) XXX_DiscardUnknown() {
-	xxx_messageInfo_SupernodeManagedSummary.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SupernodeManagedSummary proto.InternalMessageInfo
-
-func (m *SupernodeManagedSummary) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *SupernodeManagedSummary) GetListenPort() int64 {
-	if m != nil {
-		return m.ListenPort
 	}
 	return 0
 }
@@ -318,7 +84,7 @@ func (m *SupernodeManaged) Reset()         { *m = SupernodeManaged{} }
 func (m *SupernodeManaged) String() string { return proto.CompactTextString(m) }
 func (*SupernodeManaged) ProtoMessage()    {}
 func (*SupernodeManaged) Descriptor() ([]byte, []int) {
-	return fileDescriptor_eee77e6761fc0983, []int{7}
+	return fileDescriptor_eee77e6761fc0983, []int{1}
 }
 
 func (m *SupernodeManaged) XXX_Unmarshal(b []byte) error {
@@ -360,82 +126,144 @@ func (m *SupernodeManaged) GetManagementPort() int64 {
 	return 0
 }
 
-type SupernodeManagerDeleteReply struct {
+type SupernodeManagerListArgs struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SupernodeManagerListArgs) Reset()         { *m = SupernodeManagerListArgs{} }
+func (m *SupernodeManagerListArgs) String() string { return proto.CompactTextString(m) }
+func (*SupernodeManagerListArgs) ProtoMessage()    {}
+func (*SupernodeManagerListArgs) Descriptor() ([]byte, []int) {
+	return fileDescriptor_eee77e6761fc0983, []int{2}
+}
+
+func (m *SupernodeManagerListArgs) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SupernodeManagerListArgs.Unmarshal(m, b)
+}
+func (m *SupernodeManagerListArgs) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SupernodeManagerListArgs.Marshal(b, m, deterministic)
+}
+func (m *SupernodeManagerListArgs) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SupernodeManagerListArgs.Merge(m, src)
+}
+func (m *SupernodeManagerListArgs) XXX_Size() int {
+	return xxx_messageInfo_SupernodeManagerListArgs.Size(m)
+}
+func (m *SupernodeManagerListArgs) XXX_DiscardUnknown() {
+	xxx_messageInfo_SupernodeManagerListArgs.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SupernodeManagerListArgs proto.InternalMessageInfo
+
+type SupernodeManagedId struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *SupernodeManagerDeleteReply) Reset()         { *m = SupernodeManagerDeleteReply{} }
-func (m *SupernodeManagerDeleteReply) String() string { return proto.CompactTextString(m) }
-func (*SupernodeManagerDeleteReply) ProtoMessage()    {}
-func (*SupernodeManagerDeleteReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_eee77e6761fc0983, []int{8}
+func (m *SupernodeManagedId) Reset()         { *m = SupernodeManagedId{} }
+func (m *SupernodeManagedId) String() string { return proto.CompactTextString(m) }
+func (*SupernodeManagedId) ProtoMessage()    {}
+func (*SupernodeManagedId) Descriptor() ([]byte, []int) {
+	return fileDescriptor_eee77e6761fc0983, []int{3}
 }
 
-func (m *SupernodeManagerDeleteReply) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SupernodeManagerDeleteReply.Unmarshal(m, b)
+func (m *SupernodeManagedId) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SupernodeManagedId.Unmarshal(m, b)
 }
-func (m *SupernodeManagerDeleteReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SupernodeManagerDeleteReply.Marshal(b, m, deterministic)
+func (m *SupernodeManagedId) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SupernodeManagedId.Marshal(b, m, deterministic)
 }
-func (m *SupernodeManagerDeleteReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SupernodeManagerDeleteReply.Merge(m, src)
+func (m *SupernodeManagedId) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SupernodeManagedId.Merge(m, src)
 }
-func (m *SupernodeManagerDeleteReply) XXX_Size() int {
-	return xxx_messageInfo_SupernodeManagerDeleteReply.Size(m)
+func (m *SupernodeManagedId) XXX_Size() int {
+	return xxx_messageInfo_SupernodeManagedId.Size(m)
 }
-func (m *SupernodeManagerDeleteReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_SupernodeManagerDeleteReply.DiscardUnknown(m)
+func (m *SupernodeManagedId) XXX_DiscardUnknown() {
+	xxx_messageInfo_SupernodeManagedId.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_SupernodeManagerDeleteReply proto.InternalMessageInfo
+var xxx_messageInfo_SupernodeManagedId proto.InternalMessageInfo
 
-func (m *SupernodeManagerDeleteReply) GetId() string {
+func (m *SupernodeManagedId) GetId() string {
 	if m != nil {
 		return m.Id
 	}
 	return ""
 }
 
+type SupernodeManagerListReply struct {
+	SupernodesManaged    []*SupernodeManaged `protobuf:"bytes,1,rep,name=SupernodesManaged,proto3" json:"SupernodesManaged,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *SupernodeManagerListReply) Reset()         { *m = SupernodeManagerListReply{} }
+func (m *SupernodeManagerListReply) String() string { return proto.CompactTextString(m) }
+func (*SupernodeManagerListReply) ProtoMessage()    {}
+func (*SupernodeManagerListReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_eee77e6761fc0983, []int{4}
+}
+
+func (m *SupernodeManagerListReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SupernodeManagerListReply.Unmarshal(m, b)
+}
+func (m *SupernodeManagerListReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SupernodeManagerListReply.Marshal(b, m, deterministic)
+}
+func (m *SupernodeManagerListReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SupernodeManagerListReply.Merge(m, src)
+}
+func (m *SupernodeManagerListReply) XXX_Size() int {
+	return xxx_messageInfo_SupernodeManagerListReply.Size(m)
+}
+func (m *SupernodeManagerListReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_SupernodeManagerListReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SupernodeManagerListReply proto.InternalMessageInfo
+
+func (m *SupernodeManagerListReply) GetSupernodesManaged() []*SupernodeManaged {
+	if m != nil {
+		return m.SupernodesManaged
+	}
+	return nil
+}
+
 func init() {
-	proto.RegisterType((*SupernodeManagerCreateArgs)(nil), "gon2n.SupernodeManagerCreateArgs")
-	proto.RegisterType((*SupernodeManagerListArgs)(nil), "gon2n.SupernodeManagerListArgs")
-	proto.RegisterType((*SupernodeManagerGetArgs)(nil), "gon2n.SupernodeManagerGetArgs")
-	proto.RegisterType((*SupernodeManagerDeleteArgs)(nil), "gon2n.SupernodeManagerDeleteArgs")
-	proto.RegisterType((*SupernodeManagerCreateReply)(nil), "gon2n.SupernodeManagerCreateReply")
-	proto.RegisterType((*SupernodeManagerListReply)(nil), "gon2n.SupernodeManagerListReply")
-	proto.RegisterType((*SupernodeManagedSummary)(nil), "gon2n.SupernodeManagedSummary")
+	proto.RegisterType((*Supernode)(nil), "gon2n.Supernode")
 	proto.RegisterType((*SupernodeManaged)(nil), "gon2n.SupernodeManaged")
-	proto.RegisterType((*SupernodeManagerDeleteReply)(nil), "gon2n.SupernodeManagerDeleteReply")
+	proto.RegisterType((*SupernodeManagerListArgs)(nil), "gon2n.SupernodeManagerListArgs")
+	proto.RegisterType((*SupernodeManagedId)(nil), "gon2n.SupernodeManagedId")
+	proto.RegisterType((*SupernodeManagerListReply)(nil), "gon2n.SupernodeManagerListReply")
 }
 
 func init() { proto.RegisterFile("supernode.proto", fileDescriptor_eee77e6761fc0983) }
 
 var fileDescriptor_eee77e6761fc0983 = []byte{
-	// 325 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x53, 0xcd, 0x4a, 0xc3, 0x40,
-	0x10, 0x4e, 0x13, 0x2d, 0x38, 0x42, 0xd5, 0xbd, 0xb4, 0x46, 0xa8, 0x75, 0x0e, 0x52, 0x41, 0x73,
-	0x88, 0x2f, 0xa0, 0x28, 0x94, 0x60, 0x05, 0x4d, 0x9f, 0x20, 0x92, 0x21, 0x54, 0x9a, 0x4d, 0xd8,
-	0x6c, 0x0f, 0x7d, 0x42, 0x5f, 0x4b, 0xb2, 0x6b, 0x34, 0x6c, 0x36, 0x05, 0xaf, 0x3b, 0xdf, 0xcc,
-	0x7c, 0x3f, 0xb3, 0x70, 0x52, 0x6d, 0x4b, 0x12, 0xbc, 0x48, 0x29, 0x28, 0x45, 0x21, 0x0b, 0x76,
-	0x98, 0x15, 0x3c, 0xe4, 0x98, 0x82, 0xbf, 0x6a, 0x2a, 0xaf, 0x09, 0x4f, 0x32, 0x12, 0x4f, 0x82,
-	0x12, 0x49, 0x8f, 0x22, 0xab, 0xd8, 0x14, 0x60, 0xb9, 0xae, 0x24, 0xf1, 0xb7, 0x42, 0xc8, 0xc9,
-	0x60, 0x36, 0x98, 0x7b, 0x71, 0xeb, 0x85, 0x5d, 0xc3, 0x48, 0x37, 0xe5, 0xc4, 0xa5, 0xc2, 0xb8,
-	0x0a, 0x63, 0xbc, 0xa2, 0x0f, 0x13, 0x73, 0x4b, 0x3d, 0xa5, 0xde, 0x81, 0x37, 0x30, 0x36, 0x6b,
-	0x0b, 0x52, 0x25, 0x36, 0x02, 0x37, 0x4a, 0xd5, 0xda, 0xa3, 0xd8, 0x8d, 0x52, 0xbc, 0xed, 0x92,
-	0x7d, 0xa6, 0x0d, 0xfd, 0x90, 0x35, 0xd1, 0x77, 0x70, 0x61, 0x97, 0x16, 0x53, 0xb9, 0xd9, 0x75,
-	0xe0, 0x6b, 0x38, 0xb7, 0x71, 0xd4, 0xe0, 0x25, 0x9c, 0xfd, 0x16, 0x2b, 0x5d, 0xad, 0x7b, 0xbd,
-	0xf9, 0x71, 0x38, 0x0d, 0x94, 0x93, 0x81, 0xd1, 0x9c, 0xae, 0xb6, 0x79, 0x9e, 0x88, 0x5d, 0xdc,
-	0x6d, 0xc4, 0xa8, 0x23, 0xb9, 0x41, 0x9b, 0xac, 0x8c, 0x04, 0x5c, 0x33, 0x01, 0xfc, 0x84, 0x53,
-	0x73, 0xd4, 0x7f, 0x67, 0x58, 0x52, 0xf4, 0xac, 0x29, 0x5a, 0x0c, 0xd5, 0xf6, 0x5b, 0x0d, 0x0d,
-	0xbf, 0xdc, 0x0e, 0x37, 0xc1, 0xde, 0x61, 0xa8, 0x43, 0x60, 0x57, 0x76, 0xdf, 0x5a, 0xe7, 0xe7,
-	0xe3, 0x5e, 0x88, 0xda, 0x8a, 0x0e, 0x7b, 0x81, 0x83, 0x5a, 0x0c, 0xbb, 0xec, 0x41, 0x37, 0x97,
-	0xe6, 0xcf, 0xf6, 0x00, 0x9a, 0x61, 0x0f, 0xe0, 0x2d, 0x48, 0xb2, 0x9e, 0x50, 0x9b, 0xcb, 0xf4,
-	0xc7, 0x3d, 0xa1, 0xa3, 0x53, 0x2b, 0xd4, 0xae, 0xf4, 0x2a, 0xfc, 0xbb, 0xd9, 0x5e, 0x85, 0x2d,
-	0x5f, 0xd1, 0xf9, 0x18, 0xaa, 0x2f, 0x7b, 0xff, 0x1d, 0x00, 0x00, 0xff, 0xff, 0xd2, 0xcf, 0xbc,
-	0xb5, 0xc5, 0x03, 0x00, 0x00,
+	// 272 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x92, 0xcf, 0x4a, 0xc4, 0x30,
+	0x10, 0x87, 0xdb, 0x54, 0x0b, 0x3b, 0xc2, 0xba, 0xce, 0xc5, 0x6e, 0x0f, 0x5a, 0x82, 0xc8, 0x9e,
+	0x7a, 0xa8, 0x07, 0x0f, 0x5e, 0x14, 0x15, 0x29, 0x2a, 0x48, 0xf7, 0x09, 0xba, 0x64, 0x28, 0xca,
+	0x9a, 0x94, 0x34, 0x1e, 0x7c, 0x12, 0x5f, 0x57, 0x1a, 0xb5, 0x48, 0xfa, 0x87, 0xbd, 0x66, 0x7e,
+	0xf3, 0x7d, 0x33, 0x43, 0xe0, 0xb0, 0xf9, 0xa8, 0x49, 0x4b, 0x25, 0x28, 0xad, 0xb5, 0x32, 0x0a,
+	0xf7, 0x2b, 0x25, 0x33, 0xc9, 0xd7, 0x30, 0x5b, 0xff, 0x55, 0xf0, 0x04, 0xe0, 0xe9, 0xb5, 0x31,
+	0x24, 0x5f, 0x94, 0x36, 0x91, 0x9f, 0xf8, 0xab, 0xa0, 0xf8, 0xf7, 0x82, 0xe7, 0x30, 0x7f, 0x2e,
+	0x65, 0x59, 0xd1, 0x3b, 0x49, 0x63, 0x33, 0xcc, 0x66, 0x9c, 0x57, 0xfe, 0x06, 0x8b, 0x0e, 0xfa,
+	0x53, 0x12, 0x38, 0x07, 0x96, 0x0b, 0xcb, 0x9c, 0x15, 0x2c, 0x17, 0x8e, 0x8b, 0xed, 0xe0, 0x0a,
+	0x06, 0x5d, 0x31, 0x44, 0x8e, 0x4b, 0xb7, 0x94, 0x1b, 0x5d, 0x35, 0xfc, 0x0c, 0xd0, 0x9d, 0x23,
+	0xef, 0x4d, 0xc2, 0x37, 0xb0, 0x1c, 0x22, 0x14, 0x54, 0x6f, 0x3f, 0xf1, 0x1e, 0x8e, 0xba, 0x62,
+	0xf3, 0xcb, 0x88, 0xfc, 0x24, 0x58, 0x1d, 0x64, 0xc7, 0xa9, 0x3d, 0x61, 0xea, 0x2a, 0x8a, 0x7e,
+	0x47, 0xf6, 0xc5, 0x7a, 0x27, 0xd1, 0x78, 0x09, 0xe1, 0xad, 0xa6, 0xd2, 0x10, 0x2e, 0x5c, 0x54,
+	0xbc, 0x1c, 0x81, 0xe7, 0x82, 0x7b, 0xf8, 0x08, 0x7b, 0xed, 0x84, 0x78, 0x3a, 0x1c, 0xea, 0x0e,
+	0x10, 0x27, 0x13, 0x01, 0xbb, 0x1f, 0xf7, 0xf0, 0x0a, 0x82, 0x07, 0x32, 0x38, 0x2e, 0x8c, 0xc7,
+	0x16, 0xe5, 0x1e, 0x5e, 0x43, 0x78, 0x47, 0x5b, 0x32, 0x34, 0xd5, 0x3f, 0xb5, 0xcb, 0x26, 0xb4,
+	0xdf, 0xf1, 0xe2, 0x3b, 0x00, 0x00, 0xff, 0xff, 0x04, 0xe7, 0x0c, 0xb1, 0xa1, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -450,10 +278,10 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type SupernodeManagerClient interface {
-	Create(ctx context.Context, in *SupernodeManagerCreateArgs, opts ...grpc.CallOption) (*SupernodeManagerCreateReply, error)
+	Create(ctx context.Context, in *Supernode, opts ...grpc.CallOption) (*SupernodeManagedId, error)
 	List(ctx context.Context, in *SupernodeManagerListArgs, opts ...grpc.CallOption) (*SupernodeManagerListReply, error)
-	Get(ctx context.Context, in *SupernodeManagerGetArgs, opts ...grpc.CallOption) (*SupernodeManaged, error)
-	Delete(ctx context.Context, in *SupernodeManagerDeleteArgs, opts ...grpc.CallOption) (*SupernodeManagerDeleteReply, error)
+	Get(ctx context.Context, in *SupernodeManagedId, opts ...grpc.CallOption) (*SupernodeManaged, error)
+	Delete(ctx context.Context, in *SupernodeManagedId, opts ...grpc.CallOption) (*SupernodeManagedId, error)
 }
 
 type supernodeManagerClient struct {
@@ -464,8 +292,8 @@ func NewSupernodeManagerClient(cc *grpc.ClientConn) SupernodeManagerClient {
 	return &supernodeManagerClient{cc}
 }
 
-func (c *supernodeManagerClient) Create(ctx context.Context, in *SupernodeManagerCreateArgs, opts ...grpc.CallOption) (*SupernodeManagerCreateReply, error) {
-	out := new(SupernodeManagerCreateReply)
+func (c *supernodeManagerClient) Create(ctx context.Context, in *Supernode, opts ...grpc.CallOption) (*SupernodeManagedId, error) {
+	out := new(SupernodeManagedId)
 	err := c.cc.Invoke(ctx, "/gon2n.SupernodeManager/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -482,7 +310,7 @@ func (c *supernodeManagerClient) List(ctx context.Context, in *SupernodeManagerL
 	return out, nil
 }
 
-func (c *supernodeManagerClient) Get(ctx context.Context, in *SupernodeManagerGetArgs, opts ...grpc.CallOption) (*SupernodeManaged, error) {
+func (c *supernodeManagerClient) Get(ctx context.Context, in *SupernodeManagedId, opts ...grpc.CallOption) (*SupernodeManaged, error) {
 	out := new(SupernodeManaged)
 	err := c.cc.Invoke(ctx, "/gon2n.SupernodeManager/Get", in, out, opts...)
 	if err != nil {
@@ -491,8 +319,8 @@ func (c *supernodeManagerClient) Get(ctx context.Context, in *SupernodeManagerGe
 	return out, nil
 }
 
-func (c *supernodeManagerClient) Delete(ctx context.Context, in *SupernodeManagerDeleteArgs, opts ...grpc.CallOption) (*SupernodeManagerDeleteReply, error) {
-	out := new(SupernodeManagerDeleteReply)
+func (c *supernodeManagerClient) Delete(ctx context.Context, in *SupernodeManagedId, opts ...grpc.CallOption) (*SupernodeManagedId, error) {
+	out := new(SupernodeManagedId)
 	err := c.cc.Invoke(ctx, "/gon2n.SupernodeManager/Delete", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -502,26 +330,26 @@ func (c *supernodeManagerClient) Delete(ctx context.Context, in *SupernodeManage
 
 // SupernodeManagerServer is the server API for SupernodeManager service.
 type SupernodeManagerServer interface {
-	Create(context.Context, *SupernodeManagerCreateArgs) (*SupernodeManagerCreateReply, error)
+	Create(context.Context, *Supernode) (*SupernodeManagedId, error)
 	List(context.Context, *SupernodeManagerListArgs) (*SupernodeManagerListReply, error)
-	Get(context.Context, *SupernodeManagerGetArgs) (*SupernodeManaged, error)
-	Delete(context.Context, *SupernodeManagerDeleteArgs) (*SupernodeManagerDeleteReply, error)
+	Get(context.Context, *SupernodeManagedId) (*SupernodeManaged, error)
+	Delete(context.Context, *SupernodeManagedId) (*SupernodeManagedId, error)
 }
 
 // UnimplementedSupernodeManagerServer can be embedded to have forward compatible implementations.
 type UnimplementedSupernodeManagerServer struct {
 }
 
-func (*UnimplementedSupernodeManagerServer) Create(ctx context.Context, req *SupernodeManagerCreateArgs) (*SupernodeManagerCreateReply, error) {
+func (*UnimplementedSupernodeManagerServer) Create(ctx context.Context, req *Supernode) (*SupernodeManagedId, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (*UnimplementedSupernodeManagerServer) List(ctx context.Context, req *SupernodeManagerListArgs) (*SupernodeManagerListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (*UnimplementedSupernodeManagerServer) Get(ctx context.Context, req *SupernodeManagerGetArgs) (*SupernodeManaged, error) {
+func (*UnimplementedSupernodeManagerServer) Get(ctx context.Context, req *SupernodeManagedId) (*SupernodeManaged, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (*UnimplementedSupernodeManagerServer) Delete(ctx context.Context, req *SupernodeManagerDeleteArgs) (*SupernodeManagerDeleteReply, error) {
+func (*UnimplementedSupernodeManagerServer) Delete(ctx context.Context, req *SupernodeManagedId) (*SupernodeManagedId, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 
@@ -530,7 +358,7 @@ func RegisterSupernodeManagerServer(s *grpc.Server, srv SupernodeManagerServer) 
 }
 
 func _SupernodeManager_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SupernodeManagerCreateArgs)
+	in := new(Supernode)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -542,7 +370,7 @@ func _SupernodeManager_Create_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/gon2n.SupernodeManager/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SupernodeManagerServer).Create(ctx, req.(*SupernodeManagerCreateArgs))
+		return srv.(SupernodeManagerServer).Create(ctx, req.(*Supernode))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -566,7 +394,7 @@ func _SupernodeManager_List_Handler(srv interface{}, ctx context.Context, dec fu
 }
 
 func _SupernodeManager_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SupernodeManagerGetArgs)
+	in := new(SupernodeManagedId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -578,13 +406,13 @@ func _SupernodeManager_Get_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/gon2n.SupernodeManager/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SupernodeManagerServer).Get(ctx, req.(*SupernodeManagerGetArgs))
+		return srv.(SupernodeManagerServer).Get(ctx, req.(*SupernodeManagedId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _SupernodeManager_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SupernodeManagerDeleteArgs)
+	in := new(SupernodeManagedId)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -596,7 +424,7 @@ func _SupernodeManager_Delete_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/gon2n.SupernodeManager/Delete",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SupernodeManagerServer).Delete(ctx, req.(*SupernodeManagerDeleteArgs))
+		return srv.(SupernodeManagerServer).Delete(ctx, req.(*SupernodeManagedId))
 	}
 	return interceptor(ctx, in, info, handler)
 }
