@@ -35,7 +35,7 @@ type Edge struct {
 	DeviceIP             string            // IP address to set. Set to `"0.0.0.0"` if you are using `"dhcp"` as `AddressMode`. If the edge is running the network's DHCP server this must be set explicitly; i.e. to `192.168.1.0` if the DHCP server should give out addresses from `192.168.1.10` to `192.168.1.100`.
 	DeviceNetmask        string            // The netmask to use, i.e. `"255.255.255.0"`.
 	DeviceMACAddress     string            // The MAC address to use, i.e. `"DE:AD:BE:EF:01:10"`. Must be unique per edge.
-	MTU                  int               // The MTU to use. `1290` is the n2n default.
+	MTU                  int               // The MTU to use. `1290` is the n2n default, but `1500` is most common.
 	cTuntapDevice        C.tuntap_dev      // TUN/TAP device instance.
 	cConf                C.n2n_edge_conf_t // Internal edge configuration.
 	cKeepRunning         C.int             // Whether the edge should be kept running. Set to `C.int(0)` at any time and it will be stopped.

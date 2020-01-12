@@ -4,18 +4,18 @@ edge:
   communityName: mynetwork
   disablePMTUDiscovery: false
   disableMulticast: false
-  dynamicIPMode: false
+  dynamicIPMode: true
   encryptionKey: mysecretkey
   localPort: 0
-  managementPort: 5644
+  managementPort: 5645
   registerInterval: 1
   registerTTL: 1
   supernodeHostPort: localhost:1234
   typeOfService: 16
   encryptionMethod: 2
-  deviceName: edge0
-  addressMode: static
-  deviceIP: 192.168.1.1
+  deviceName: edge1
+  addressMode: dhcp
+  deviceIP: 0.0.0.0
   deviceNetmask: 255.255.255.0
-  deviceMACAddress: DE:AD:BE:EF:01:10
+  deviceMACAddress: DE:AD:BE:EF:01:11
   MTU: 1500

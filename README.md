@@ -98,7 +98,7 @@ Use "supernodectl [command] --help" for more information about a command.
 
 #### `edgectl`
 
-You may also set the flags by setting env variables in the format `EDGE_[FLAG]` (i.e. `EDGE_EDGE_CONFIGFILE=examples/edge.yaml`) or by using a [configuration file](examples/edge.yaml).
+You may also set the flags by setting env variables in the format `EDGE_[FLAG]` (i.e. `EDGE_EDGE_CONFIGFILE=examples/edge.yaml`) or by using a [configuration file](examples/edge.yaml) ([alternative with DHCP instead of static IPs](examples/edge-dhcp.yaml)).
 
 ```bash
 % edgectl
