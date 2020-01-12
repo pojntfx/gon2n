@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	constants "github.com/pojntfx/gon2n/cmd"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go"
@@ -24,6 +25,6 @@ https://pojntfx.github.io/gon2n/`,
 // Execute starts the root command.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		log.Fatal("Could not start root command", rz.Err(err))
+		log.Fatal(constants.CouldNotStartRootCommandErrorMessage, rz.Err(err))
 	}
 }

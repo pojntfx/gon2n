@@ -106,7 +106,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&hostPortFlag, listenHostPortKey, "l", constants.SupernodeServerHostPortDefault, "TCP listen host:port.")
 
 	if err := viper.BindPFlags(rootCmd.PersistentFlags()); err != nil {
-		log.Fatal("Could not bind flags", rz.Err(err))
+		log.Fatal(constants.CouldNotBindFlagsErrorMessage, rz.Err(err))
 	}
 
 	viper.AutomaticEnv()
@@ -114,6 +114,6 @@ func init() {
 
 func main() {
 	if err := rootCmd.Execute(); err != nil {
-		log.Fatal("Could not start root command", rz.Err(err))
+		log.Fatal(constants.CouldNotStartRootCommandErrorMessage, rz.Err(err))
 	}
 }
