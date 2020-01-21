@@ -71,7 +71,7 @@ func init() {
 		serverHostPortFlag string
 	)
 
-	getCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", constants.SupernodeServerHostPortDefault, "Host:port of the gon2n server to use.")
+	getCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", constants.SupernodeServerHostPortDefault, constants.HostPortDocs)
 
 	if err := viper.BindPFlags(getCmd.PersistentFlags()); err != nil {
 		log.Fatal(constants.CouldNotBindFlagsErrorMessage, rz.Err(err))
