@@ -58,8 +58,8 @@ func init() {
 		managementPortFlag int
 	)
 
-	applyCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", constants.SupernodeServerHostPortDefault, "Host:port of the gon2n server to use.")
-	applyCmd.PersistentFlags().StringVarP(&configFileFlag, configFileKey, "f", configFileDefault, "Configuration file to use.")
+	applyCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", constants.SupernodeServerHostPortDefault, constants.HostPortDocs)
+	applyCmd.PersistentFlags().StringVarP(&configFileFlag, configFileKey, "f", configFileDefault, constants.ConfigurationFileDocs)
 	applyCmd.PersistentFlags().IntVarP(&listenPortFlag, listenPortKey, "l", 1234, "UDP listen port.")
 	applyCmd.PersistentFlags().IntVarP(&managementPortFlag, managementPortKey, "m", 5645, "UDP management port.")
 

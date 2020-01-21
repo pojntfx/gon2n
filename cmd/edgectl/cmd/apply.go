@@ -94,8 +94,8 @@ func init() {
 		mtuFlag                  int
 	)
 
-	applyCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", constants.EdgedServerHostPortDefault, "Host:port of the gon2n server to use.")
-	applyCmd.PersistentFlags().StringVarP(&configFileFlag, configFileKey, "f", configFileDefault, "Configuration file to use.")
+	applyCmd.PersistentFlags().StringVarP(&serverHostPortFlag, serverHostPortKey, "s", constants.EdgedServerHostPortDefault, constants.HostPortDocs)
+	applyCmd.PersistentFlags().StringVarP(&configFileFlag, configFileKey, "f", configFileDefault, constants.ConfigurationFileDocs)
 	applyCmd.PersistentFlags().BoolVarP(&allowP2PFlag, allowP2PKey, "p", true, "Whether to allow peer-to-peer connections. If false, all traffic will be routed through the supernode.")
 	applyCmd.PersistentFlags().BoolVarP(&allowRoutingFlag, allowRoutingKey, "r", true, "Whether to allow the node to route traffic to other nodes.")
 	applyCmd.PersistentFlags().StringVarP(&communityNameFlag, communityNameKey, "c", "mynetwork", "The name of the n2n community to join.")
