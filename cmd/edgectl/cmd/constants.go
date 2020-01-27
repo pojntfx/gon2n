@@ -26,3 +26,8 @@ const (
 	deviceMACAddressKey     = keyPrefix + "deviceMACAddress"
 	mtuKey                  = keyPrefix + "MTU"
 )
+
+var (
+	serverHostPortFlag string
+	configFileFlag     string
+)

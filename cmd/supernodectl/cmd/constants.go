@@ -8,3 +8,8 @@ const (
 	listenPortKey     = keyPrefix + "listenPort"
 	managementPortKey = keyPrefix + "managementPort"
 )
+
+var (
+	serverHostPortFlag string
+	configFileFlag     string
+)

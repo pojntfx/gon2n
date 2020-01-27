@@ -70,8 +70,6 @@ var applyCmd = &cobra.Command{
 
 func init() {
 	var (
-		serverHostPortFlag       string
-		configFileFlag           string
 		allowP2PFlag             bool
 		allowRoutingFlag         bool
 		communityNameFlag        string
