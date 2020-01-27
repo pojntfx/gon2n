@@ -52,8 +52,6 @@ var applyCmd = &cobra.Command{
 
 func init() {
 	var (
-		serverHostPortFlag string
-		configFileFlag     string
 		listenPortFlag     int
 		managementPortFlag int
 	)
