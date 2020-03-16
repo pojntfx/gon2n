@@ -2,6 +2,8 @@
 
 Go bindings, management daemons and CLIs for n2n edges and supernodes.
 
+[![pipeline status](https://gitlab.com/pojntfx/gon2n/badges/master/pipeline.svg)](https://gitlab.com/pojntfx/gon2n/commits/master)
+
 ## Overview
 
 `gon2n` is a collection of Go bindings, management daemons and CLIs for the n2n peer-to-peer VPN. n2n is built of two main components:
@@ -18,7 +20,27 @@ In a similar way, `gon2n` is built of multiple components. The components are:
 
 ## Installation
 
-A Go package [is available](https://godoc.org/github.com/pojntfx/gon2n). In order to use it, you have to `go generate` it first.
+### Prebuilt Binaries
+
+Prebuilt binaries are available on the [releases page](https://github.com/pojntfx/gon2n/releases/latest).
+
+### Go Package
+
+A Go package [is available](https://pkg.go.dev/github.com/pojntfx/gon2n).
+
+### Docker Image
+
+#### `supernoded`
+
+A Docker image is available on [Docker Hub](https://hub.docker.com/r/pojntfx/supernoded).
+
+#### `edged`
+
+A Docker image is available on [Docker Hub](https://hub.docker.com/r/pojntfx/edged).
+
+### Helm Chart
+
+Helm charts for `supernoded` and `edged` are available in [@pojntfx's Helm chart repository](https://pojntfx.github.io/charts/).
 
 ## Usage
 
