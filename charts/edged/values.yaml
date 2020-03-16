@@ -1,0 +1,19 @@
+meta:
+  image: pojntfx/edged:latest
+  dev: false
+  debugPort: 31441
+  debugNodePort: 31442
+  target: "{{ .DIBS_TARGET }}"
+  platform: "{{ .TARGETPLATFORM }}"
+  debug: "{{ .DIBS_DEBUG }}"
+
+resources:
+  nodeSelector: {}
+  memory: "128Mi"
+  cpu: "256m"
+  maxReplicas: 10
+
+ingress:
+  nodePort: 31235
+  domain: edged.felicitas.pojtinger.com
+  path: /

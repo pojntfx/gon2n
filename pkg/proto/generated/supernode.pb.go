@@ -243,7 +243,9 @@ func init() {
 	proto.RegisterType((*SupernodeManagerListReply)(nil), "gon2n.SupernodeManagerListReply")
 }
 
-func init() { proto.RegisterFile("supernode.proto", fileDescriptor_eee77e6761fc0983) }
+func init() {
+	proto.RegisterFile("supernode.proto", fileDescriptor_eee77e6761fc0983)
+}
 
 var fileDescriptor_eee77e6761fc0983 = []byte{
 	// 272 bytes of a gzipped FileDescriptorProto
@@ -268,11 +270,11 @@ var fileDescriptor_eee77e6761fc0983 = []byte{
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
-var _ grpc.ClientConn
+var _ grpc.ClientConnInterface
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion4
+const _ = grpc.SupportPackageIsVersion6
 
 // SupernodeManagerClient is the client API for SupernodeManager service.
 //
@@ -285,10 +287,10 @@ type SupernodeManagerClient interface {
 }
 
 type supernodeManagerClient struct {
-	cc *grpc.ClientConn
+	cc grpc.ClientConnInterface
 }
 
-func NewSupernodeManagerClient(cc *grpc.ClientConn) SupernodeManagerClient {
+func NewSupernodeManagerClient(cc grpc.ClientConnInterface) SupernodeManagerClient {
 	return &supernodeManagerClient{cc}
 }
 

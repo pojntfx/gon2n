@@ -1,0 +1,51 @@
+# syntax=docker/dockerfile:experimental
+# Build container
+FROM --platform=$TARGETPLATFORM alpine AS build
+ARG DIBS_TARGET
+ARG TARGETPLATFORM
+
+WORKDIR /app
+
+RUN apk add -u curl tar
+
+RUN curl -Lo /tmp/dibs https://github.com/pojntfx/dibs/releases/latest/download/dibs-linux-amd64
+RUN install /tmp/dibs /usr/local/bin
+
+RUN curl -L https://get.helm.sh/helm-v3.1.1-linux-amd64.tar.gz | tar -zvxf - linux-amd64/helm -O >/tmp/helm
+RUN install /tmp/helm /usr/local/bin
+
+ADD . .
+
+RUN dibs -buildChart
+
+# Run container
+FROM --platform=$TARGETPLATFORM docker:stable
+ARG DIBS_TARGET
+ARG TARGETPLATFORM
+
+WORKDIR /app
+
+RUN apk add -u curl tar
+
+RUN curl -L https://get.helm.sh/helm-v3.1.1-linux-amd64.tar.gz | tar -zvxf - linux-amd64/helm -O >/tmp/helm
+RUN install /tmp/helm /usr/local/bin
+
+RUN curl -Lo /tmp/dibs https://github.com/pojntfx/dibs/releases/latest/download/dibs-linux-amd64
+RUN install /tmp/dibs /usr/local/bin
+
+RUN curl -Lo /tmp/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+RUN install /tmp/kubectl /usr/local/bin
+
+RUN curl -Lo /tmp/k3d https://github.com/rancher/k3d/releases/download/v1.3.4/k3d-linux-amd64
+RUN install /tmp/k3d /usr/local/bin
+
+COPY --from=build /app /app
+
+CMD k3d delete || true \
+    && k3d create \
+        --server-arg "--tls-san=$(/sbin/ip route|awk '/default/ { print $3 }')" \
+        --wait 10 \
+    && mkdir -p ~/.kube \
+    && cat $(k3d get-kubeconfig --name='k3s-default') | sed -e "s/127.0.0.1/$(/sbin/ip route|awk '/default/ { print $3 }')/g" > ~/.kube/config \
+    && dibs -chartTests \
+    && k3d delete

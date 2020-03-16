@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: supernoded-{{ .Release.Name }}{{ if .Values.meta.dev }}-dev{{ end }}
+data:
+  DIBS_TARGET: "{{ .Values.meta.target }}"
+  TARGETPLATFORM: "{{ .Values.meta.platform }}"
+  {{ if and .Values.meta.dev .Values.meta.debug }}
+  DIBS_DEBUG: "true"
+  {{end}}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: supernoded-{{ .Release.Name }}{{ if .Values.meta.dev }}-dev{{ end }}
+spec:
+  selector:
+    matchLabels:
+      app: supernoded-{{ .Release.Name }}{{ if .Values.meta.dev }}-dev{{ end }}
+  template:
+    metadata:
+      labels:
+        app: supernoded-{{ .Release.Name }}{{ if .Values.meta.dev }}-dev{{ end }}
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{ if .Values.resources.nodeSelector }}
+      nodeSelector:
+        {{ toYaml .Values.resources.nodeSelector }}
+      {{ end }}
+      containers:
+        - name: supernoded{{ if .Values.meta.dev }}-dev{{ end }}
+          image: {{ .Values.meta.image }}
+          envFrom:
+            - configMapRef:
+                name: supernoded-{{ .Release.Name }}{{ if .Values.meta.dev }}-dev{{ end }}
+          {{ if not .Values.meta.dev }}
+          resources:
+            limits:
+              memory: {{ .Values.resources.memory }}
+              cpu: {{ .Values.resources.cpu }}
+          {{ end }}
+          ports:
+            - containerPort: 1236
+            {{ if and .Values.meta.dev .Values.meta.debug }}
+            - containerPort: {{ .Values.meta.debugPort }}
+            {{end}}
+  {{ if .Values.meta.dev }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supernoded-{{ .Release.Name }}-dev
+spec:
+  selector:
+    app: supernoded-{{ .Release.Name }}-dev
+  type: NodePort
+  ports:
+    - name: grpc
+      port: 1236
+      targetPort: 1236
+      nodePort: {{ .Values.ingress.nodePort }}
+    - name: debug
+      port: {{ .Values.meta.debugNodePort }}
+      targetPort: {{ .Values.meta.debugPort }}
+      nodePort: {{ .Values.meta.debugNodePort }}
+  {{ else }}
+
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: supernoded-{{ .Release.Name }}
+spec:
+  maxReplicas: {{ .Values.resources.maxReplicas }}
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: supernoded-{{ .Release.Name }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 60
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supernoded-{{ .Release.Name }}
+spec:
+  selector:
+    app: supernoded-{{ .Release.Name }}
+  ports:
+    - name: grpc
+      port: 1236
+      targetPort: 1236
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: supernoded-{{ .Release.Name }}
+  annotations:
+    ingress.kubernetes.io/protocol: h2c
+spec:
+  rules:
+    - host: {{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: {{ .Values.ingress.path }}
+            backend:
+              serviceName: supernoded-{{ .Release.Name }}
+              servicePort: grpc
+  {{ end }}
