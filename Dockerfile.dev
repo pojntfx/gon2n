@@ -1,0 +1,23 @@
+# syntax=docker/dockerfile:experimental
+FROM --platform=$TARGETPLATFORM golang:alpine AS build
+ARG DIBS_TARGET
+ARG TARGETPLATFORM
+
+WORKDIR /app
+
+RUN apk add -u curl protoc build-base autoconf automake openssl-libs-static openssl-dev git bash linux-headers
+
+RUN curl -Lo /tmp/dibs https://github.com/pojntfx/dibs/releases/latest/download/dibs-linux-amd64
+RUN install /tmp/dibs /usr/local/bin
+
+ENV GO111MODULE=on
+
+RUN go get github.com/golang/protobuf/protoc-gen-go
+RUN go get github.com/go-delve/delve/cmd/dlv
+
+ADD . .
+
+RUN dibs -generateSources
+# Tests are disabled because there currently are none.
+# To reduce build time, automatic sources generation has also been disabled. To generate sources manually, please re-deploy manually.
+CMD dibs -dev -skipGenerateSources -skipTests

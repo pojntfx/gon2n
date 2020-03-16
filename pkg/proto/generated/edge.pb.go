@@ -523,7 +523,9 @@ func init() {
 	proto.RegisterType((*EdgeManagerListReply)(nil), "gon2n.EdgeManagerListReply")
 }
 
-func init() { proto.RegisterFile("edge.proto", fileDescriptor_cab1176173a95651) }
+func init() {
+	proto.RegisterFile("edge.proto", fileDescriptor_cab1176173a95651)
+}
 
 var fileDescriptor_cab1176173a95651 = []byte{
 	// 592 bytes of a gzipped FileDescriptorProto
@@ -568,11 +570,11 @@ var fileDescriptor_cab1176173a95651 = []byte{
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
-var _ grpc.ClientConn
+var _ grpc.ClientConnInterface
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion4
+const _ = grpc.SupportPackageIsVersion6
 
 // EdgeManagerClient is the client API for EdgeManager service.
 //
@@ -585,10 +587,10 @@ type EdgeManagerClient interface {
 }
 
 type edgeManagerClient struct {
-	cc *grpc.ClientConn
+	cc grpc.ClientConnInterface
 }
 
-func NewEdgeManagerClient(cc *grpc.ClientConn) EdgeManagerClient {
+func NewEdgeManagerClient(cc grpc.ClientConnInterface) EdgeManagerClient {
 	return &edgeManagerClient{cc}
 }
 
