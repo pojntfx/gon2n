@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:experimental
-FROM --platform=$TARGETPLATFORM golang AS build
+FROM --platform=$TARGETPLATFORM golang:alpine AS build
 ARG DIBS_TARGET
 ARG TARGETPLATFORM
 
