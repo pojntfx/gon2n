@@ -2,8 +2,8 @@ package cmd
 
 const (
 	SupernodeHostPortDefault       = "localhost:1234"                  // SupernodeHostPortDefault is the default supernode Host:port that edges started in `edged` should connect to.
-	EdgedServerHostPortDefault     = "localhost:1235"                  // EdgedServerHostPortDefault is the default Host:port of `edged`.
-	SupernodeServerHostPortDefault = "localhost:1236"                  // SupernodeServerHostPortDefault is the default Host:port of `supernoded`.
+	EdgedServerHostPortDefault     = "localhost:1060"                  // EdgedServerHostPortDefault is the default Host:port of `edged`.
+	SupernodeServerHostPortDefault = "localhost:1050"                  // SupernodeServerHostPortDefault is the default Host:port of `supernoded`.
 	HostPortDocs                   = "Host:port of the server to use." // HostPortDocs is the documentation for the host:port flag.
 	ConfigurationFileDocs          = "Configuration file to use."      // ConfigurationFileDocs is the documentation for the configuration file flag.)
 )

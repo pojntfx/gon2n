@@ -42,7 +42,7 @@ spec:
               cpu: {{ .Values.resources.cpu }}
           {{ end }}
           ports:
-            - containerPort: 1236
+            - containerPort: 1050
             {{ if and .Values.meta.dev .Values.meta.debug }}
             - containerPort: {{ .Values.meta.debugPort }}
             {{end}}
@@ -59,8 +59,8 @@ spec:
   type: NodePort
   ports:
     - name: grpc
-      port: 1236
-      targetPort: 1236
+      port: 1050
+      targetPort: 1050
       nodePort: {{ .Values.ingress.nodePort }}
     - name: debug
       port: {{ .Values.meta.debugNodePort }}
@@ -96,8 +96,8 @@ spec:
     app: supernoded-{{ .Release.Name }}
   ports:
     - name: grpc
-      port: 1236
-      targetPort: 1236
+      port: 1050
+      targetPort: 1050
 
 ---
 apiVersion: networking.k8s.io/v1beta1

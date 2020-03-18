@@ -14,6 +14,6 @@ resources:
   maxReplicas: 10
 
 ingress:
-  nodePort: 31236
-  domain: supernoded.felix.pojtinger.com
+  nodePort: 31050
+  domain: supernoded.example.com
   path: /

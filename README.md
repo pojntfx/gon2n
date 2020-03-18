@@ -65,7 +65,7 @@ Usage:
 Flags:
   -h, --help                               help for supernoded
   -f, --supernoded.configFile string       Configuration file to use.
-  -l, --supernoded.listenHostPort string   TCP listen host:port. (default "localhost:1236")
+  -l, --supernoded.listenHostPort string   TCP listen host:port. (default "localhost:1050")
 ```
 
 #### `edged`
@@ -84,7 +84,7 @@ Usage:
 
 Flags:
   -f, --edged.configFile string       Configuration file to use.
-  -l, --edged.listenHostPort string   TCP listen host:port. (default "localhost:1235")
+  -l, --edged.listenHostPort string   TCP listen host:port. (default "localhost:1060")
   -h, --help                          help for edged
 ```
 
