@@ -21,7 +21,7 @@ RUN dibs -generateSources
 RUN dibs -build
 
 # Run container
-FROM --platform=$TARGETPLATFORM golang:alpine
+FROM --platform=$TARGETPLATFORM alpine
 ARG DIBS_TARGET
 ARG TARGETPLATFORM
 
