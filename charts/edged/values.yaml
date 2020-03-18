@@ -14,6 +14,6 @@ resources:
   maxReplicas: 10
 
 ingress:
-  nodePort: 31235
-  domain: edged.felicitas.pojtinger.com
+  nodePort: 31060
+  domain: edged.example.com
   path: /

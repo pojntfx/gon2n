@@ -42,7 +42,7 @@ spec:
               cpu: {{ .Values.resources.cpu }}
           {{ end }}
           ports:
-            - containerPort: 1235
+            - containerPort: 1060
             {{ if and .Values.meta.dev .Values.meta.debug }}
             - containerPort: {{ .Values.meta.debugPort }}
             {{end}}
@@ -59,8 +59,8 @@ spec:
   type: NodePort
   ports:
     - name: grpc
-      port: 1235
-      targetPort: 1235
+      port: 1060
+      targetPort: 1060
       nodePort: {{ .Values.ingress.nodePort }}
     - name: debug
       port: {{ .Values.meta.debugNodePort }}
@@ -96,8 +96,8 @@ spec:
     app: edged-{{ .Release.Name }}
   ports:
     - name: grpc
-      port: 1235
-      targetPort: 1235
+      port: 1060
+      targetPort: 1060
 
 ---
 apiVersion: networking.k8s.io/v1beta1
