@@ -27,7 +27,7 @@ type Edge struct {
 	ManagementPort       int               // UDP management port. `5644` is the n2n default.
 	RegisterInterval     int               // Interval in seconds for both UDP NAT hole punching and registration of the edge on the supernode. `1` is the n2n default.
 	RegisterTTL          int               // Interval in seconds for UDP NAT hole punching through the supernode. `1` is the n2n default.
-	SupernodeHostPort    string            // Host:port of the supernode to connect to, i.e. `"localhost:1234"`.
+	SupernodeHostPort    string            // Host:port of the supernode to connect to, i.e. `":1234"`.
 	TypeOfService        int               // Type of service to use. `16` is the n2n default.
 	EncryptionMethod     int               // Method of encryption to use. `1` is no encryption, `2` is Twofish encryption, `3` is AES-CBC encryption. Twofish encryption is the n2n default, but only due to legacy compatibility reasons; AES-CBC is up to ten times faster.
 	DeviceName           string            // Name of the TUN/TAP device to create, i.e. `"edge0"`.

@@ -1,2 +1,2 @@
 supernoded:
-  listenHostPort: localhost:1050
+  listenHostPort: :1050

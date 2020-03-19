@@ -1,2 +1,2 @@
 edged:
-  listenHostPort: localhost:1060
+  listenHostPort: :1060
