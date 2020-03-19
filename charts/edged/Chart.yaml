@@ -1,6 +1,6 @@
 apiVersion: v1
 name: edged
-version: 0.0.2
+version: 0.0.3
 description: An n2n edge management daemon.
 type: application
 home: https://pojntfx.github.io/gon2n/
@@ -10,4 +10,4 @@ maintainers:
   - name: Felicitas Pojtinger
     email: felicitas@pojtinger.com
     url: https://felicitas.pojtinger.com
-appVersion: 0.0.2
+appVersion: 0.0.3
