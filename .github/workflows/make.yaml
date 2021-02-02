@@ -1,0 +1,15 @@
+name: make CI
+
+on: [push, pull_request]
+
+jobs:
+  make:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "^1.15.7" # The Go version to download (if necessary) and use.
+      - name: Build with make
+        run: make -j$(nproc)
