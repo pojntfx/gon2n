@@ -1,4 +1,4 @@
-#include "n2n/n2n.h"
+#include "n2n/include/n2n.h"
 
 int edge_configure(n2n_edge_conf_t *conf,
                    int allow_p2p,

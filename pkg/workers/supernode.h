@@ -1,4 +1,4 @@
-#include "n2n/n2n.h"
+#include "n2n/include/n2n.h"
 
 int supernode_configure(n2n_sn_t *sss_node, int lport);
 
