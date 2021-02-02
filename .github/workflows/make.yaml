@@ -11,7 +11,7 @@ jobs:
         with:
           go-version: "^1.15.7" # The Go version to download (if necessary) and use.
       - name: Install dependencies
-        run: sudo apt install -y protobuf-compiler wine
+        run: sudo apt install -y protobuf-compiler wine-development
       - name: Install Go protoc plugin
         run: go get google.golang.org/protobuf/cmd/protoc-gen-go google.golang.org/grpc/cmd/protoc-gen-go-grpc
       - uses: actions/checkout@v2
