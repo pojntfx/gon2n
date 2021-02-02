@@ -1,4 +1,2 @@
-**/.bin
-**/.idea
-**/charts/*/charts
+out
 **/n2n/
