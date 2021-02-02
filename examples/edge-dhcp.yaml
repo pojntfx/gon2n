@@ -10,7 +10,7 @@ edge:
   managementPort: 5645
   registerInterval: 1
   registerTTL: 1
-  supernodeHostPort: :1234
+  supernodeHostPort: localhost:1234
   typeOfService: 16
   encryptionMethod: 2
   deviceName: edge1
