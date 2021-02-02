@@ -1,9 +1,10 @@
 package svc
 
-//go:generate sh -c "mkdir -p ../proto/generated && protoc --go_out=paths=source_relative,plugins=grpc:../proto/generated -I=../proto ../proto/*.proto"
+//go:generate sh -c "mkdir -p ../proto/generated && protoc --go_out=../proto/generated --go_opt=paths=source_relative --go-grpc_out=../proto/generated --go-grpc_opt=paths=source_relative -I=../proto ../proto/*.proto"
 
 import (
 	"context"
+
 	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
 	"github.com/pojntfx/gon2n/pkg/workers"
 	uuid "github.com/satori/go.uuid"

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package gon2n;
 
+option go_package = ".;proto";
+
 // EdgeManager manages edges.
 service EdgeManager {
   rpc Create(Edge) returns (EdgeManagedId) {};
