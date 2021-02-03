@@ -94,34 +94,35 @@ jobs:
           DIBS_GIT_USER_EMAIL: ${{ secrets.DIBS_GIT_USER_EMAIL }}
           DIBS_GIT_COMMIT_MESSAGE: ${{ secrets.DIBS_GIT_COMMIT_MESSAGE }}
         if: startsWith(github.ref, 'refs/tags/v')
-  dibs-macos:
-    runs-on: macos-latest
+  # See https://github.com/ntop/n2n/issues/385; until a new release of n2n is out, macOS is not supported
+  # dibs-macos:
+  #   runs-on: macos-latest
 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
-        with:
-          go-version: "^1.15.7"
-      - name: Install Protoc
-        uses: arduino/setup-protoc@v1
-      - name: Install Go protoc plugin
-        run: go get google.golang.org/protobuf/cmd/protoc-gen-go google.golang.org/grpc/cmd/protoc-gen-go-grpc
-      - name: Install Homebrew dependencies
-        run: brew install automake openssl
-      - name: Install dibs
-        run: |
-          curl -L -o /tmp/ghr.zip https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_darwin_amd64.zip
-          unzip -d /tmp /tmp/ghr.zip
-          sudo install /tmp/ghr_v0.13.0_darwin_amd64/ghr /usr/local/bin
-          go get github.com/pojntfx/dibs
-      - name: Generate sources
-        run: dibs -generateSources -target '*' -platform darwin/amd64
-      - name: Build binaries
-        run: dibs -build -target '*' -platform darwin/amd64
-      - name: Push binaries
-        run: dibs -pushBinary -target '*' -platform darwin/amd64
-        env:
-          DIBS_GITHUB_USER_NAME: ${{ secrets.DIBS_GITHUB_USER_NAME }}
-          DIBS_GITHUB_TOKEN: ${{ secrets.DIBS_GITHUB_TOKEN }}
-          DIBS_GITHUB_REPOSITORY: ${{ secrets.DIBS_GITHUB_REPOSITORY }}
-        if: startsWith(github.ref, 'refs/tags/v')
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-go@v2
+  #       with:
+  #         go-version: "^1.15.7"
+  #     - name: Install Protoc
+  #       uses: arduino/setup-protoc@v1
+  #     - name: Install Go protoc plugin
+  #       run: go get google.golang.org/protobuf/cmd/protoc-gen-go google.golang.org/grpc/cmd/protoc-gen-go-grpc
+  #     - name: Install Homebrew dependencies
+  #       run: brew install automake openssl
+  #     - name: Install dibs
+  #       run: |
+  #         curl -L -o /tmp/ghr.zip https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_darwin_amd64.zip
+  #         unzip -d /tmp /tmp/ghr.zip
+  #         sudo install /tmp/ghr_v0.13.0_darwin_amd64/ghr /usr/local/bin
+  #         go get github.com/pojntfx/dibs
+  #     - name: Generate sources
+  #       run: dibs -generateSources -target '*' -platform darwin/amd64
+  #     - name: Build binaries
+  #       run: dibs -build -target '*' -platform darwin/amd64
+  #     - name: Push binaries
+  #       run: dibs -pushBinary -target '*' -platform darwin/amd64
+  #       env:
+  #         DIBS_GITHUB_USER_NAME: ${{ secrets.DIBS_GITHUB_USER_NAME }}
+  #         DIBS_GITHUB_TOKEN: ${{ secrets.DIBS_GITHUB_TOKEN }}
+  #         DIBS_GITHUB_REPOSITORY: ${{ secrets.DIBS_GITHUB_REPOSITORY }}
+  #       if: startsWith(github.ref, 'refs/tags/v')
