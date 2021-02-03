@@ -112,6 +112,8 @@ jobs:
           unzip -d /tmp /tmp/ghr.zip
           sudo install /tmp/ghr_v0.13.0_darwin_amd64/ghr /usr/local/bin
           go get github.com/pojntfx/dibs
+      - name: Generate sources
+        run: dibs -generateSources -target '*' -platform darwin/amd64
       - name: Build binaries
         run: dibs -build -target '*' -platform darwin/amd64
       - name: Push binaries
