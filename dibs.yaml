@@ -85,26 +85,26 @@ targets:
             file: Dockerfile.chartTests
             context: .
             tag: pojntfx/supernoded-chart-tests:linux-arm64
-  - name: supernoded-macos
+  - name: supernoded-darwin
     platforms:
-      - identifier: macos/amd64
+      - identifier: darwin/amd64
         paths:
           watch: .
           include: (.*)\.go
           gitRepoRoot: .
         commands:
           generateSources: go generate ./...
-          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/supernoded/supernoded-macos-amd64 cmd/supernoded/main.go
+          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/supernoded/supernoded-darwin-amd64 cmd/supernoded/main.go
           unitTests: go test -v ./...
-          integrationTests: .bin/binaries/supernoded/supernoded-macos-amd64 --help
+          integrationTests: .bin/binaries/supernoded/supernoded-darwin-amd64 --help
           start: |
             if [ "$DIBS_DEBUG" = "true" ]; then
               pkill -9 dlv || true
               pkill -9 supernoded || true
-              .bin/binaries/supernoded/supernoded-macos-amd64 &
+              .bin/binaries/supernoded/supernoded-darwin-amd64 &
               dlv attach $! --headless --listen=:31441 --api-version=2 --accept-multiclient || true
             else
-              .bin/binaries/supernoded/supernoded-macos-amd64
+              .bin/binaries/supernoded/supernoded-darwin-amd64
             fi
   - name: supernodectl-linux
     platforms:
@@ -160,19 +160,52 @@ targets:
             file: Dockerfile.integrationTests
             context: .
             tag: pojntfx/supernodectl-integration-tests:linux-arm64
-  - name: supernodectl-macos
+  - name: supernodectl-darwin
     platforms:
-      - identifier: macos/amd64
+      - identifier: darwin/amd64
         paths:
           watch: .
           include: (.*)\.go
           gitRepoRoot: .
         commands:
           generateSources: go generate ./...
-          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/supernodectl/supernodectl-macos-amd64 cmd/supernodectl/main.go
+          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/supernodectl/supernodectl-darwin-amd64 cmd/supernodectl/main.go
           unitTests: go test -v ./...
-          integrationTests: .bin/binaries/supernodectl/supernodectl-macos-amd64 --help
-          start: .bin/binaries/supernodectl/supernodectl-macos-amd64 --help
+          integrationTests: .bin/binaries/supernodectl/supernodectl-darwin-amd64 --help
+          start: .bin/binaries/supernodectl/supernodectl-darwin-amd64 --help
+  - name: supernodectl-windows
+    platforms:
+      - identifier: linux/amd64
+        paths:
+          watch: .
+          include: (.*)\.go
+          assetInImage: /usr/local/bin/supernodectl
+          assetOut: .bin/binaries/supernodectl/edgectl-windows-amd64.exe
+          gitRepoRoot: .
+        commands:
+          generateSources: go generate ./...
+          build: GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/supernodectl/supernodectl-windows-amd64.exe cmd/supernodectl/main.go
+          unitTests: echo 0
+          integrationTests: echo 0
+          start: echo 0
+        docker:
+          build:
+            file: Dockerfile.supernodectl
+            context: .
+            tag: pojntfx/supernodectl:windows-amd64 # Only to get the binaries from Docker
+          unitTests:
+            file: Dockerfile.unitTests
+            context: .
+            tag: pojntfx/supernodectl-unit-tests:windows-amd64
+          integrationTests:
+            file: Dockerfile.integrationTests
+            context: .
+            tag: pojntfx/supernodectl-integration-tests:windows-amd64
+      - identifier: windows/amd64
+        commands:
+          integrationTests: wine64 .bin/binaries/supernodectl/edgectl-windows-amd64.exe --help
+          start: wine64 .bin/binaries/supernodectl/supernodectl-windows-amd64.exe --help
+
   - name: edged-linux
     helm:
       src: charts/edged
@@ -259,26 +292,26 @@ targets:
             file: Dockerfile.chartTests
             context: .
             tag: pojntfx/edged-chart-tests:linux-arm64
-  - name: edged-macos
+  - name: edged-darwin
     platforms:
-      - identifier: macos/amd64
+      - identifier: darwin/amd64
         paths:
           watch: .
           include: (.*)\.go
           gitRepoRoot: .
         commands:
           generateSources: go generate ./...
-          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/edged/edged-macos-amd64 cmd/edged/main.go
+          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/edged/edged-darwin-amd64 cmd/edged/main.go
           unitTests: go test -v ./...
-          integrationTests: .bin/binaries/edged/edged-macos-amd64 --help
+          integrationTests: .bin/binaries/edged/edged-darwin-amd64 --help
           start: |
             if [ "$DIBS_DEBUG" = "true" ]; then
               pkill -9 dlv || true
               pkill -9 edged || true
-              .bin/binaries/edged/edged-macos-amd64 &
+              .bin/binaries/edged/edged-darwin-amd64 &
               dlv attach $! --headless --listen=:31441 --api-version=2 --accept-multiclient || true
             else
-              .bin/binaries/edged/edged-macos-amd64
+              .bin/binaries/edged/edged-darwin-amd64
             fi
   - name: edgectl-linux
     platforms:
@@ -334,16 +367,48 @@ targets:
             file: Dockerfile.integrationTests
             context: .
             tag: pojntfx/edgectl-integration-tests:linux-arm64
-  - name: edgectl-macos
+  - name: edgectl-darwin
     platforms:
-      - identifier: macos/amd64
+      - identifier: darwin/amd64
         paths:
           watch: .
           include: (.*)\.go
           gitRepoRoot: .
         commands:
           generateSources: go generate ./...
-          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/edgectl/edgectl-macos-amd64 cmd/edgectl/main.go
+          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/edgectl/edgectl-darwin-amd64 cmd/edgectl/main.go
           unitTests: go test -v ./...
-          integrationTests: .bin/binaries/edgectl/edgectl-macos-amd64 --help
-          start: .bin/binaries/edgectl/edgectl-macos-amd64 --help
+          integrationTests: .bin/binaries/edgectl/edgectl-darwin-amd64 --help
+          start: .bin/binaries/edgectl/edgectl-darwin-amd64 --help
+  - name: edgectl-windows
+    platforms:
+      - identifier: linux/amd64
+        paths:
+          watch: .
+          include: (.*)\.go
+          assetInImage: /usr/local/bin/edgectl
+          assetOut: .bin/binaries/edgectl/edgectl-windows-amd64.exe
+          gitRepoRoot: .
+        commands:
+          generateSources: go generate ./...
+          build: GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/edgectl/edgectl-windows-amd64.exe cmd/edgectl/main.go
+          unitTests: echo 0
+          integrationTests: echo 0
+          start: echo 0
+        docker:
+          build:
+            file: Dockerfile.edgectl
+            context: .
+            tag: pojntfx/edgectl:windows-amd64 # Only to get the binaries from Docker
+          unitTests:
+            file: Dockerfile.unitTests
+            context: .
+            tag: pojntfx/edgectl-unit-tests:windows-amd64
+          integrationTests:
+            file: Dockerfile.integrationTests
+            context: .
+            tag: pojntfx/edgectl-integration-tests:windows-amd64
+      - identifier: windows/amd64
+        commands:
+          integrationTests: wine64 .bin/binaries/edgectl/edgectl-windows-amd64.exe --help
+          start: wine64 .bin/binaries/edgectl/edgectl-windows-amd64.exe --help
