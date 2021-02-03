@@ -33,7 +33,7 @@ jobs:
           DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Run uit tests
+      - name: Run unit tests
         run: dibs -unitTests -target '*' -platform linux/amd64 -docker
       - name: Run integration tests
         run: dibs -integrationTests -target '*' -platform linux/amd64 -docker
