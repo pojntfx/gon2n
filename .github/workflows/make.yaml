@@ -21,7 +21,7 @@ jobs:
         run: make -j$(nproc)
       - name: Run tests
         run: make test -j$(nproc)
-      - name: Publish to GitHub releases
+      - name: Publish development release to GitHub releases
         if: ${{ github.ref == 'refs/heads/master' }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
