@@ -85,26 +85,26 @@ targets:
             file: Dockerfile.chartTests
             context: .
             tag: pojntfx/supernoded-chart-tests:linux-arm64
-  - name: supernoded-darwin
+  - name: supernoded-macos
     platforms:
-      - identifier: darwin/amd64
+      - identifier: macos/amd64
         paths:
           watch: .
           include: (.*)\.go
           gitRepoRoot: .
         commands:
           generateSources: go generate ./...
-          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/supernoded/supernoded-linux-amd64 cmd/supernoded/main.go
+          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/supernoded/supernoded-macos-amd64 cmd/supernoded/main.go
           unitTests: go test -v ./...
-          integrationTests: .bin/binaries/supernoded/supernoded-darwin-amd64 --help
+          integrationTests: .bin/binaries/supernoded/supernoded-macos-amd64 --help
           start: |
             if [ "$DIBS_DEBUG" = "true" ]; then
               pkill -9 dlv || true
               pkill -9 supernoded || true
-              .bin/binaries/supernoded/supernoded-darwin-amd64 &
+              .bin/binaries/supernoded/supernoded-macos-amd64 &
               dlv attach $! --headless --listen=:31441 --api-version=2 --accept-multiclient || true
             else
-              .bin/binaries/supernoded/supernoded-darwin-amd64
+              .bin/binaries/supernoded/supernoded-macos-amd64
             fi
   - name: supernodectl-linux
     platforms:
@@ -160,19 +160,19 @@ targets:
             file: Dockerfile.integrationTests
             context: .
             tag: pojntfx/supernodectl-integration-tests:linux-arm64
-  - name: supernodectl-darwin
+  - name: supernodectl-macos
     platforms:
-      - identifier: darwin/amd64
+      - identifier: macos/amd64
         paths:
           watch: .
           include: (.*)\.go
           gitRepoRoot: .
         commands:
           generateSources: go generate ./...
-          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/supernodectl/supernodectl-darwin-amd64 cmd/supernodectl/main.go
+          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/supernodectl/supernodectl-macos-amd64 cmd/supernodectl/main.go
           unitTests: go test -v ./...
-          integrationTests: .bin/binaries/supernodectl/supernodectl-darwin-amd64 --help
-          start: .bin/binaries/supernodectl/supernodectl-darwin-amd64 --help
+          integrationTests: .bin/binaries/supernodectl/supernodectl-macos-amd64 --help
+          start: .bin/binaries/supernodectl/supernodectl-macos-amd64 --help
   - name: edged-linux
     helm:
       src: charts/edged
@@ -259,26 +259,26 @@ targets:
             file: Dockerfile.chartTests
             context: .
             tag: pojntfx/edged-chart-tests:linux-arm64
-  - name: edged-darwin
+  - name: edged-macos
     platforms:
-      - identifier: darwin/amd64
+      - identifier: macos/amd64
         paths:
           watch: .
           include: (.*)\.go
           gitRepoRoot: .
         commands:
           generateSources: go generate ./...
-          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/edged/edged-linux-amd64 cmd/edged/main.go
+          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/edged/edged-macos-amd64 cmd/edged/main.go
           unitTests: go test -v ./...
-          integrationTests: .bin/binaries/edged/edged-darwin-amd64 --help
+          integrationTests: .bin/binaries/edged/edged-macos-amd64 --help
           start: |
             if [ "$DIBS_DEBUG" = "true" ]; then
               pkill -9 dlv || true
               pkill -9 edged || true
-              .bin/binaries/edged/edged-darwin-amd64 &
+              .bin/binaries/edged/edged-macos-amd64 &
               dlv attach $! --headless --listen=:31441 --api-version=2 --accept-multiclient || true
             else
-              .bin/binaries/edged/edged-darwin-amd64
+              .bin/binaries/edged/edged-macos-amd64
             fi
   - name: edgectl-linux
     platforms:
@@ -334,16 +334,16 @@ targets:
             file: Dockerfile.integrationTests
             context: .
             tag: pojntfx/edgectl-integration-tests:linux-arm64
-  - name: edgectl-darwin
+  - name: edgectl-macos
     platforms:
-      - identifier: darwin/amd64
+      - identifier: macos/amd64
         paths:
           watch: .
           include: (.*)\.go
           gitRepoRoot: .
         commands:
           generateSources: go generate ./...
-          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/edgectl/edgectl-darwin-amd64 cmd/edgectl/main.go
+          build: GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo -ldflags '-extldflags "-static"' -o .bin/binaries/edgectl/edgectl-macos-amd64 cmd/edgectl/main.go
           unitTests: go test -v ./...
-          integrationTests: .bin/binaries/edgectl/edgectl-darwin-amd64 --help
-          start: .bin/binaries/edgectl/edgectl-darwin-amd64 --help
+          integrationTests: .bin/binaries/edgectl/edgectl-macos-amd64 --help
+          start: .bin/binaries/edgectl/edgectl-macos-amd64 --help
