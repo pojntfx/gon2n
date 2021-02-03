@@ -8,6 +8,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "^1.15.7"
       - name: Install dibs
         run: |
           echo $'{\n    "experimental": true\n}' | sudo tee /etc/docker/daemon.json
@@ -25,8 +28,7 @@ jobs:
           sudo install ghr_v0.13.0_linux_amd64/ghr /usr/local/bin
           curl -L https://github.com/helm/chart-releaser/releases/download/v0.2.3/chart-releaser_0.2.3_linux_amd64.tar.gz | tar -zvxf - cr
           sudo install cr /usr/local/bin
-          curl -Lo /tmp/dibs https://nx904.your-storageshare.de/s/ZWxkmmQW37fHt9J/download
-          sudo install /tmp/dibs /usr/local/bin
+          go get github.com/pojntfx/dibs
       - name: Login to docker
         run: docker login ${DOCKER_REGISTRY} --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
         env:
