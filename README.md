@@ -3,6 +3,7 @@
 Go bindings, management daemons and CLIs for n2n edges and supernodes.
 
 ![make CI](https://github.com/pojntfx/gon2n/workflows/make%20CI/badge.svg)
+![dibs CI](https://github.com/pojntfx/gon2n/workflows/dibs%20CI/badge.svg)
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/pojntfx/gon2n)](https://pkg.go.dev/github.com/pojntfx/gon2n)
 
 ## Overview
@@ -28,6 +29,20 @@ Prebuilt binaries are available on the [releases page](https://github.com/pojntf
 ### Go Package
 
 A Go package [is available](https://pkg.go.dev/github.com/pojntfx/gon2n).
+
+### Docker Image
+
+#### `supernoded`
+
+A Docker image is available on [Docker Hub](https://hub.docker.com/r/pojntfx/supernoded).
+
+#### `edged`
+
+A Docker image is available on [Docker Hub](https://hub.docker.com/r/pojntfx/edged).
+
+### Helm Chart
+
+Helm charts for `supernoded` and `edged` are available in [@pojntfx's Helm chart repository](https://pojntfx.github.io/charts/).
 
 ## Usage
 
