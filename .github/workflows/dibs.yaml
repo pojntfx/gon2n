@@ -108,8 +108,9 @@ jobs:
         run: go get google.golang.org/protobuf/cmd/protoc-gen-go google.golang.org/grpc/cmd/protoc-gen-go-grpc
       - name: Install dibs
         run: |
-          curl -L https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_darwin_amd64.tar.gz | tar -zvxf - ghr_v0.13.0_darwin_amd64/ghr
-          sudo install ghr_v0.13.0_darwin_amd64/ghr /usr/local/bin
+          curl -L -o /tmp/ghr.zip https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_darwin_amd64.zip
+          unzip -d /tmp /tmp/ghr.zip
+          sudo install /tmp/ghr_v0.13.0_darwin_amd64/ghr /usr/local/bin
           go get github.com/pojntfx/dibs
       - name: Build binaries
         run: dibs -build -target '*' -platform darwin/amd64
