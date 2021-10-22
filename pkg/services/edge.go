@@ -1,8 +1,9 @@
-package svc
+package services
 
 import (
 	"context"
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
+
+	api "github.com/pojntfx/gon2n/pkg/api/proto/v1"
 	"github.com/pojntfx/gon2n/pkg/workers"
 	uuid "github.com/satori/go.uuid"
 	"gitlab.com/bloom42/libs/rz-go/log"
@@ -12,12 +13,12 @@ import (
 
 // EdgeManager manages edges.
 type EdgeManager struct {
-	gon2n.UnimplementedEdgeManagerServer
+	api.UnimplementedEdgeManagerServer
 	EdgesManaged map[string]*workers.Edge
 }
 
 // Create creates a edge.
-func (e *EdgeManager) Create(_ context.Context, args *gon2n.Edge) (*gon2n.EdgeManagedId, error) {
+func (e *EdgeManager) Create(_ context.Context, args *api.Edge) (*api.EdgeManagedId, error) {
 	id := uuid.NewV4().String()
 
 	edge := workers.Edge{
@@ -78,18 +79,18 @@ func (e *EdgeManager) Create(_ context.Context, args *gon2n.Edge) (*gon2n.EdgeMa
 
 	e.EdgesManaged[id] = &edge
 
-	return &gon2n.EdgeManagedId{
+	return &api.EdgeManagedId{
 		Id: id,
 	}, nil
 }
 
 // List lists the managed edges.
-func (e *EdgeManager) List(_ context.Context, args *gon2n.EdgeManagerListArgs) (*gon2n.EdgeManagerListReply, error) {
+func (e *EdgeManager) List(_ context.Context, args *api.EdgeManagerListArgs) (*api.EdgeManagerListReply, error) {
 	log.Info("Listing edges")
 
-	var edgesManaged []*gon2n.EdgeManaged
+	var edgesManaged []*api.EdgeManaged
 	for id, edge := range e.EdgesManaged {
-		edgeManaged := gon2n.EdgeManaged{
+		edgeManaged := api.EdgeManaged{
 			Id:                   id,
 			AllowP2P:             edge.GetAllowP2P(),
 			AllowRouting:         edge.GetAllowRouting(),
@@ -115,20 +116,20 @@ func (e *EdgeManager) List(_ context.Context, args *gon2n.EdgeManagerListArgs) (
 		edgesManaged = append(edgesManaged, &edgeManaged)
 	}
 
-	return &gon2n.EdgeManagerListReply{
+	return &api.EdgeManagerListReply{
 		EdgesManaged: edgesManaged,
 	}, nil
 }
 
 // Get gets one of the managed edges.
-func (e *EdgeManager) Get(_ context.Context, args *gon2n.EdgeManagedId) (*gon2n.EdgeManaged, error) {
+func (e *EdgeManager) Get(_ context.Context, args *api.EdgeManagedId) (*api.EdgeManaged, error) {
 	log.Info("Getting edge")
 
-	var edgeManaged *gon2n.EdgeManaged
+	var edgeManaged *api.EdgeManaged
 
 	for id, edge := range e.EdgesManaged {
 		if id == args.GetId() {
-			edgeManaged = &gon2n.EdgeManaged{
+			edgeManaged = &api.EdgeManaged{
 				Id:                   id,
 				AllowP2P:             edge.GetAllowP2P(),
 				AllowRouting:         edge.GetAllowRouting(),
@@ -166,7 +167,7 @@ func (e *EdgeManager) Get(_ context.Context, args *gon2n.EdgeManagedId) (*gon2n.
 }
 
 // Delete deletes a edge.
-func (e *EdgeManager) Delete(_ context.Context, args *gon2n.EdgeManagedId) (*gon2n.EdgeManagedId, error) {
+func (e *EdgeManager) Delete(_ context.Context, args *api.EdgeManagedId) (*api.EdgeManagedId, error) {
 	id := args.GetId()
 
 	edgesManaged := e.EdgesManaged[id]
@@ -194,7 +195,7 @@ func (e *EdgeManager) Delete(_ context.Context, args *gon2n.EdgeManagedId) (*gon
 
 	delete(e.EdgesManaged, id)
 
-	return &gon2n.EdgeManagedId{
+	return &api.EdgeManagedId{
 		Id: id,
 	}, nil
 }

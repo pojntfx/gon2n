@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package gon2n;
+package com.pojtinger.felix.gon2n;
 
-option go_package = ".;proto";
+option go_package = "github.com/pojntfx/gon2n/pkg/api/proto/v1";
 
 // SupernodeManager manages supernodes.
 service SupernodeManager {

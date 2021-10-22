@@ -3,14 +3,15 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"sync"
+
 	constants "github.com/pojntfx/gon2n/cmd"
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
+	api "github.com/pojntfx/gon2n/pkg/api/proto/v1"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go"
 	"gitlab.com/bloom42/libs/rz-go/log"
 	"google.golang.org/grpc"
-	"sync"
 )
 
 var deleteCmd = &cobra.Command{
@@ -25,7 +26,7 @@ var deleteCmd = &cobra.Command{
 		}
 		defer conn.Close()
 
-		client := gon2n.NewEdgeManagerClient(conn)
+		client := api.NewEdgeManagerClient(conn)
 
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
@@ -36,7 +37,7 @@ var deleteCmd = &cobra.Command{
 			wg.Add(1)
 
 			go func(id string, wg *sync.WaitGroup) {
-				response, err := client.Delete(ctx, &gon2n.EdgeManagedId{
+				response, err := client.Delete(ctx, &api.EdgeManagedId{
 					Id: id,
 				})
 				if err != nil {

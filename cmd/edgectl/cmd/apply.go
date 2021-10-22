@@ -3,8 +3,9 @@ package cmd
 import (
 	"context"
 	"fmt"
+
 	constants "github.com/pojntfx/gon2n/cmd"
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
+	api "github.com/pojntfx/gon2n/pkg/api/proto/v1"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go"
@@ -31,12 +32,12 @@ var applyCmd = &cobra.Command{
 		}
 		defer conn.Close()
 
-		client := gon2n.NewEdgeManagerClient(conn)
+		client := api.NewEdgeManagerClient(conn)
 
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		response, err := client.Create(ctx, &gon2n.Edge{
+		response, err := client.Create(ctx, &api.Edge{
 			AllowP2P:             viper.GetBool(allowP2PKey),
 			AllowRouting:         viper.GetBool(allowRoutingKey),
 			CommunityName:        viper.GetString(communityNameKey),

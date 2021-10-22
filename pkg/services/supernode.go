@@ -1,11 +1,11 @@
-package svc
+package services
 
-//go:generate sh -c "mkdir -p ../proto/generated && protoc --go_out=../proto/generated --go_opt=paths=source_relative --go-grpc_out=../proto/generated --go-grpc_opt=paths=source_relative -I=../proto ../proto/*.proto"
+//go:generate sh -c "mkdir -p ../api/proto/v1 && protoc --go_out=paths=source_relative,plugins=grpc:../api/proto/v1 -I=../../api/proto/v1 ../../api/proto/v1/*.proto"
 
 import (
 	"context"
 
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
+	api "github.com/pojntfx/gon2n/pkg/api/proto/v1"
 	"github.com/pojntfx/gon2n/pkg/workers"
 	uuid "github.com/satori/go.uuid"
 	"gitlab.com/bloom42/libs/rz-go/log"
@@ -15,12 +15,12 @@ import (
 
 // SupernodeManager manages supernodes.
 type SupernodeManager struct {
-	gon2n.UnimplementedSupernodeManagerServer
+	api.UnimplementedSupernodeManagerServer
 	SupernodesManaged map[string]*workers.Supernode
 }
 
 // Create creates a supernode.
-func (s *SupernodeManager) Create(_ context.Context, args *gon2n.Supernode) (*gon2n.SupernodeManagedId, error) {
+func (s *SupernodeManager) Create(_ context.Context, args *api.Supernode) (*api.SupernodeManagedId, error) {
 	id := uuid.NewV4().String()
 
 	supernode := workers.Supernode{
@@ -69,18 +69,18 @@ func (s *SupernodeManager) Create(_ context.Context, args *gon2n.Supernode) (*go
 
 	s.SupernodesManaged[id] = &supernode
 
-	return &gon2n.SupernodeManagedId{
+	return &api.SupernodeManagedId{
 		Id: id,
 	}, nil
 }
 
 // List lists the managed supernodes.
-func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerListArgs) (*gon2n.SupernodeManagerListReply, error) {
+func (s *SupernodeManager) List(_ context.Context, args *api.SupernodeManagerListArgs) (*api.SupernodeManagerListReply, error) {
 	log.Info("Listing supernodes")
 
-	var supernodesManaged []*gon2n.SupernodeManaged
+	var supernodesManaged []*api.SupernodeManaged
 	for id, supernode := range s.SupernodesManaged {
-		supernodeManaged := gon2n.SupernodeManaged{
+		supernodeManaged := api.SupernodeManaged{
 			Id:             id,
 			ListenPort:     int64(supernode.GetListenPort()),
 			ManagementPort: int64(supernode.ManagementPort),
@@ -89,20 +89,20 @@ func (s *SupernodeManager) List(_ context.Context, args *gon2n.SupernodeManagerL
 		supernodesManaged = append(supernodesManaged, &supernodeManaged)
 	}
 
-	return &gon2n.SupernodeManagerListReply{
+	return &api.SupernodeManagerListReply{
 		SupernodesManaged: supernodesManaged,
 	}, nil
 }
 
 // Get gets one of the managed supernodes.
-func (s *SupernodeManager) Get(_ context.Context, args *gon2n.SupernodeManagedId) (*gon2n.SupernodeManaged, error) {
+func (s *SupernodeManager) Get(_ context.Context, args *api.SupernodeManagedId) (*api.SupernodeManaged, error) {
 	log.Info("Getting supernode")
 
-	var supernodeManaged *gon2n.SupernodeManaged
+	var supernodeManaged *api.SupernodeManaged
 
 	for id, supernode := range s.SupernodesManaged {
 		if id == args.GetId() {
-			supernodeManaged = &gon2n.SupernodeManaged{
+			supernodeManaged = &api.SupernodeManaged{
 				Id:             id,
 				ListenPort:     int64(supernode.GetListenPort()),
 				ManagementPort: int64(supernode.ManagementPort),
@@ -123,7 +123,7 @@ func (s *SupernodeManager) Get(_ context.Context, args *gon2n.SupernodeManagedId
 }
 
 // Delete deletes a supernode.
-func (s *SupernodeManager) Delete(_ context.Context, args *gon2n.SupernodeManagedId) (*gon2n.SupernodeManagedId, error) {
+func (s *SupernodeManager) Delete(_ context.Context, args *api.SupernodeManagedId) (*api.SupernodeManagedId, error) {
 	id := args.GetId()
 
 	supernodesManaged := s.SupernodesManaged[id]
@@ -144,7 +144,7 @@ func (s *SupernodeManager) Delete(_ context.Context, args *gon2n.SupernodeManage
 
 		delete(s.SupernodesManaged, id)
 
-		return &gon2n.SupernodeManagedId{
+		return &api.SupernodeManagedId{
 			Id: id,
 		}, nil
 	}
