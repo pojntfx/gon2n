@@ -2,6 +2,7 @@
 DESTDIR ?=
 PREFIX ?= /usr/local
 OUTPUT_DIR ?= out
+DST ?=
 
 # Private variables
 obj = edged supernoded edgectl supernodectl
@@ -10,7 +11,11 @@ all: $(addprefix build/,$(obj))
 # Build
 build: $(addprefix build/,$(obj))
 $(addprefix build/,$(obj)):
+ifdef DST
+	go build -o $(DST) ./cmd/$(subst build/,,$@)
+else
 	go build -o $(OUTPUT_DIR)/$(subst build/,,$@) ./cmd/$(subst build/,,$@)
+endif
 
 # Install
 install: $(addprefix install/,$(obj))

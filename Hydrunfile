@@ -21,6 +21,24 @@ fi
 apt update
 apt install -y protobuf-compiler build-essential automake
 
+# Clients
+if [ "$1" = "clients" ]; then
+    apt install -y libssl-dev
+
+    make depend
+
+    apt install -y curl
+
+    curl -L -o /tmp/bagop "https://github.com/pojntfx/bagop/releases/latest/download/bagop.linux-$(uname -m)"
+    install /tmp/bagop /usr/local/bin
+
+    CGO_ENABLED=0 bagop -j "$(nproc)" -b edgectl -x '(android/*|ios/*|aix/ppc64|plan9/386|plan9/amd64|plan9/arm)' -p 'make build/edgectl DST=$DST' -d out
+    CGO_ENABLED=0 bagop -j "$(nproc)" -b supernodectl -x '(android/*|ios/*|aix/ppc64|plan9/386|plan9/amd64|plan9/arm)' -p 'make build/supernodectl DST=$DST' -d out
+
+    exit 0
+fi
+
+# Servers
 if [ "$1" = "386" ]; then
     # i386
     dpkg --add-architecture i386
@@ -33,7 +51,7 @@ if [ "$1" = "386" ]; then
 
     export CGO_ENABLED=1
     export GOARCH=386
-    make -j "$(nproc)"
+    make build/edged build/supernoded -j "$(nproc)"
 elif [ "$1" = "amd64" ]; then
     # amd64
     dpkg --add-architecture amd64
@@ -46,7 +64,7 @@ elif [ "$1" = "amd64" ]; then
 
     export CGO_ENABLED=1
     export GOARCH=amd64
-    make -j "$(nproc)"
+    make build/edged build/supernoded -j "$(nproc)"
 elif [ "$1" = "arm64" ]; then
     # arm64
     dpkg --add-architecture arm64
@@ -59,7 +77,7 @@ elif [ "$1" = "arm64" ]; then
 
     export CGO_ENABLED=1
     export GOARCH=arm64
-    make -j "$(nproc)"
+    make build/edged build/supernoded -j "$(nproc)"
 elif [ "$1" = "arm" ]; then
     # arm
     dpkg --add-architecture armhf
@@ -72,7 +90,7 @@ elif [ "$1" = "arm" ]; then
 
     export CGO_ENABLED=1
     export GOARCH=arm
-    make -j "$(nproc)"
+    make build/edged build/supernoded -j "$(nproc)"
 elif [ "$1" = "riscv64" ]; then
     # riscv64
     apt install -y golang git ca-certificates debian-ports-archive-keyring
@@ -88,14 +106,12 @@ elif [ "$1" = "riscv64" ]; then
 
     export CGO_ENABLED=1
     export GOARCH=riscv64
-    make -j "$(nproc)"
+    make build/edged build/supernoded -j "$(nproc)"
 else
-    # Any other architecture
+    # Host architecture
     apt install -y libssl-dev
 
-    export CC=gcc
     make depend
 
-    export CGO_ENABLED=1
-    make -j "$(nproc)"
+    make build/edged build/supernoded -j "$(nproc)"
 fi
