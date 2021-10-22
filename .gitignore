@@ -1,5 +1,2 @@
-**/.bin
-**/.idea
-**/charts/*/charts
-**/n2n/
 out
+pkg/workers/n2n

@@ -1,0 +1,101 @@
+#!/bin/bash
+
+set -e
+
+# Post-processing
+if [ "$1" = "post-process" ]; then
+    # Make binaries static
+    apt update
+    apt install -y python3-pip patchelf scons
+    pip3 install staticx
+
+    for file in out/*; do
+        staticx "${file}" "${file}.static.linux-$(uname -m)"
+        mv "${file}" "${file}.linux-$(uname -m)"
+    done
+
+    exit 0
+fi
+
+# Build
+apt update
+apt install -y protobuf-compiler build-essential automake
+
+if [ "$1" = "386" ]; then
+    # i386
+    dpkg --add-architecture i386
+
+    apt update
+    apt install -y gcc-i686-linux-gnu libssl-dev:i386
+
+    export CC=i686-linux-gnu-gcc
+    make depend
+
+    export CGO_ENABLED=1
+    export GOARCH=386
+    make -j "$(nproc)"
+elif [ "$1" = "amd64" ]; then
+    # amd64
+    dpkg --add-architecture amd64
+
+    apt update
+    apt install -y gcc-x86-64-linux-gnu libssl-dev:amd64
+
+    export CC=x86_64-linux-gnu-gcc
+    make depend
+
+    export CGO_ENABLED=1
+    export GOARCH=amd64
+    make -j "$(nproc)"
+elif [ "$1" = "arm64" ]; then
+    # arm64
+    dpkg --add-architecture arm64
+
+    apt update
+    apt install -y gcc-aarch64-linux-gnu libssl-dev:arm64
+
+    export CC=aarch64-linux-gnu-gcc
+    make depend
+
+    export CGO_ENABLED=1
+    export GOARCH=arm64
+    make -j "$(nproc)"
+elif [ "$1" = "arm" ]; then
+    # arm
+    dpkg --add-architecture armhf
+
+    apt update
+    apt install -y gcc-arm-linux-gnueabihf libssl-dev:armhf
+
+    export CC=arm-linux-gnueabihf-gcc
+    make depend
+
+    export CGO_ENABLED=1
+    export GOARCH=arm
+    make -j "$(nproc)"
+elif [ "$1" = "riscv64" ]; then
+    # riscv64
+    apt install -y golang git ca-certificates debian-ports-archive-keyring
+    printf "deb http://ftp.ports.debian.org/debian-ports unstable main\ndeb http://ftp.ports.debian.org/debian-ports unreleased main\ndeb http://ftp.ports.debian.org/debian-ports experimental main" >>/etc/apt/sources.list
+    export PATH="$PATH:/${HOME}/go/bin"
+    dpkg --add-architecture riscv64
+
+    apt update
+    apt install -y gcc-riscv64-linux-gnu libssl-dev:riscv64
+
+    export CC=riscv64-linux-gnu-gcc
+    make depend
+
+    export CGO_ENABLED=1
+    export GOARCH=riscv64
+    make -j "$(nproc)"
+else
+    # Any other architecture
+    apt install -y libssl-dev
+
+    export CC=gcc
+    make depend
+
+    export CGO_ENABLED=1
+    make -j "$(nproc)"
+fi

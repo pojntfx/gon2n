@@ -1,9 +1,15 @@
 package main
 
 import (
+	"net"
+	"os"
+	"os/signal"
+	"strings"
+	"syscall"
+
 	constants "github.com/pojntfx/gon2n/cmd"
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
-	"github.com/pojntfx/gon2n/pkg/svc"
+	api "github.com/pojntfx/gon2n/pkg/api/proto/v1"
+	"github.com/pojntfx/gon2n/pkg/services"
 	"github.com/pojntfx/gon2n/pkg/workers"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -11,11 +17,6 @@ import (
 	"gitlab.com/bloom42/libs/rz-go/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"net"
-	"os"
-	"os/signal"
-	"strings"
-	"syscall"
 )
 
 const (
@@ -53,11 +54,11 @@ https://pojntfx.github.io/gon2n/`,
 		server := grpc.NewServer()
 		reflection.Register(server)
 
-		supernodeService := svc.SupernodeManager{
+		supernodeService := services.SupernodeManager{
 			SupernodesManaged: make(map[string]*workers.Supernode),
 		}
 
-		gon2n.RegisterSupernodeManagerServer(server, &supernodeService)
+		api.RegisterSupernodeManagerServer(server, &supernodeService)
 
 		interrupt := make(chan os.Signal, 2)
 		signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
