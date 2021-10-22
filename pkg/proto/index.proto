@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package gon2n;
-
-option go_package = ".;proto";
-
-import public "edge.proto";
-import public "supernode.proto";

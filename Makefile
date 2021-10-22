@@ -1,33 +1,36 @@
-CLIENTS=supernodectl edgectl
-SERVERS=supernoded edged
-TARGETS=$(SERVERS) $(CLIENTS)
-OUT=out
+# Public variables
+DESTDIR ?=
+PREFIX ?= /usr/local
+OUTPUT_DIR ?= out
 
-all: $(TARGETS)
+# Private variables
+obj = edged supernoded edgectl supernodectl
+all: $(addprefix build/,$(obj))
 
-$(CLIENTS): generate
-	@GOOS=linux GOARCH=amd64 go build -o ${OUT}/$@-linux-amd64 ./cmd/$@/main.go
-	@GOOS=linux GOARCH=arm64 go build -o ${OUT}/$@-linux-arm64 ./cmd/$@/main.go
-	@GOOS=darwin GOARCH=amd64 go build -o ${OUT}/$@-macos-amd64 ./cmd/$@/main.go
-	@GOOS=windows GOARCH=amd64 go build -o ${OUT}/$@-windows-amd64.exe ./cmd/$@/main.go
+# Build
+build: $(addprefix build/,$(obj))
+$(addprefix build/,$(obj)):
+	go build -o $(OUTPUT_DIR)/$(subst build/,,$@) ./cmd/$(subst build/,,$@)
 
-$(SERVERS): generate
-	@GOOS=linux GOARCH=amd64 go build -o ${OUT}/$@-linux-amd64 ./cmd/$@/main.go
-	
-generate:
-	@go generate ./...
+# Install
+install: $(addprefix install/,$(obj))
+$(addprefix install/,$(obj)):
+	install -D -m 0755 $(OUTPUT_DIR)/$(subst install/,,$@) $(DESTDIR)$(PREFIX)/bin/$(subst install/,,$@)
 
-test: test-linux test-windows
+# Uninstall
+uninstall: $(addprefix uninstall/,$(obj))
+$(addprefix uninstall/,$(obj)):
+	rm $(DESTDIR)$(PREFIX)/bin/$(subst uninstall/,,$@)
 
-test-linux: $(OUT)/*-linux-amd64
-	for file in $^ ; do \
-	    ./$${file} --help; \
-	done
-	
-test-windows: $(OUT)/*-windows-amd64.exe
-	for file in $^ ; do \
-	    wine64 $${file} --help; \
-	done
+# Run
+$(addprefix run/,$(obj)):
+	$(subst run/,,$@) $(ARGS)
 
+# Clean
 clean:
-	@rm -rf ${OUT} pkg/proto/generated pkg/workers/n2n
+	rm -rf out pkg/workers/n2n pkg/api/proto/v1
+
+# Dependencies
+depend:
+	go install github.com/golang/protobuf/protoc-gen-go@latest
+	go generate ./...
