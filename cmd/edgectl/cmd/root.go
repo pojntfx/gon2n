@@ -1,12 +1,13 @@
 package cmd
 
 import (
+	"strings"
+
 	constants "github.com/pojntfx/gon2n/cmd"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go"
 	"gitlab.com/bloom42/libs/rz-go/log"
-	"strings"
 )
 
 var rootCmd = &cobra.Command{

@@ -3,8 +3,9 @@ package cmd
 import (
 	"context"
 	"fmt"
+
 	constants "github.com/pojntfx/gon2n/cmd"
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
+	api "github.com/pojntfx/gon2n/pkg/api/proto/v1"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go"
@@ -31,12 +32,12 @@ var applyCmd = &cobra.Command{
 		}
 		defer conn.Close()
 
-		client := gon2n.NewSupernodeManagerClient(conn)
+		client := api.NewSupernodeManagerClient(conn)
 
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
-		response, err := client.Create(ctx, &gon2n.Supernode{
+		response, err := client.Create(ctx, &api.Supernode{
 			ListenPort:     viper.GetInt64(listenPortKey),
 			ManagementPort: viper.GetInt64(managementPortKey),
 		})

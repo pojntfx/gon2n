@@ -3,10 +3,11 @@ package cmd
 import (
 	"context"
 	"fmt"
+
 	"github.com/ghodss/yaml"
 	"github.com/gosuri/uitable"
 	constants "github.com/pojntfx/gon2n/cmd"
-	gon2n "github.com/pojntfx/gon2n/pkg/proto/generated"
+	api "github.com/pojntfx/gon2n/pkg/api/proto/v1"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/bloom42/libs/rz-go"
@@ -25,13 +26,13 @@ var getCmd = &cobra.Command{
 		}
 		defer conn.Close()
 
-		client := gon2n.NewSupernodeManagerClient(conn)
+		client := api.NewSupernodeManagerClient(conn)
 
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
 
 		if len(args) < 1 {
-			response, err := client.List(ctx, &gon2n.SupernodeManagerListArgs{})
+			response, err := client.List(ctx, &api.SupernodeManagerListArgs{})
 			if err != nil {
 				return err
 			}
@@ -48,7 +49,7 @@ var getCmd = &cobra.Command{
 			return nil
 		}
 
-		response, err := client.Get(ctx, &gon2n.SupernodeManagedId{
+		response, err := client.Get(ctx, &api.SupernodeManagedId{
 			Id: args[0],
 		})
 		if err != nil {
