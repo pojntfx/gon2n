@@ -2,7 +2,7 @@ package workers
 
 /*
 #cgo CFLAGS: -g3 -Wall
-#cgo LDFLAGS: -lcrypto -ln2n -L${SRCDIR}/n2n
+#cgo LDFLAGS: -lcrypto -ldl -ln2n -L${SRCDIR}/n2n
 #include "edge.h"
 */
 import "C"
