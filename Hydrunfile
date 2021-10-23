@@ -3,15 +3,19 @@
 set -e
 
 # Post-processing
-if [ "$1" = "post-process" ]; then
-    # Make binaries static
-    apt update
-    apt install -y python3-pip patchelf scons
-    pip3 install staticx
+if [ "$1" = "suffix" ]; then
+    if [ "$3" = "staticx" ]; then
+        # Make binaries static by patching them and including their dependencies
+        apt update
+        apt install -y python3-pip patchelf scons
+        pip3 install staticx
+    fi
 
     for file in out/*; do
-        staticx "${file}" "${file}.static.linux-$(uname -m)"
-        mv "${file}" "${file}.linux-$(uname -m)"
+        if [ "$3" = "staticx" ]; then
+            staticx "${file}" "${file}.static.$2"
+        fi
+        mv "${file}" "${file}.$2"
     done
 
     exit 0
@@ -92,7 +96,7 @@ elif [ "$1" = "arm" ]; then
     export GOARCH=arm
     make build/edged build/supernoded -j "$(nproc)"
 elif [ "$1" = "riscv64" ]; then
-    # riscv64
+    # riscv64 (Go, Debian port)
     apt install -y golang git ca-certificates debian-ports-archive-keyring
     printf "deb http://ftp.ports.debian.org/debian-ports unstable main\ndeb http://ftp.ports.debian.org/debian-ports unreleased main\ndeb http://ftp.ports.debian.org/debian-ports experimental main" >>/etc/apt/sources.list
     export PATH="$PATH:/${HOME}/go/bin"
@@ -107,6 +111,50 @@ elif [ "$1" = "riscv64" ]; then
     export CGO_ENABLED=1
     export GOARCH=riscv64
     make build/edged build/supernoded -j "$(nproc)"
+elif [ "$1" = "ppc" ]; then
+    # ppc (gccgo, Debian port)
+    apt install -y golang git ca-certificates debian-ports-archive-keyring
+    printf "deb http://ftp.ports.debian.org/debian-ports unstable main\ndeb http://ftp.ports.debian.org/debian-ports unreleased main\ndeb http://ftp.ports.debian.org/debian-ports experimental main" >>/etc/apt/sources.list
+    export PATH="$PATH:/${HOME}/go/bin"
+    dpkg --add-architecture powerpc
+
+    apt update
+    apt install -y gccgo-powerpc-linux-gnu gcc-powerpc-linux-gnu
+
+    # Hack: We can't install `libc:powerpc`, but we don't need it
+    ORIGINAL_PWD="$(pwd)"
+    mkdir -p /tmp/libssl-dev
+    cd /tmp/libssl-dev
+    apt-get download libssl-dev:powerpc
+    dpkg -i --force-all ./*.deb
+    cd "${ORIGINAL_PWD}"
+
+    export CC=powerpc-linux-gnu-gcc
+    make depend
+
+    # Hack: gccgo lacks a syscall
+    chmod +w /root/go/pkg/mod/google.golang.org/grpc@*/internal/channelz/types_linux.go
+    sed -i 's/SO_SNDTIMEO/SO_RCVTIMEO/' /root/go/pkg/mod/google.golang.org/grpc@*/internal/channelz/types_linux.go
+
+    # Build dynamically-linked
+    export CGO_ENABLED=1
+    export GOARCH=ppc
+    export GCCGO=powerpc-linux-gnu-gccgo
+    export GOFLAGS='-compiler=gccgo -gccgoflags=-static-libgo'
+    make -j "$(nproc)"
+
+    # Build statically-linked (`staticx` does not work on this platform)
+    export GOFLAGS='-compiler=gccgo -gccgoflags=-static'
+    make OUTPUT_DIR=out/static -j "$(nproc)"
+    for file in out/static/*; do
+        mv "${file}" "${file}.static"
+        mv "${file}.static" out/
+    done
+
+    rm -rf out/static
+
+    # Hack: Remove the broken `libssl-dev:powerpc` package
+    apt --fix-broken -y install
 else
     # Host architecture
     apt install -y libssl-dev
