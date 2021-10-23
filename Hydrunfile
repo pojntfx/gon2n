@@ -112,24 +112,113 @@ elif [ "$1" = "riscv64" ]; then
     export GOARCH=riscv64
     make build/edged build/supernoded -j "$(nproc)"
 elif [ "$1" = "ppc" ]; then
+    # unsupported architectures:
+    #
+    # hppa (gccgo not available)
+    # ia64 (gccgo not available)
+    # m68k (gccgo not available))
+    # sh4 (gccgo not available)
+    #
+    # supported architectures:
+    #
+    # alpha
+    # alpha
+    # -alpha-linux-gnu
+    # alpha-linux-gnu
+    #
+    # powerpc
+    # ppc
+    # -powerpc-linux-gnu
+    # powerpc-linux-gnu
+    #
+    # ppc64
+    # ppc64
+    # -powerpc64-linux-gnu
+    # powerpc64-linux-gnu
+    #
+    # sparc64
+    # sparc64
+    # -sparc64-linux-gnu
+    # sparc64-linux-gnu
+    #
+    # riscv64
+    # riscv64
+    # -riscv64-linux-gnu
+    # riscv64-linux-gnu
+    #
+    # alpha
+    # alpha
+    # alpha
+    # alpha
+    #
+    # amd64
+    # amd64
+    # ""
+    # x86_64-linux-gnu
+    #
+    # arm64
+    # arm64
+    # -aarch64-linux-gnu
+    # aarch64-linux-gnu
+    #
+    # armel
+    # arm
+    # -arm-linux-gnueabi
+    # arm-linux-gnueabi
+    #
+    # armhf
+    # arm
+    # -arm-linux-gnueabihf
+    # arm-linux-gnueabihf
+    #
+    # i386
+    # 386
+    # -i686-linux-gnu
+    # i686-linux-gnu
+    #
+    # mipsel
+    # mipsle
+    # -mipsel-linux-gnu
+    # mipsel-linux-gnu
+    #
+    # mips64el
+    # mips64le
+    # -mips64el-linux-gnuabi64
+    # mips64el-linux-gnuabi64
+    #
+    # ppc64el
+    # powerpc64le
+    # -powerpc64le-linux-gnu
+    # powerpc64le-linux-gnu
+    #
+    # s390x
+    # s390x
+    # -s390x-linux-gnu
+    # s390x-linux-gnu
+
+    export DEBIAN_ARCH="s390x"
+    export GOLANG_ARCH="s390x"
+    export DEBIAN_PKG_SUFFIX="-s390x-linux-gnu"
+    export GCC_ARCH="s390x-linux-gnu"
+
     # ppc (gccgo, Debian port)
     apt install -y golang git ca-certificates debian-ports-archive-keyring
     printf "deb http://ftp.ports.debian.org/debian-ports unstable main\ndeb http://ftp.ports.debian.org/debian-ports unreleased main\ndeb http://ftp.ports.debian.org/debian-ports experimental main" >>/etc/apt/sources.list
     export PATH="$PATH:/${HOME}/go/bin"
-    dpkg --add-architecture powerpc
+    dpkg --add-architecture "${DEBIAN_ARCH}"
 
     apt update
-    apt install -y gccgo-powerpc-linux-gnu gcc-powerpc-linux-gnu
+    apt install -y gccgo${DEBIAN_PKG_SUFFIX} gcc${DEBIAN_PKG_SUFFIX}
 
-    # Hack: We can't install `libc:powerpc`, but we don't need it
+    # Hack: We can't install `libc:"${DEBIAN_ARCH}"`, but we don't need it
     ORIGINAL_PWD="$(pwd)"
     mkdir -p /tmp/libssl-dev
     cd /tmp/libssl-dev
-    apt-get download libssl-dev:powerpc
+    apt-get download libssl-dev:"${DEBIAN_ARCH}"
     dpkg -i --force-all ./*.deb
     cd "${ORIGINAL_PWD}"
 
-    export CC=powerpc-linux-gnu-gcc
+    export CC=${GCC_ARCH}-gcc
     make depend
 
     # Hack: gccgo lacks a syscall
@@ -138,8 +227,8 @@ elif [ "$1" = "ppc" ]; then
 
     # Build dynamically-linked
     export CGO_ENABLED=1
-    export GOARCH=ppc
-    export GCCGO=powerpc-linux-gnu-gccgo
+    export GOARCH="${GOLANG_ARCH}"
+    export GCCGO=${GCC_ARCH}-gccgo
     export GOFLAGS='-compiler=gccgo -gccgoflags=-static-libgo'
     make -j "$(nproc)"
 
@@ -153,7 +242,7 @@ elif [ "$1" = "ppc" ]; then
 
     rm -rf out/static
 
-    # Hack: Remove the broken `libssl-dev:powerpc` package
+    # Hack: Remove the broken `libssl-dev:"${DEBIAN_ARCH}"` package
     apt --fix-broken -y install
 else
     # Host architecture
