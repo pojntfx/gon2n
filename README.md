@@ -2,9 +2,183 @@
 
 Go bindings, management daemons and CLIs for n2n edges and supernodes.
 
+[![hydrun CI](https://github.com/pojntfx/gon2n/actions/workflows/hydrun.yaml/badge.svg)](https://github.com/pojntfx/gon2n/actions/workflows/hydrun.yaml)
+[![Matrix](https://img.shields.io/matrix/gon2n:matrix.org)](https://matrix.to/#/#gon2n:matrix.org?via=matrix.org)
+[![Binary Downloads](https://img.shields.io/github/downloads/pojntfx/gon2n/total?label=binary%20downloads)](https://github.com/pojntfx/gon2n/releases)
+
 ## Overview
 
+`gon2n` is a collection of Go bindings, management daemons and CLIs for the n2n peer-to-peer VPN. n2n is built of two main components:
+
+- `edge`s, which are the "VPN clients" that manage the TUN/TAP interfaces on every device that is part of a community (a overlay network)
+- `supernode`s, which are responsible for both keeping track of the `edge`s of a community as well routing traffic to `edge`s which can't communicate to each other with a peer-to-peer connection
+
+In a similar way, `gon2n` is built of multiple components. The components are:
+
+- `edged`, a n2n edge management daemon with a gRPC interface
+- `supernoded`, a n2n supernode management daemon with a gRPC interface
+- `edgectl`, a CLI for `edged`
+- `supernodectl`, a CLI for `supernoded`
+
+## Installation
+
+Static binaries are available on [GitHub releases](https://github.com/pojntfx/gon2n/releases).
+
+On Linux, you can install them like so:
+
+```shell
+$ curl -L -o /tmp/supernoded "https://github.com/pojntfx/gon2n/releases/latest/download/supernoded.linux-$(uname -m)"
+$ curl -L -o /tmp/edged "https://github.com/pojntfx/gon2n/releases/latest/download/edged.linux-$(uname -m)"
+$ curl -L -o /tmp/supernodectl "https://github.com/pojntfx/gon2n/releases/latest/download/supernodectl.linux-$(uname -m)"
+$ curl -L -o /tmp/edgectl "https://github.com/pojntfx/gon2n/releases/latest/download/edgectl.linux-$(uname -m)"
+$ sudo install /tmp/{supernoded,edged,supernodectl,edgectl} /usr/local/bin
+```
+
+On macOS, you can use the following (Apple does not support TAP devices, so only the client CLIs work):
+
+```shell
+$ curl -L -o /tmp/supernodectl "https://github.com/pojntfx/gon2n/releases/latest/download/supernodectl.linux-$(uname -m)"
+$ curl -L -o /tmp/edgectl "https://github.com/pojntfx/gon2n/releases/latest/download/edgectl.linux-$(uname -m)"
+$ sudo install /tmp/{supernodectl,edgectl} /usr/local/bin
+```
+
+On Windows, the following should work (using PowerShell as administrator; Windows does not support TAP devices, so only the client CLIs work):
+
+```shell
+PS> Invoke-WebRequest https://github.com/pojntfx/gon2n/releases/latest/download/supernodectl.windows-x86_64.exe -OutFile \Windows\System32\supernodectl.exe
+PS> Invoke-WebRequest https://github.com/pojntfx/gon2n/releases/latest/download/edgectl.windows-x86_64.exe -OutFile \Windows\System32\edgectl.exe
+```
+
+You can find binaries for more operating systems and architectures on [GitHub releases](https://github.com/pojntfx/gon2n/releases).
+
+## Usage
+
 🚧 This project is a work-in-progress! Instructions will be added as soon as it is usable. 🚧
+
+## Reference
+
+### Daemons
+
+There are two daemons, `supernoded` and `edged`; the latter requires `CAP_NET_ADMIN` capabilities to manage the TUN/TAP interfaces.
+
+#### `supernoded`
+
+You may also set the flags by setting env variables in the format `SUPERNODED_[FLAG]` (i.e. `SUPERNODED_SUPERNODED_CONFIGFILE=examples/supernoded.yaml`) or by using a [configuration file](examples/supernoded.yaml).
+
+```bash
+$ supernoded --help
+supernoded is the n2n supernode management daemon.
+
+Find more information at:
+https://github.com/pojntfx/gon2n
+
+Usage:
+  supernoded [flags]
+
+Flags:
+  -h, --help                               help for supernoded
+  -f, --supernoded.configFile string       Configuration file to use.
+  -l, --supernoded.listenHostPort string   TCP listen host:port. (default "localhost:1050")
+```
+
+#### `edged`
+
+You may also set the flags by setting env variables in the format `EDGED_[FLAG]` (i.e. `EDGED_EDGED_CONFIGFILE=examples/edged.yaml`) or by using a [configuration file](examples/edged.yaml).
+
+```bash
+$ edged --help
+edged is the n2n edge management daemon.
+
+Find more information at:
+https://github.com/pojntfx/gon2n
+
+Usage:
+  edged [flags]
+
+Flags:
+  -f, --edged.configFile string       Configuration file to use.
+  -l, --edged.listenHostPort string   TCP listen host:port. (default "localhost:1060")
+  -h, --help                          help for edged
+```
+
+### Client CLIs
+
+There are two client CLIs, `supernodectl` and `edgectl`.
+
+#### `supernodectl`
+
+You may also set the flags by setting env variables in the format `SUPERNODE_[FLAG]` (i.e. `SUPERNODE_SUPERNODE_CONFIGFILE=examples/supernode.yaml`) or by using a [configuration file](examples/supernode.yaml).
+
+```bash
+$ supernodectl --help
+supernodectl manages supernoded, the n2n supernode management daemon.
+
+Find more information at:
+https://github.com/pojntfx/gon2n
+
+Usage:
+  supernodectl [command]
+
+Available Commands:
+  apply       Apply a supernode
+  completion  generate the autocompletion script for the specified shell
+  delete      Delete one or more supernode(s)
+  get         Get one or all supernode(s)
+  help        Help about any command
+
+Flags:
+  -h, --help   help for supernodectl
+
+Use "supernodectl [command] --help" for more information about a command.
+```
+
+#### `edgectl`
+
+You may also set the flags by setting env variables in the format `EDGE_[FLAG]` (i.e. `EDGE_EDGE_CONFIGFILE=examples/edge.yaml`) or by using a [configuration file](examples/edge.yaml) ([alternative with DHCP instead of static IPs](examples/edge-dhcp.yaml)).
+
+```bash
+$ edgectl --help
+edgectl manages edged, the n2n edge management daemon.
+
+Find more information at:
+https://github.com/pojntfx/gon2n
+
+Usage:
+  edgectl [command]
+
+Available Commands:
+  apply       Apply an edge
+  completion  generate the autocompletion script for the specified shell
+  delete      Delete one or more edge(s)
+  get         Get one or all edge(s)
+  help        Help about any command
+
+Flags:
+  -h, --help   help for edgectl
+
+Use "edgectl [command] --help" for more information about a command.
+```
+
+## Acknowledgements
+
+- This project would not have been possible were it not for [@ntop](https://github.com/ntop)'s [n2n](https://github.com/ntop/n2n) VPN; be sure to check it out too!
+- All the rest of the authors who worked on the dependencies used! Thanks a lot!
+
+## Contributing
+
+To contribute, please use the [GitHub flow](https://guides.github.com/introduction/flow/) and follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
+
+To build gon2n locally, run:
+
+```shell
+$ git clone https://github.com/pojntfx/gon2n.git
+$ cd gon2n
+$ make depend
+$ make
+$ sudo make run/edged # Or run/supernoded etc.
+```
+
+Have any questions or need help? Chat with us [on Matrix](https://matrix.to/#/#gon2n:matrix.org?via=matrix.org)!
 
 ## License
 
