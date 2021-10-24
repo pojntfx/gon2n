@@ -16,7 +16,7 @@ var rootCmd = &cobra.Command{
 	Long: `edgectl manages edged, the n2n edge management daemon.
 
 Find more information at:
-https://pojntfx.github.io/gon2n/`,
+https://github.com/pojntfx/gon2n`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		viper.SetEnvPrefix("edge")
 		viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_", ".", "_"))

@@ -16,7 +16,7 @@ var rootCmd = &cobra.Command{
 	Long: `supernodectl manages supernoded, the n2n supernode management daemon.
 
 Find more information at:
-https://pojntfx.github.io/gon2n/`,
+https://github.com/pojntfx/gon2n`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		viper.SetEnvPrefix("supernode")
 		viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_", ".", "_"))
