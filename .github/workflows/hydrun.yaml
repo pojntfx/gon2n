@@ -20,7 +20,7 @@ jobs:
             dst: out/*
           - id: servers
             src: .
-            os: ghcr.io/pojntfx/bagccgop-base-bullseye
+            os: ghcr.io/pojntfx/bagccgop-base-sid
             flags: -e '--privileged'
             cmd: ./Hydrunfile servers
             dst: out/*
