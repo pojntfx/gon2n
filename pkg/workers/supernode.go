@@ -1,6 +1,6 @@
 package workers
 
-//go:generate sh -c "rm -rf n2n; git clone https://github.com/ntop/n2n.git; cd n2n; git checkout 2.8-stable; ./autogen.sh; ./configure --host=${CC}; make -j $(nproc); ar dvf libn2n.a edge.o; ar dvf libn2n.a example_edge_embed.o; ar dvf libn2n.a example_edge_embed_quick_edge_init.o; ar dvf libn2n.a example_sn_embed.o; ar dvf libn2n.a sn.o"
+//go:generate bash -c "rm -rf n2n && git clone --depth 1 https://github.com/ntop/n2n.git && cd n2n && git checkout 2.8-stable && ./autogen.sh && ./configure $(echo $([ -v CC ] && echo --host=${CC})) && make -j $(nproc) && ar dvf libn2n.a edge.o && ar dvf libn2n.a example_edge_embed.o && ar dvf libn2n.a example_edge_embed_quick_edge_init.o && ar dvf libn2n.a example_sn_embed.o && ar dvf libn2n.a sn.o"
 
 /*
 #cgo CFLAGS: -g3 -Wall

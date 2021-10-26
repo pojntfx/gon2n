@@ -96,7 +96,7 @@ $ edgectl apply -f examples/edge-2.yaml
 edge "7f1c60ed-e298-47a1-abe7-cefa61e4d886" created
 ```
 
-You can retrieve the running supernodes with `edgectl get`:
+You can retrieve the running edges with `edgectl get`:
 
 ```shell
 $ edgectl get
