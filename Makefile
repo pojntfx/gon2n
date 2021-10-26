@@ -5,7 +5,7 @@ OUTPUT_DIR ?= out
 DST ?=
 
 # Private variables
-obj = $(shell ls cmd | sed 's@cmd/@@g')
+obj = supernoded edged supernodectl edgectl
 all: $(addprefix build/,$(obj))
 
 # Build
